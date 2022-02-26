@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewpoint"
+    content="width = device-width, initial-scale=1.0">
+    <title>cbc master.com</title>
+    <link rel="stylesheet" type="text/css" href="static/app.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <!-- Navigation bar -->
+    <nav class="navbar">
+        <div class="navbar__container">
+            <a href="#home" id="navbar__logo">CBC MASTER</a>
+            <div class="navbar__toggle" id="mobile-menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+            <ul class="navbar__menu">
+                <li class="navbar__item">
+                    <a href="#home" class="navbar__links" id="home-page">Home</a>
+                </li>
+                <li class="navbar__item">
+                    <a href="#about" class="navbar__links" id="about-page">About</a>
+                </li>
+                <li class="navbar__item">
+                    <a href="#Services" class="navbar__links" id="service-page">Service</a>
+                </li>
+            </ul>
+            <ul class="account">
+                <li class="navbar__btn">
+                    <a href="#sign-up " class="button" id="login">Login</a>
+                </li>
+                <li class="navbar__btn">
+                    <a href="#sign-up " class="button" id="signup">Signup</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <!-- login page -->
+    <div class="popup">
+        <div class="close-btn">&times;</div>
+        <div class="form">
+            <h2>Log in</h2>
+            <div class="form-element">
+                <label for="email">Email</label>
+                <input type="text" id="email" placeholder="Enter email">
+            </div>
+            <div class="form-element">
+                <label for="password">Password</label>
+                <input type="text" id="password" placeholder="Enter password">
+            </div>
+            <div class="form-element">
+                <input type="checkbox" id="remember-me">
+                <label for="remember-me">Remember me</label>
+            </div>
+            <div class="form-element">
+                <button>Sign In</button>
+            </div>
+            <div class="form-element">
+                <a href="#">Forgot Password</a>
+            </div>
+        </div>
+    </div>
+    <div id="overlay"></div>
+    <!-- sign up -->
+<!--    <div class="signup_container">-->
+<!--        <form class="form">-->
+<!--            <h2>CREATE ACCOUNT</h2>-->
+<!--            <div class="form-element">-->
+<!--                <label for="email_sign">Email</label>-->
+<!--                <input type="text" id="email_sign" placeholder="Enter email" required>-->
+<!--            </div>-->
+<!--            <div class="form-element">-->
+<!--                <label for="password_sign">Password</label>-->
+<!--                <input type="text" id="password_sign" placeholder="Enter Password" required>-->
+<!--            </div>-->
+<!--            <div class="form-element">-->
+<!--                <label for="Cpassword_sign">Confirm Password</label>-->
+<!--                <input type="text" id="Cpassword_sign" placeholder="Confirm Password" required>-->
+<!--            </div>-->
+<!--            <div class="form-element">-->
+<!--                <button>NEXT</button>-->
+<!--            </div>-->
+<!--        </form>-->
+<!--    </div>-->
+    <div class="container">
+        <div class="close-signup-btn">&times;</div>
+    <header >CREATE ACCOUNT FORM</header>
+    <div class="progress-bar">
+        <div class="step">
+            <p>Basic info</p>
+            <div class="bullet">
+                <span>1</span>
+            </div>
+            <div class="check fas fa-check"></div>
+        </div>
+        <div class="step">
+            <p>Contact</p>
+            <div class="bullet">
+                <span>2</span>
+            </div>
+            <div class="check fas fa-check"></div>
+        </div>
+        <div class="step">
+            <p>Date</p>
+            <div class="bullet">
+                <span>3</span>
+            </div>
+            <div class="check fas fa-check"></div>
+        </div>
+        <div class="step">
+            <p>Submit</p>
+            <div class="bullet">
+                <span>4</span>
+            </div>
+            <div class="check fas fa-check"></div>
+        </div>
+    </div>
+    <div class="form-outer">
+    <form action="#">
+        <div class="page slidepage">
+            <div class="title">Basic info:</div>
+            <div class="field">
+                <div class="label">First Name</div>
+                <input type="text">
+            </div>
+            <div class="field">
+                <div class="label">Last Name</div>
+                <input type="text">
+            </div>
+            <div class="field nextBtn">
+                <button>Next</button>
+            </div>
+        </div>
+
+
+        <div class="page">
+            <div class="title">contact info:</div>
+            <div class="field">
+                <div class="label">Email Adress</div>
+                <input type="text">
+            </div>
+            <div class="field">
+                <div class="label">Phone Number</div>
+                <input type="number">
+            </div>
+            <div class="field btns">
+                <button class="prev-1 prev">Previous</button>
+                <button class="next-1 next">Next</button>
+            </div>
+        </div>
+
+        <div class="page">
+            <div class="title">Date of Birth:</div>
+            <div class="field">
+                <div class="label">Date</div>
+                <input type="text">
+            </div>
+            <div class="field">
+                <div class="label">Gender</div>
+                <select>
+                    <option>Male</option>
+                    <option>Female</option>
+                    <option>Others</option>
+                </select>
+            </div>
+            <div class="field btns">
+                <button class="prev-2 prev">Previous</button>
+                <button class="next-2 next">Next</button>
+            </div>
+        </div>
+
+
+        <div class="page">
+            <div class="title">Login Details:</div>
+            <div class="field">
+                <div class="label">User Name</div>
+                <input type="text">
+            </div>
+            <div class="field">
+                <div class="label">Password</div>
+                <input type="password">
+            </div>
+            <div class="field btns">
+                <button class="prev-3 prev">Previous</button>
+                <button class="Submit">Submit</button>
+            </div>
+        </div>
+    </form>
+    </div>
+</div>
+     <!-- body -->
+    <div class="bodi">
+        <!-- videos -->
+        <h3 class="videos">VIDEOS</h3>
+        <hr>
+        <div class="videos-container">
+            <div class="video">
+                <iframe  src="https://www.youtube.com/embed/9VZL81prrRk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <br>
+                <p>Grade 1 Kiswahili</p>
+            </div>
+            <div class="video">
+                <iframe src="https://www.youtube.com/embed/nIpF3GozIJ0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <p >Grade 1 English</p>
+            </div>
+            <div class="video">
+                <iframe  src="https://www.youtube.com/embed/LqTbbQPInMg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <p >Grade 1 vowel reading</p>
+            </div>
+            <div class="video">
+                <iframe src="https://www.youtube.com/embed/GhZH_1sIVvI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <p >Grade 1 Guided writing</p>
+            </div><div class="video">
+                <iframe src="https://www.youtube.com/embed/Smjk12HBZUo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <p >Grade 1 Environmental Activities</p>
+            </div>
+            </div><div class="video">
+                <iframe src="https://www.youtube.com/embed/Z757THlXLA8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <p >Grade 5 Multiply Math</p>
+            </div>
+        </div>
+        <hr>
+        <!-- learning-material -->
+        <div class="learning-material">
+
+        </div>
+        <h3 >LEARNING MATERIALS</h3>
+        <hr>
+        <div class="learning_materials">
+            <div class="materials-container">
+                <div class="materials">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- footer -->
+    <footer class="footer_container">
+        <div class="footer">
+            <div class="footer_heading footer_1">
+                <h2>About Us</h2>
+                <a href="#something">Something</a>
+                <a href="#something">Blog</a>
+            </div>
+            <div class="footer_heading footer_2">
+                <h2>Contact Us</h2>
+                <a href="#facebook">Facebook</a>
+                <a href="#instagram">Instagram</a>
+                <a href="#twitter">Twitter</a>
+            </div>
+        </div>
+    </footer>
+    <script src="{{url_for('static', filename='app.js')}}"></script>
+</body>
+</html>

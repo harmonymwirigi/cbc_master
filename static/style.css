@@ -1,0 +1,210 @@
+/*{
+margin: 0;
+padding: 0;
+outline: none;
+font-family: 'Poppins',sans-serif;
+}
+body{
+display: flex;
+align-items: center;
+justify-content: center;
+min-height:100vh;
+background: black;
+}*/
+.container{
+position: absolute;'
+top:60%;
+left:50%;
+display:none;
+transform: translate(-50%,-50%)scale(1.25);
+width: 380px;
+padding:0px 30px;
+z-index:10;
+background: #fff;
+box-shadow:2px 2px 5px 5px rgba(0,0,0,0.15);
+border-radius:10px;
+transition:top 0ms ease-in-out 200ms,
+           opacity 200ms ease-in-out 0ms,
+           transform 200ms ease-in-out 0ms;
+}
+.container.active{
+display:unset;
+top:60%;
+opacity:1;
+transform: translate(-50%,-50% )scale(1);
+transition:top 0ms ease-in-out 0ms,
+           opacity 200ms ease-in-out 0ms,
+           transform 20ms ease-in-out 0ms;
+}
+.container .close-signup-btn{
+position:absolute;
+top:10px;
+right:10px;
+width: 15px;
+height:15px;
+background: #888;
+color:#eee;
+text-align: center;
+line-height:15px;
+border-radius:15px;
+cursor:pointer;
+}
+.container header{
+text-align:center;
+color: #222;
+margin:5px 0px 10px;
+font-size: 25px;
+}
+.container .form-outer{
+width:100%;
+overflow: hidden;
+}
+.form-outer form{
+display:flex;
+width:400%;
+}
+.form-outer form .page{
+width:25%;
+transition: margin-left 0.3s ease-in-out;
+}
+.form-outer form .page .title{
+text-align:left;
+font-size:25px;
+font-weight:500px;
+}
+.form-outer form .page .field{
+margin: 15px 0px;
+}
+]
+.form-outer form .page .field .label{
+position: absolute;
+top: -30px;
+font-size:14px;
+color: #222;
+}
+.form-outer form .page .field input{
+height: 100%;
+width:100%;
+border: 1px solid lightgrey;
+border-radius: 5px;
+font-size: 18px;
+padding-left: 15px;
+}
+form .page .field select{
+width:100%;
+padding-left: 10px;
+font-size:17px;
+font-weight: 500;
+}
+.form-outer form .page .field button{
+width:100%;
+height:calc(100% + 5px);
+margin-top: -10px;
+border:none;
+background: #d43f8d;
+border-radius:5px;
+color: #fff;
+font-size: 18px;
+font-weight:500;
+letter-spacing: 1px;
+cursor: point;
+text-transform: uppercase;
+transition: 0.3s ease;
+}
+.form-outer form .page .field button:hover{
+background: #000;
+}
+.form-outer form .page .btns button{
+margin-top: -10px!important;
+}
+form .page .btns button.prev{
+margin-right:3px;
+font-size:17px;
+}
+form .page .btns button .next{
+margin-left:3px;
+font-size:17px;
+}
+.container .progress-bar{
+display:flex;
+margin:20px 0px;
+}
+.container .progress-bar .step{
+text-align:center;
+position:relative;
+width:100%;
+}
+.progress-bar .step p{
+font-size:14px;
+color: #222;
+margin-button: 2px;
+transition:0.2s;
+}
+.progress-bar .step p.active{
+color:#d43f8d;
+}
+.progress-bar .step .bullet{
+position:relative;
+height:25px;
+width:20px;
+border: 2px solid #000;
+display: inline-block;
+border-radius:50px;
+transition: 0.2s;
+/* font-weight:500;
+font-size: 17px;
+line-height: 25px; */
+}
+.progress-bar .step .bullet.active{
+border-color: #d43f8d;
+background: #d43f8d;
+}
+.progress-bar .step:last-child .bullet:before,
+.progress-bar .step:last-child .bullet:after{
+display:none;
+}
+.progress-bar .step .bullet:before,
+.progress-bar .step .bullet:after{
+position: absolute;
+content: '';
+bottom: 11px;
+right: -51px;
+height: 3px;
+width: 44px;
+background: #262626;
+}
+.progress-bar .step .bullet.active:after{
+background: #d43f8d;
+transform: scaleX(0);
+transform-origin: left;
+animation: animate 0.3s linear forwards;
+}
+@keyframes animate{
+100%{
+transform: scaleX(1);
+}
+
+}
+.progress-bar .step .bullet span{
+font-size:14px;
+color: #222;
+line-height: 20px;
+position:absolute;
+left:50%;
+transform: translateX(-50%)
+}
+.progress-bar .step bullet.active span{
+display:none;
+}
+.progress-bar .step .check{
+position: absolute;
+left: 50%;
+top: 70%;
+font-size:15px;
+transform: translate(-50%, -50%);
+display:none;
+}
+.progress-bar .step .check.active{
+display:block;
+color: #fff;
+}
