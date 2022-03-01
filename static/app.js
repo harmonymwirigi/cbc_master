@@ -7,6 +7,8 @@ menu.classList.toggle('is-active');
 menuLinks.classList.toggle('active');
 };
 menu.addEventListener("click", mobileMenu);
+
+// login popup
 document.querySelector("#login").addEventListener("click",function(){
 document.querySelector(".popup").classList.add("active");
 });
@@ -20,16 +22,19 @@ document.querySelector(".popup .close-btn").addEventListener("click",function(){
 document.querySelector("#overlay").classList.remove("active");
 });
 
-document.querySelector("#signup").addEventListener("click",function(){
-document.querySelector(".container").classList.add("active");
+
+
+//add student popup
+document.querySelector("#add").addEventListener("click",function(){
+document.querySelector(".add").classList.add("active");
 });
-document.querySelector("#signup").addEventListener("click",function(){
+document.querySelector("#add").addEventListener("click",function(){
 document.querySelector("#overlay").classList.add("active");
 });
-document.querySelector(".container .close-signup-btn").addEventListener("click",function(){
-document.querySelector(".container").classList.remove("active");
+document.querySelector(".add .close-btn").addEventListener("click",function(){
+document.querySelector(".add").classList.remove("active");
 });
-document.querySelector(".container .close-signup-btn").addEventListener("click",function(){
+document.querySelector(".add .close-btn").addEventListener("click",function(){
 document.querySelector("#overlay").classList.remove("active");
 });
 

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewpoint"
+    content="width = device-width, initial-scale=1.0">
+    <title>cbc master.com</title>
+    <link rel="stylesheet" type="text/css" href="static/app.css">
+    <link rel="stylesheet" type="text/css" href="static/teachers_pannel.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <!-- Navigation bar -->
+    <nav class="navbar">
+        <div class="navbar__container">
+            <a href="#home" id="navbar__logo">CBC MASTER</a>
+            <div class="navbar__toggle" id="mobile-menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+            <ul class="navbar__menu">
+                <li class="navbar__item">
+                    <a href="#home" class="navbar__links" id="home-page">Home</a>
+                </li>
+                <li class="navbar__item">
+                    <a href="#about" class="navbar__links" id="about-page">PROGRESS</a>
+                </li>
+                <li class="navbar__item">
+                    <a href="#Services" class="navbar__links" id="service-page">STUDENTS</a>
+                </li>
+            </ul>
+            <ul class="account">
+                <li class="navbar__btn">
+                    <a href="#sign-up " class="button" id="login">-</a>
+                    <p>REMOVE LEARNER</p>
+                </li>
+                <li class="navbar__btn">
+                    <a href="#sign-up " class="button" id="add">+</a>
+                    <p>ADD<BR>LEARNER</p>
+                </li>
+            </ul>
+        </div>
+        <button class="logout_button">
+            LOGOUT
+        </button>
+
+    </nav>
+    <!-- login page -->
+    <div class="popup">
+        <div class="close-btn">&times;</div>
+        <div class="form">
+            <h2>REMOVE STUDENT</h2>
+            <div class="form-element">
+                <label for="email">Email</label>
+                <input type="text" id="email" placeholder="Enter email">
+            </div>
+            <div class="form-element">
+                <button>REMOVE</button>
+            </div>
+        </div>
+    </div>
+    <div class="add">
+        <div class="close-btn">&times;</div>
+        <div class="form">
+            <h2>ADD STUDENT</h2>
+            <div class="form-element">
+                <label for="email">Email</label>
+                <input type="text" id="student_email" placeholder="Enter email">
+            </div>
+            <div class="form-element">
+                <label for="email">Grade</label>
+                <input type="text" id="student_grade" placeholder="enter grade">
+            </div>
+            <div class="form-element">
+                <label for="email">Name</label>
+                <input type="text" id="student_name" placeholder="enter students name">
+            </div>
+            <div class="form-element">
+                <button>ADD</button>
+            </div>
+        </div>
+    </div>
+    <div id="overlay"></div>
+     <!-- assignments-->
+    <p style="padding: 10px;">ASSIGNMENTS</p>
+    <div class="assignment_container">
+        <div class="content grade">
+            <p>Grade 1</p>
+        </div>
+        <div class="content topic">
+            <p>Topic</p>
+        </div>
+        <div class="content students_name">
+            <p>Students name</p>
+        </div>
+        <div class="content grade">
+            <p>Grade</p>
+        </div>
+
+    </div>
+
+    <!-- end of assignments-->
+    <script src="{{url_for('static', filename='app.js')}}"></script>
+    <script src="{{url_for('static', filename='teachers.js')}}"></script>
+</body>
+</html>
