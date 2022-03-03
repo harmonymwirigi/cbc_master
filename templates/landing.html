@@ -120,7 +120,7 @@
         </div>
     </div>
     <div class="form-outer">
-    <form action="#">
+    <form action="/signup" method="post">
         <div class="page slidepage">
             <div class="title">Basic info:</div>
             <div class="field">
@@ -157,7 +157,7 @@
             <div class="title">Date of Birth:</div>
             <div class="field">
                 <div class="label">Date</div>
-                <input type="text">
+                <input type="date">
             </div>
             <div class="field">
                 <div class="label">Gender</div>
@@ -255,5 +255,6 @@
         </div>
     </footer>
     <script src="{{url_for('static', filename='app.js')}}"></script>
+    <script src="{{url_for('static', filename='script.js')}}"></script>
 </body>
 </html>

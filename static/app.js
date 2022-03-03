@@ -22,23 +22,18 @@ document.querySelector(".popup .close-btn").addEventListener("click",function(){
 document.querySelector("#overlay").classList.remove("active");
 });
 
-
-
-//add student popup
-document.querySelector("#add").addEventListener("click",function(){
-document.querySelector(".add").classList.add("active");
+document.querySelector("#signup").addEventListener("click",function(){
+document.querySelector(".container").classList.add("active");
 });
-document.querySelector("#add").addEventListener("click",function(){
+document.querySelector("#signup").addEventListener("click",function(){
 document.querySelector("#overlay").classList.add("active");
 });
-document.querySelector(".add .close-btn").addEventListener("click",function(){
-document.querySelector(".add").classList.remove("active");
+document.querySelector(".container .close-signup-btn").addEventListener("click",function(){
+document.querySelector(".container").classList.remove("active");
 });
-document.querySelector(".add .close-btn").addEventListener("click",function(){
+document.querySelector(".container .close-signup-btn").addEventListener("click",function(){
 document.querySelector("#overlay").classList.remove("active");
 });
-
-
 
 const slidePage = document.querySelector(".slidepage");
 const firtNextBtn = document.querySelector(".nextBtn");
