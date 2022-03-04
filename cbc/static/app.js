@@ -22,6 +22,7 @@ document.querySelector(".popup .close-btn").addEventListener("click",function(){
 document.querySelector("#overlay").classList.remove("active");
 });
 
+
 document.querySelector("#signup").addEventListener("click",function(){
 document.querySelector(".container").classList.add("active");
 });

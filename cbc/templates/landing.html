@@ -120,19 +120,22 @@
         </div>
     </div>
     <div class="form-outer">
-    <form action="/signup" method="post">
+    <form action="/signup" method="post" id="my_form">
+        {{form.hidden_tag()}}
         <div class="page slidepage">
             <div class="title">Basic info:</div>
             <div class="field">
-                <div class="label">First Name</div>
-                <input type="text">
+                {{ form.first_name.label(class="label")}}
+                {{ form.first_name(class="label")}}
             </div>
             <div class="field">
-                <div class="label">Last Name</div>
-                <input type="text">
+                {{ form.last_name.label(class="label")}}
+                {{ form.last_name(class="label")}}
+<!--                <div class="label">Last Name</div>-->
+<!--                <input type="text" name="last_name" required>-->
             </div>
             <div class="field nextBtn">
-                <button>Next</button>
+                <button type="button">Next</button>
             </div>
         </div>
 
@@ -140,36 +143,44 @@
         <div class="page">
             <div class="title">contact info:</div>
             <div class="field">
-                <div class="label">Email Adress</div>
-                <input type="text">
+                {{ form.email.label(class="label")}}
+                {{ form.email(class="label")}}
+<!--                <div class="label">Email Adress</div>-->
+<!--                <input type="text" name="email" required>-->
             </div>
             <div class="field">
-                <div class="label">Phone Number</div>
-                <input type="number">
+                {{ form.phone_number.label(class="label")}}
+                {{ form.phone_number(class="label")}}
+<!--                <div class="label">Phone Number</div>-->
+<!--                <input type="number" name="phone_number" required>-->
             </div>
             <div class="field btns">
-                <button class="prev-1 prev">Previous</button>
-                <button class="next-1 next">Next</button>
+                <button class="prev-1 prev" type="button">Previous</button>
+                <button class="next-1 next" type="button">Next</button>
             </div>
         </div>
 
         <div class="page">
             <div class="title">Date of Birth:</div>
             <div class="field">
-                <div class="label">Date</div>
-                <input type="date">
+                {{ form.date.label(class="label")}}
+                {{ form.date(class="label")}}
+<!--                <div class="label">Date</div>-->
+<!--                <input type="date" name="date" required max="2004-12-31" min="1950-12-31">-->
             </div>
             <div class="field">
-                <div class="label">Gender</div>
-                <select>
-                    <option>Male</option>
-                    <option>Female</option>
-                    <option>Others</option>
-                </select>
+                {{ form.gender.label(class="label")}}
+                {{ form.gender(class="label")}}
+<!--                <div class="label">Gender</div>-->
+<!--                <select name="gender" required>-->
+<!--                    <option>Male</option>-->
+<!--                    <option>Female</option>-->
+<!--                    <option>Others</option>-->
+<!--                </select>-->
             </div>
             <div class="field btns">
-                <button class="prev-2 prev">Previous</button>
-                <button class="next-2 next">Next</button>
+                <button class="prev-2 prev" type="button">Previous</button>
+                <button class="next-2 next" type="button">Next</button>
             </div>
         </div>
 
@@ -177,16 +188,28 @@
         <div class="page">
             <div class="title">Login Details:</div>
             <div class="field">
-                <div class="label">User Name</div>
-                <input type="text">
+                {{ form.user_name.label(class="label")}}
+                {{ form.user_name(class="label")}}
+<!--                <div class="label">User Name</div>-->
+<!--                <input type="text" name="user_name" required>-->
             </div>
             <div class="field">
-                <div class="label">Password</div>
-                <input type="password">
+                {{ form.password.label(class="label")}}
+                {{ form.password(class="label")}}
+<!--                <div class="label">Password</div>-->
+<!--                <input type="password" name="password" class="password" required minlength="6" maxlength="120">-->
+            </div>
+            <div class="field">
+                {{ form.confirm_password.label(class="label")}}
+                {{ form.confirm_password(class="label")}}
+<!--                <div class="label">Confirm Password</div>-->
+<!--                <input type="password" name="confirm_password" class="confirm_password" required minlength="6" maxlength="120">-->
             </div>
             <div class="field btns">
                 <button class="prev-3 prev">Previous</button>
-                <button class="Submit">Submit</button>
+                <button class="Submit">{{ form.submit(class = "Submit")}}</button>
+<!--                <button class="Submit" type="submit">Submit-->
+<!--                </button>-->
             </div>
         </div>
     </form>
@@ -254,7 +277,15 @@
             </div>
         </div>
     </footer>
-    <script src="{{url_for('static', filename='app.js')}}"></script>
+    <script src="{{url_for('static', filename='app.js')}}">
+document.querySelector('.button').onclick = function(){
+var password = document.querySelector('.password').value,
+confirm_password=document.querySelector('.confirm_password').value;
+if(password != confirm_password){
+alert("password does not match")
+}
+}
+    </script>
     <script src="{{url_for('static', filename='script.js')}}"></script>
 </body>
 </html>
