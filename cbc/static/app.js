@@ -77,10 +77,10 @@ bullet[current -1].classList.add("active");
 pregressText[current -1].classList.add("active");
 pregressCheck[current -1].classList.add("active");
 current +=1;
-setTimeout(function(){
-alert("You are successfully created your account");
-location.reload();
-},800);
+//setTimeout(function(){
+//alert("You are successfully created your account");
+//location.reload();
+//},800);
 });
 
 prevBtnSec.addEventListener('click',function(){

@@ -7,11 +7,10 @@ class RegistrationForm(FlaskForm):
     last_name = StringField('Second Name', validators=[DataRequired()])
     email = StringField('Email Address', validators=[DataRequired(),Email()])
     phone_number = StringField('Phone Number', validators=[DataRequired()])
-    date = DateField('Date of Birth', validators=[DataRequired()])
     gender = SelectField('Gender', validators=[DataRequired()], choices=[('Male'),('Female'),('others')])
     user_name = StringField('User Name', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired(), Length(min = 2, max = 23)])
-    confirm_password = PasswordField('Second Name', validators=[DataRequired(), EqualTo('password')])
+    confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Sign Up')
 
 class Login(FlaskForm):

@@ -9,12 +9,11 @@ teacher_learner = db.Table('teacher_learner',
 class Teacher(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     first_name = db.Column(db.String(20), nullable=True)
-    second_name = db.Column(db.String(20), nullable=False)
+    last_name = db.Column(db.String(20), nullable=False)
     email = db.Column(db.String(40), unique=True, nullable=False)
     phone_number = db.Column(db.String(15), unique=True, nullable=False)
-    date = db.Column(db.DateTime, nullable=False)
     gender = db.Column(db.String(10), nullable=False)
-    username = db.Column(db.String(10), unique=True)
+    user_name = db.Column(db.String(10), unique=True)
     password = db.Column(db.String(120), nullable=False)
     confirm_password = db.Column(db.String(120), nullable=False)
     teaching = db.relationship('Learner', secondary = teacher_learner, backref = "teachers")
@@ -38,7 +37,7 @@ class Assignment(db.Model):
     assignment_content = db.Column(db.Text,nullable=False)
     state = db.Column(db.Boolean, nullable = False, default = False)
     submission = db.relationship('Submission', backref="submission")
-    materials = db.relationship('Assignment_materials', backref="my_materials", lazy = True)
+    materials = db.relationship('Assignment_material', backref="my_materials", lazy = True)
 
 class Assignment_material(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -52,7 +51,7 @@ class Submission(db.Model):
     marks = db.Column(db.String(20))
     assignment = db.Column(db.Integer, db.ForeignKey('assignment.id'))
     student = db.Column(db.Integer, db.ForeignKey('learner.id'))
-    materials = db.relationship('Submission_materials', backref="my_materials", lazy = True)
+    materials = db.relationship('Submission_material', backref="my_materials", lazy = True)
 
 class Submission_material(db.Model):
     id = db.Column(db.Integer, primary_key=True)

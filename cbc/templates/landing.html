@@ -120,19 +120,38 @@
         </div>
     </div>
     <div class="form-outer">
-    <form action="/signup" method="post" id="my_form">
+    <form action="/signup" method="post" id="my_form" class="form">
         {{form.hidden_tag()}}
         <div class="page slidepage">
             <div class="title">Basic info:</div>
             <div class="field">
                 {{ form.first_name.label(class="label")}}
+                {% if form.first_name.errors %}
                 {{ form.first_name(class="label")}}
+                        <div class="invalid_feedback">
+                            {% for error in form.first_name.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                {% else %}
+                    {{ form.first_name(class="label")}}
+                {% endif %}
             </div>
+
             <div class="field">
                 {{ form.last_name.label(class="label")}}
-                {{ form.last_name(class="label")}}
 <!--                <div class="label">Last Name</div>-->
 <!--                <input type="text" name="last_name" required>-->
+                {% if form.last_name.errors %}
+                    {{ form.last_name(class="label")}}
+                        <div class="invalid_feedback">
+                            {% for error in form.last_name.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                {% else %}
+                    {{ form.last_name(class="label")}}
+                {% endif %}
             </div>
             <div class="field nextBtn">
                 <button type="button">Next</button>
@@ -144,13 +163,34 @@
             <div class="title">contact info:</div>
             <div class="field">
                 {{ form.email.label(class="label")}}
-                {{ form.email(class="label")}}
+
+                {% if form.email.errors %}
+                    {{ form.email(class="label")}}
+                        <div class="invalid_feedback">
+                            {% for error in form.email.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                {% else %}
+                    {{ form.email(class="label")}}
+                {% endif %}
 <!--                <div class="label">Email Adress</div>-->
 <!--                <input type="text" name="email" required>-->
+
             </div>
             <div class="field">
                 {{ form.phone_number.label(class="label")}}
-                {{ form.phone_number(class="label")}}
+<!--                {{ form.phone_number(class="label")}}-->
+                {% if form.phone_number.errors %}
+                    {{ form.phone_number(class="label")}}
+                        <div class="invalid_feedback">
+                            {% for error in form.phone_number.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                {% else %}
+                    {{ form.phone_number(class="label")}}
+                {% endif %}
 <!--                <div class="label">Phone Number</div>-->
 <!--                <input type="number" name="phone_number" required>-->
             </div>
@@ -163,14 +203,32 @@
         <div class="page">
             <div class="title">Date of Birth:</div>
             <div class="field">
-                {{ form.date.label(class="label")}}
-                {{ form.date(class="label")}}
-<!--                <div class="label">Date</div>-->
-<!--                <input type="date" name="date" required max="2004-12-31" min="1950-12-31">-->
+                {{ form.user_name.label(class="label")}}
+<!--                {{ form.user_name(class="label")}}-->
+                {% if form.user_name.errors %}
+                    {{ form.user_name(class="label")}}
+                        <div class="invalid_feedback">
+                            {% for error in form.user_name.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                {% else %}
+                    {{ form.user_name(class="label")}}
+                {% endif %}
             </div>
             <div class="field">
                 {{ form.gender.label(class="label")}}
-                {{ form.gender(class="label")}}
+<!--                {{ form.gender(class="label")}}-->
+                {% if form.gender.errors %}
+                    {{ form.gender(class="label")}}
+                        <div class="invalid_feedback">
+                            {% for error in form.gender.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                {% else %}
+                    {{ form.gender(class="label")}}
+                {% endif %}
 <!--                <div class="label">Gender</div>-->
 <!--                <select name="gender" required>-->
 <!--                    <option>Male</option>-->
@@ -184,30 +242,44 @@
             </div>
         </div>
 
-
         <div class="page">
             <div class="title">Login Details:</div>
-            <div class="field">
-                {{ form.user_name.label(class="label")}}
-                {{ form.user_name(class="label")}}
-<!--                <div class="label">User Name</div>-->
-<!--                <input type="text" name="user_name" required>-->
-            </div>
+
             <div class="field">
                 {{ form.password.label(class="label")}}
-                {{ form.password(class="label")}}
+<!--                {{ form.password(class="label")}}-->
+                {% if form.password.errors %}
+                    {{ form.password(class="label")}}
+                        <div class="invalid_feedback">
+                            {% for error in form.password.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                {% else %}
+                    {{ form.password(class="label")}}
+                {% endif %}
 <!--                <div class="label">Password</div>-->
 <!--                <input type="password" name="password" class="password" required minlength="6" maxlength="120">-->
             </div>
             <div class="field">
                 {{ form.confirm_password.label(class="label")}}
-                {{ form.confirm_password(class="label")}}
+<!--                {{ form.confirm_password(class="label")}}-->
+                {% if form.confirm_password.errors %}
+                    {{ form.confirm_password(class="label")}}
+                        <div class="invalid_feedback">
+                            {% for error in form.confirm_password.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                {% else %}
+                    {{ form.confirm_password(class="label")}}
+                {% endif %}
 <!--                <div class="label">Confirm Password</div>-->
 <!--                <input type="password" name="confirm_password" class="confirm_password" required minlength="6" maxlength="120">-->
             </div>
             <div class="field btns">
                 <button class="prev-3 prev">Previous</button>
-                <button class="Submit">{{ form.submit(class = "Submit")}}</button>
+                {{ form.submit(class = "Submit")}}
 <!--                <button class="Submit" type="submit">Submit-->
 <!--                </button>-->
             </div>
@@ -218,6 +290,15 @@
      <!-- body -->
     <div class="bodi">
         <!-- videos -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for categories,message in messages %}
+                    <div class="alert alert-{{ category  }}" >
+                        {{ message}}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
         <h3 class="videos">VIDEOS</h3>
         <hr>
         <div class="videos-container">

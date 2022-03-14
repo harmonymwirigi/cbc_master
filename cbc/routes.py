@@ -1,7 +1,10 @@
+import flask_bcrypt
+
 from cbc.model import Teacher,teacher_learner,levels,Assignment,Assignment_material,Submission_material,Submission,Strand_materials,Sub_strand,Strands,Sub_strand_materials
 from cbc.form import RegistrationForm,Login
-from flask import render_template, url_for
-from cbc import app
+from flask import render_template, url_for, redirect, flash
+from flask_bcrypt import Bcrypt
+from cbc import app,db
 
 # landing page route
 @app.route("/")
@@ -18,6 +21,16 @@ def teachers():
 @app.route("/signup", methods = ["POST"])
 def signup():
     form = RegistrationForm()
+    if form.validate_on_submit():
+        hashed_passwed = flask_bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+        teacher = Teacher(first_name=form.first_name.data,last_name=form.last_name.data,email=form.email.data,
+                          phone_number=form.phone_number.data,gender=form.gender.data,
+                          user_name=form.user_name.data,password=hashed_passwed, confirm_password=form.confirm_password.data)
+        db.session.add(teacher)
+        db.session.commit()
+        flash('you have created account succcessfully')
+        return redirect(url_for('teachers'))
+
     # first_name = request.form.get('first_name')
     # last_name = request.form.get('last_name')
     # email = request.form.get('email')

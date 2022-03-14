@@ -292,7 +292,7 @@ left: 0;
 right: 0;
 bottom:0;
 background: rgba(0,0,0,.5);
-position-events:none;
+pointer-events:none;
 }
 #overlay.active{
 opacity:1;
@@ -503,6 +503,25 @@ background:#222;
 border-radius:16px;
 cursor:point;
 }
+.form-outer form .page .field .Submit{
+width:100%;
+/*height:calc(100% + 5px); */
+margin-top: -10px;
+border:none;
+border-radius:5px;
+/*letter-spacing: 1px; */
+text-transform: uppercase;
+/* transition: 0.3s ease; */
+height:40px;
+border:none;
+outline:none;
+font-size:16px;
+background:#222;
+color:#f5f5f5;
+background:#222;
+border-radius:16px;
+cursor:point;
+}
 .form-outer form .page .field button:hover{
 background: #000;
 }
@@ -598,6 +617,9 @@ display:none;
 .progress-bar .step .check.active{
 display:block;
 color: #fff;
+}
+.Submit{
+background:000;
 }
 /* end of signup */
 
