@@ -52,35 +52,89 @@ let max =4;
 let current =1;
 
 firtNextBtn.addEventListener('click',function(){
+const activediv = document.querySelector(".slidepage");
+const field = activediv.getElementsByClassName("field");
+let inputFirst = field[0].children[1];
+let inputLast = field[1].children[1];
+
+if (inputFirst.value != '' && inputLast.value != ''){
 slidePage.style.marginLeft = "-25%";
 bullet[current -1].classList.add("active");
 pregressText[current -1].classList.add("active");
 pregressCheck[current -1].classList.add("active");
 current +=1;
+}
+if (inputFirst.value == ''){
+hide(inputFirst);
+}
+if (inputLast.value == ''){
+hide(inputLast);
+}
 });
 nextBtnSec.addEventListener('click',function(){
+const activediv = document.querySelector(".page2");
+const field = activediv.getElementsByClassName("field");
+let inputFirst = field[0].children[1];
+let inputLast = field[1].children[1];
+
+if (inputFirst.value != '' && inputLast.value != ''){
 slidePage.style.marginLeft = "-50%";
 bullet[current -1].classList.add("active");
 pregressText[current -1].classList.add("active");
 pregressCheck[current -1].classList.add("active");
 current +=1;
+}
+if (inputFirst.value == ''){
+hide(inputFirst);
+}
+if (inputLast.value == ''){
+hide(inputLast);
+}
 });
 nextBtnThird.addEventListener('click',function(){
+const activediv = document.querySelector(".page3");
+const field = activediv.getElementsByClassName("field");
+let inputFirst = field[0].children[1];
+let inputLast = field[1].children[1];
+
+if (inputFirst.value != '' && inputLast.value != ''){
 slidePage.style.marginLeft = "-75%";
 bullet[current -1].classList.add("active");
 pregressText[current -1].classList.add("active");
 pregressCheck[current -1].classList.add("active");
 current +=1;
+}
+if (inputFirst.value == ''){
+hide(inputFirst);
+}
+if (inputLast.value == ''){
+hide(inputLast);
+}
 });
 submitBtn.addEventListener('click',function(){
+const activediv = document.querySelector(".page4");
+const field = activediv.getElementsByClassName("field");
+let inputFirst = field[0].children[1];
+let inputLast = field[1].children[1];
+
+if (inputFirst.value != '' && inputLast.value != ''){
+if (inputLast.value == inputFirst.value){
 bullet[current -1].classList.add("active");
 pregressText[current -1].classList.add("active");
 pregressCheck[current -1].classList.add("active");
 current +=1;
-//setTimeout(function(){
-//alert("You are successfully created your account");
-//location.reload();
-//},800);
+setTimeout(function(){
+alert("You are successfully created your account");
+location.reload();
+},800);
+}
+}
+if (inputFirst.value == ''){
+hide(inputFirst);
+}
+if (inputLast.value == ''){
+hide(inputLast);
+}
 });
 
 prevBtnSec.addEventListener('click',function(){
@@ -104,3 +158,8 @@ pregressText[current -2].classList.remove("active");
 pregressCheck[current -2].classList.remove("active");
 current -=1;
 });
+
+function hide(input){
+input.nextElementSibling.textContent = "This field is empty";
+setTimeout(()=>{input.nextElementSibling.textContent = '';},2000);
+}

@@ -1,16 +1,17 @@
 import flask_bcrypt
+from flask_login import login_user, current_user, logout_user, login_required
 
 from cbc.model import Teacher,teacher_learner,levels,Assignment,Assignment_material,Submission_material,Submission,Strand_materials,Sub_strand,Strands,Sub_strand_materials
 from cbc.form import RegistrationForm,Login
-from flask import render_template, url_for, redirect, flash
+from flask import render_template, url_for, flash, redirect, request
 from flask_bcrypt import Bcrypt
-from cbc import app,db
-
+from cbc import app,db, bcrypt
 # landing page route
 @app.route("/")
 def land():
     form = RegistrationForm()
-    return render_template('landing.html', form = form)
+    form2 = Login()
+    return render_template('landing.html', form = form, form2 = form2)
 
 # teachers pannel
 @app.route("/teachers")
@@ -42,3 +43,16 @@ def signup():
     # confirm_password = request.form.get('confirm_password')
 
     return render_template('landing.html', form = form)
+@app.route("/login", methods = ["POST"])
+def login():
+    if current_user.is_authenticated:
+        return redirect(url_for('teachers'))
+    form2 = Login()
+    if form2.validate_on_submit():
+        user = Teacher.query.filter_by(email=form2.email.data).first()
+        if user and bcrypt.check_password_hash(user.password, form2.password.data):
+            login_user(user)
+            next_page = request.args.get('next')
+            return redirect(next_page) if next_page else redirect(url_for('teachers'))
+    return render_template('landing.html', form=form2)
+

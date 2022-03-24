@@ -40,30 +40,68 @@
         </div>
     </nav>
     <!-- login page -->
-    <div class="popup">
+    <form action="/login" method="post" class="popup">
+        {{form2.hidden_tag()}}
         <div class="close-btn">&times;</div>
         <div class="form">
             <h2>Log in</h2>
             <div class="form-element">
-                <label for="email">Email</label>
-                <input type="text" id="email" placeholder="Enter email">
+                {{ form2.email.label(class="label")}}
+                {% if form2.email.errors %}
+                    {{ form2.email(class="label")}}
+                        <div class="invalid_feedback">
+                            {% for error in form2.email.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                {% else %}
+                    {{ form2.email(class="label")}}
+                <span></span>
+                {% endif %}
+<!--                <label for="email">Email</label>-->
+<!--                <input type="text" id="email" placeholder="Enter email">-->
             </div>
             <div class="form-element">
-                <label for="password">Password</label>
-                <input type="text" id="password" placeholder="Enter password">
+                {{ form2.password.label(class="label")}}
+<!--                {{ form2.password(class="label")}}-->
+                {% if form2.password.errors %}
+                    {{ form2.password(class="label")}}
+                        <div class="invalid_feedback">
+                            {% for error in form2.password.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                {% else %}
+                    {{ form2.password(class="label")}}
+                <span></span>
+                {% endif %}
+<!--                <label for="password">Password</label>-->
+<!--                <input type="text" id="password" placeholder="Enter password">-->
             </div>
             <div class="form-element">
-                <input type="checkbox" id="remember-me">
-                <label for="remember-me">Remember me</label>
+                {{ form2.remember.label(class = "form-element")}}
+                {% if form2.remember.errors %}
+                    {{ form2.remember(class = "form-element")}}
+                        <div class="invalid_feedback">
+                            {% for error in form2.remember.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                {% else %}
+                    {{ form2.remember}}
+                <span></span>
+                {% endif %}
+<!--                <input type="checkbox" id="remember-me">-->
+<!--                <label for="remember-me">Remember me</label>-->
             </div>
             <div class="form-element">
-                <button>Sign In</button>
+                {{ form2.submit(class = "SubmitLogin")}}
             </div>
             <div class="form-element">
                 <a href="#">Forgot Password</a>
             </div>
         </div>
-    </div>
+    </form>
     <div id="overlay"></div>
     <!-- sign up -->
 <!--    <div class="signup_container">-->
@@ -135,6 +173,7 @@
                         </div>
                 {% else %}
                     {{ form.first_name(class="label")}}
+                <span></span>
                 {% endif %}
             </div>
 
@@ -151,6 +190,7 @@
                         </div>
                 {% else %}
                     {{ form.last_name(class="label")}}
+                <span></span>
                 {% endif %}
             </div>
             <div class="field nextBtn">
@@ -159,7 +199,7 @@
         </div>
 
 
-        <div class="page">
+        <div class="page page2">
             <div class="title">contact info:</div>
             <div class="field">
                 {{ form.email.label(class="label")}}
@@ -173,6 +213,7 @@
                         </div>
                 {% else %}
                     {{ form.email(class="label")}}
+                <span></span>
                 {% endif %}
 <!--                <div class="label">Email Adress</div>-->
 <!--                <input type="text" name="email" required>-->
@@ -190,6 +231,7 @@
                         </div>
                 {% else %}
                     {{ form.phone_number(class="label")}}
+                <span></span>
                 {% endif %}
 <!--                <div class="label">Phone Number</div>-->
 <!--                <input type="number" name="phone_number" required>-->
@@ -200,7 +242,7 @@
             </div>
         </div>
 
-        <div class="page">
+        <div class="page page3">
             <div class="title">Date of Birth:</div>
             <div class="field">
                 {{ form.user_name.label(class="label")}}
@@ -214,11 +256,11 @@
                         </div>
                 {% else %}
                     {{ form.user_name(class="label")}}
+                <span></span>
                 {% endif %}
             </div>
             <div class="field">
                 {{ form.gender.label(class="label")}}
-<!--                {{ form.gender(class="label")}}-->
                 {% if form.gender.errors %}
                     {{ form.gender(class="label")}}
                         <div class="invalid_feedback">
@@ -228,13 +270,8 @@
                         </div>
                 {% else %}
                     {{ form.gender(class="label")}}
+                <span></span>
                 {% endif %}
-<!--                <div class="label">Gender</div>-->
-<!--                <select name="gender" required>-->
-<!--                    <option>Male</option>-->
-<!--                    <option>Female</option>-->
-<!--                    <option>Others</option>-->
-<!--                </select>-->
             </div>
             <div class="field btns">
                 <button class="prev-2 prev" type="button">Previous</button>
@@ -242,7 +279,7 @@
             </div>
         </div>
 
-        <div class="page">
+        <div class="page page4">
             <div class="title">Login Details:</div>
 
             <div class="field">
@@ -257,6 +294,7 @@
                         </div>
                 {% else %}
                     {{ form.password(class="label")}}
+                <span></span>
                 {% endif %}
 <!--                <div class="label">Password</div>-->
 <!--                <input type="password" name="password" class="password" required minlength="6" maxlength="120">-->
@@ -273,6 +311,7 @@
                         </div>
                 {% else %}
                     {{ form.confirm_password(class="label")}}
+                <span></span>
                 {% endif %}
 <!--                <div class="label">Confirm Password</div>-->
 <!--                <input type="password" name="confirm_password" class="confirm_password" required minlength="6" maxlength="120">-->
@@ -359,13 +398,6 @@
         </div>
     </footer>
     <script src="{{url_for('static', filename='app.js')}}">
-document.querySelector('.button').onclick = function(){
-var password = document.querySelector('.password').value,
-confirm_password=document.querySelector('.confirm_password').value;
-if(password != confirm_password){
-alert("password does not match")
-}
-}
     </script>
     <script src="{{url_for('static', filename='script.js')}}"></script>
 </body>
