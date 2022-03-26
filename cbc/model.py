@@ -1,4 +1,11 @@
-from cbc import db
+from cbc import db,login_manager
+from flask_login import UserMixin
+
+
+@login_manager.user_loader
+def load_user(user_email):
+    return Teacher.query.get(int(user_email))
+
 
 
 teacher_learner = db.Table('teacher_learner',
@@ -6,7 +13,7 @@ teacher_learner = db.Table('teacher_learner',
                            db.Column('learner_id', db.Integer, db.ForeignKey('learner.id'))
                            )
 
-class Teacher(db.Model):
+class Teacher(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key = True)
     first_name = db.Column(db.String(20), nullable=True)
     last_name = db.Column(db.String(20), nullable=False)
@@ -97,3 +104,6 @@ class Sub_strand_materials(db.Model):
     material_file = db.Column(db.String(200), nullable=False)
     material_video = db.Column(db.String(200), nullable=False)
     material_picture = db.Column(db.String(200), nullable=False)
+
+def is_active(self):
+    return True

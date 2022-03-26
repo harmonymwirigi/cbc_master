@@ -15,6 +15,7 @@ def land():
 
 # teachers pannel
 @app.route("/teachers")
+@login_required
 def teachers():
     return render_template('teachers_pannel.html')
 
@@ -30,7 +31,7 @@ def signup():
         db.session.add(teacher)
         db.session.commit()
         flash('you have created account succcessfully')
-        return redirect(url_for('teachers'))
+        return redirect(url_for('land'))
 
     # first_name = request.form.get('first_name')
     # last_name = request.form.get('last_name')
@@ -48,11 +49,16 @@ def login():
     if current_user.is_authenticated:
         return redirect(url_for('teachers'))
     form2 = Login()
+    form = RegistrationForm()
     if form2.validate_on_submit():
         user = Teacher.query.filter_by(email=form2.email.data).first()
         if user and bcrypt.check_password_hash(user.password, form2.password.data):
-            login_user(user)
+            login_user(user,remember=form2.remember.data)
             next_page = request.args.get('next')
             return redirect(next_page) if next_page else redirect(url_for('teachers'))
-    return render_template('landing.html', form=form2)
+    return render_template('landing.html', form2=form2, form = form)
 
+@app.route("/logout")
+def logout():
+    logout_user()
+    return redirect(url_for('land'))
