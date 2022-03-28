@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewpoint"
     content="width = device-width, initial-scale=1.0">
-    <title>cbc master.com</title>
+    <title>teachers</title>
     <link rel="stylesheet" type="text/css" href="static/app.css">
     <link rel="stylesheet" type="text/css" href="static/teachers_pannel.css">
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/yourcode.js" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/a57c871a6e.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <!-- Navigation bar -->
@@ -32,11 +33,12 @@
             </ul>
             <ul class="account">
                 <li class="navbar__btn">
-                    <a href="#sign-up " class="button" id="login">-</a>
+                    <i class='fas fa-user-minus button' style='font-size:48px;' id="login"></i>
+<!--                    <a href="#sign-up " class="button" id="login" >-</a>-->
                     <p>REMOVE LEARNER</p>
                 </li>
                 <li class="navbar__btn">
-                    <a href="#sign-up " class="button" id="add">+</a>
+                    <i class='fas fa-user-plus button' style='font-size:48px;' id="add"></i>
                     <p>ADD<BR>LEARNER</p>
                 </li>
             </ul>
@@ -47,55 +49,117 @@
 
     </nav>
     <!-- login page -->
-    <div class="popup">
+    <form action="/remove" class="popup" method="post">
+        {{formremove.hidden_tag()}}
         <div class="close-btn">&times;</div>
         <div class="form">
             <h2>REMOVE STUDENT</h2>
             <div class="form-element">
-                <label for="email">Email</label>
-                <input type="text" id="email" placeholder="Enter email">
+                {{ formremove.email.label(class="label")}}
+                {% if formremove.email.errors %}
+                    {{ formremove.email(class="label")}}
+                        <div class="invalid_feedback">
+                            {% for error in formremove.email.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                {% else %}
+                    {{ formremove.email(class="label")}}
+                <span></span>
+                {% endif %}
             </div>
             <div class="form-element">
-                <button>REMOVE</button>
+                {{ formremove.submit(class = "SubmitLogin")}}
             </div>
         </div>
-    </div>
-    <div class="add">
+    </form>
+    <form method="post" class="add" action="\add">
+        {{ formadd.hidden_tag() }}
         <div class="close-btn">&times;</div>
         <div class="form">
             <h2>ADD STUDENT</h2>
             <div class="form-element">
-                <label for="email">Email</label>
-                <input type="text" id="student_email" placeholder="Enter email">
+                {{ formadd.email.label(class="label") }}
+                {{ formadd.email(class="label") }}
+                {% if formadd.email.errors %}
+                        <div class="invalid_feedback">
+                            {% for error in formadd.email.errors %}
+                            <p style="padding-left: 40px;color:red;">{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                <span></span>
+                {% endif %}
             </div>
             <div class="form-element">
-                <label for="email">Grade</label>
-                <input type="text" id="student_grade" placeholder="enter grade">
+                {{ formadd.grade.label(class="label") }}
+                {% if formadd.grade.errors %}
+                        <div class="invalid_feedback">
+                            {% for error in formadd.grade.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                {% else %}
+                    {{ formadd.grade(class="label") }}
+                <span></span>
+                {% endif %}
+<!--                <label for="email">Grade</label>-->
+<!--                <input type="text" id="student_grade" placeholder="enter grade">-->
             </div>
             <div class="form-element">
-                <label for="email">Name</label>
-                <input type="text" id="student_name" placeholder="enter students name">
+                {{ formadd.first_name.label(class="label") }}
+                {% if formadd.first_name.errors %}
+                        <div class="invalid_feedback">
+                            {% for error in formadd.first_name.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                {% else %}
+                    {{ formadd.first_name(class="label") }}
+                <span></span>
+                {% endif %}
+<!--                <label for="email">Name</label>-->
+<!--                <input type="text" id="student_name" placeholder="enter students name">-->
             </div>
             <div class="form-element">
-                <button>ADD</button>
+                {{ formadd.second_name.label(class="label") }}
+                {% if formadd.second_name.errors %}
+                        <div class="invalid_feedback">
+                            {% for error in formadd.second_name.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                {% else %}
+                    {{ formadd.second_name(class="label") }}
+                <span></span>
+                {% endif %}
+<!--                <label for="email">Name</label>-->
+<!--                <input type="text" id="student_name" placeholder="enter students name">-->
+            </div>
+            <div class="form-element">
+                {{ formadd.submit(class = "SubmitLogin") }}
             </div>
         </div>
-    </div>
+    </form>
     <div id="overlay"></div>
 <!--    stiky sidebar-->
     <div class="sidebar">
+        <div class="icon assignment">
+            <i class='fas fa-book-open' style='font-size:48px; padding-top: 30px; margin-left: 15px;'></i>
+        </div>
         <div class="icon project">
-
+            <i class="fa fa-anchor" style="font-size:48px; padding-top: 30px; margin-left: 15px;"></i>
         </div>
         <div class="icon students">
-
+            <i class='fas fa-users fa-5x' style='font-size:48px; padding-top: 30px; margin-left: 15px;'></i>
         </div>
         <div class="icon account">
-
+            <i class='far fa-user-circle' style='font-size:48px;padding-top: 30px; margin-left: 15px;'></i>
+        </div>
+        <div class="icon help">
+            <i class='fa fa-question' style='font-size:48px;padding-top: 30px; margin-left: 15px;'></i>
         </div>
     </div>
      <!-- assignments-->
-    <p style="padding: 10px;">ASSIGNMENTS {{name}}</p>
     <div class="assignment_container">
         <div class="content grade">
             <p>Grade 1</p>

@@ -28,12 +28,12 @@ class Teacher(db.Model, UserMixin):
     def __repr__(self):
         return f"Teacher('{Teacher.username}','{Teacher.email}','{Teacher.first_name}'"
 
-class Learner(db.Model):
+class Learner(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     first_name = db.Column(db.String(20), nullable=False)
     second_name = db.Column(db.String(20), nullable=False)
     email = db.Column(db.String(40), unique=True)
-    progress = db.Column(db.Integer, nullable=False)
+    progress = db.Column(db.Integer, nullable=True)
     grade = db.Column(db.Integer, db.ForeignKey('levels.id'))
     submitted_assignment = db.relationship('Submission', backref="my_submission", lazy = True)
 

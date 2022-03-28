@@ -1,8 +1,8 @@
 import flask_bcrypt
 from flask_login import login_user, current_user, logout_user, login_required
 
-from cbc.model import Teacher,teacher_learner,levels,Assignment,Assignment_material,Submission_material,Submission,Strand_materials,Sub_strand,Strands,Sub_strand_materials
-from cbc.form import RegistrationForm,Login
+from cbc.model import Teacher,teacher_learner,Learner,levels,Assignment,Assignment_material,Submission_material,Submission,Strand_materials,Sub_strand,Strands,Sub_strand_materials
+from cbc.form import RegistrationForm,Login, addStudent, removeStudent
 from flask import render_template, url_for, flash, redirect, request
 from flask_bcrypt import Bcrypt
 from cbc import app,db, bcrypt
@@ -17,7 +17,31 @@ def land():
 @app.route("/teachers")
 @login_required
 def teachers():
-    return render_template('teachers_pannel.html')
+    formadd = addStudent()
+    formremove = removeStudent()
+    return render_template('teachers_pannel.html', formadd = formadd, formremove =formremove)
+@app.route("/add", methods = ["POST"])
+@login_required
+def add():
+    formadd = addStudent()
+    if formadd.validate_on_submit():
+        learner = Learner(email = formadd.email.data, grade = formadd.grade.data, first_name = formadd.first_name.data, second_name = formadd.second_name.data)
+        db.session.add(learner)
+        db.session.commit()
+        flash('Email sent successfully')
+        return redirect(url_for('teachers'))
+    return redirect('teachers_pannel.html', formadd = formadd)
+@app.route("/remove", methods = ["POST"])
+@login_required
+def remove():
+    formremove = removeStudent()
+    if formremove.validate_on_submit():
+        learner = Learner.query.filter_by(email=formremove.email.data).first()
+        db.session.delete(learner)
+        db.session.commit()
+        flash('The student has been removed successfully')
+        return redirect(url_for('teachers'))
+    return redirect('teachers_pannel.html', formremove = formremove)
 
 # signup
 @app.route("/signup", methods = ["POST"])
@@ -32,16 +56,6 @@ def signup():
         db.session.commit()
         flash('you have created account succcessfully')
         return redirect(url_for('land'))
-
-    # first_name = request.form.get('first_name')
-    # last_name = request.form.get('last_name')
-    # email = request.form.get('email')
-    # phone_number = request.form.get('phone_number')
-    # date = request.form.get('date')
-    # gender = request.form.get('gender')
-    # user_name = request.form.get('user_name')
-    # password = request.form.get('password')
-    # confirm_password = request.form.get('confirm_password')
 
     return render_template('landing.html', form = form)
 @app.route("/login", methods = ["POST"])
