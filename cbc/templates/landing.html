@@ -331,9 +331,9 @@
         <!-- videos -->
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
-                {% for categories,message in messages %}
-                    <div class="alert alert-{{ category  }}" >
-                        {{ message}}
+                {% for category,message in messages %}
+                    <div class="{{ category  }}" >
+                        {{ message }}
                     </div>
                 {% endfor %}
             {% endif %}

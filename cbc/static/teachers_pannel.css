@@ -1,4 +1,10 @@
-.assignment_container{
+/* teacher container */
+.container1
+{
+margin-left: 100px;
+}
+
+.container1 .assignment_container{
 width: 100%;
 height: 50px;
 margin: auto;
@@ -11,7 +17,6 @@ background-color: #cecdcb;
 height:100%;
 width:100%;
 }
-
 .button {
 display: flex;
 justify-content: center;
@@ -29,6 +34,51 @@ color: #fff;
 transition: all 0.3s ease;
 }
 
+/* flashed category messages*/
+.error
+{
+border: 1px solid;
+margin: 10px ;
+padding: 15px 10px 15px 50px;
+background-repeat: no-repeat;
+background-position: 10px center;
+max-width: 460px;
+color: #D8000C;
+background-color: #FFBABA;
+background-image: url('https://i.imgur.com/GnyDvKN.png');
+border-radius: 5px;
+}
+.success
+{
+border: 1px solid;
+margin: 10px ;
+padding: 15px 10px 15px 50px;
+background-repeat: no-repeat;
+background-position: 10px center;
+max-width: 460px;
+color: #D8000C;
+background-color: #FFBABA;
+background-image: url('https://i.imgur.com/GnyDvKN.png');
+border-radius: 5px;
+color: #4F8A10;
+background-color: #DFF2BF;
+background-image: url('https://i.imgur.com/Q9BGTuy.png');
+}
+.warning
+{
+border: 1px solid;
+margin: 10px ;
+padding: 15px 10px 15px 50px;
+background-repeat: no-repeat;
+background-position: 10px center;
+max-width: 460px;
+color: #D8000C;
+color: #9F6000;
+background-color: #FEEFB3;
+background-image: url('https://i.imgur.com/Z8q7ww7.png');
+}
+
+/* navbar buttons */
 .account .navbar__btn .button{
 font-size:50px;
 text-align:center;
@@ -67,7 +117,7 @@ margin-right:10px;
 }
 
 
-/* add login */
+/* add student */
 .add{
 position: absolute;
 top:60%;
@@ -178,6 +228,8 @@ border:1px solid #aaa;
 border-radius:5px;
 }
 /*-- end add --*/
+
+
 /*-- sidebar --*/
 .sidebar{
 width: 100px;
@@ -192,4 +244,22 @@ width: 100%;
 height: 100%;
 background: rgba(0,0,0,.5);
 margin-bottom: 10px;
+}
+.sidebar .icon .toolText
+{
+visibility: hidden;
+width: 120px;
+background-color: black;
+color: #fff;
+text-align: center;
+border-radius: 6px;
+padding: 5px 0;
+
+/* Position the tooltip */
+position: absolute;
+z-index: 1;
+}
+.icon:hover .toolText
+{
+  visibility: visible;
 }

@@ -31,20 +31,10 @@ class addStudent(FlaskForm):
     email =StringField('Enter Student mail', validators=[DataRequired(), Email()])
     grade = SelectField('Grade', validators=[DataRequired()], choices=[('pre-primary 1'),('pre-primary'), ('Grade 1'), ('Grade 2'), ('Grade 2'), ('Grade 3'), ('Grade 4'),('Grade 5'),
                                                                        ('Grade 6'), ('Grade 7'), ('Grade 8'), ('Grade 9')])
-    first_name = StringField('Students name', validators =[DataRequired()])
-    second_name = StringField('Second name', validators =[DataRequired()])
+    first_name = StringField('Students name', validators =[DataRequired(), Length(min=2, max=40)])
+    second_name = StringField('Second name', validators =[DataRequired(), Length(min=2, max=40)])
     submit = SubmitField('ADD')
-
-    def validate_email(self, email):
-        user = Learner.query.filter_by(email=email.data).first()
-        if user:
-            raise ValidationError('The student exist')
 
 class removeStudent(FlaskForm):
     email = StringField('Enter Student mail', validators=[DataRequired(), Email()])
     submit = SubmitField('Remove')
-
-    def validate_email(self, email):
-        user = Learner.query.filter_by(email=email.data).first()
-        if user == 0:
-            raise ValidationError('The the student does not exist')

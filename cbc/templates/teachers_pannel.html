@@ -34,7 +34,6 @@
             <ul class="account">
                 <li class="navbar__btn">
                     <i class='fas fa-user-minus button' style='font-size:48px;' id="login"></i>
-<!--                    <a href="#sign-up " class="button" id="login" >-</a>-->
                     <p>REMOVE LEARNER</p>
                 </li>
                 <li class="navbar__btn">
@@ -48,9 +47,9 @@
         </button>
 
     </nav>
-    <!-- login page -->
+    <!-- removing student form -->
     <form action="/remove" class="popup" method="post">
-        {{formremove.hidden_tag()}}
+        {{ formremove.hidden_tag() }}
         <div class="close-btn">&times;</div>
         <div class="form">
             <h2>REMOVE STUDENT</h2>
@@ -73,6 +72,8 @@
             </div>
         </div>
     </form>
+
+<!--    adding student form -->
     <form method="post" class="add" action="\add">
         {{ formadd.hidden_tag() }}
         <div class="close-btn">&times;</div>
@@ -102,8 +103,6 @@
                     {{ formadd.grade(class="label") }}
                 <span></span>
                 {% endif %}
-<!--                <label for="email">Grade</label>-->
-<!--                <input type="text" id="student_grade" placeholder="enter grade">-->
             </div>
             <div class="form-element">
                 {{ formadd.first_name.label(class="label") }}
@@ -117,8 +116,6 @@
                     {{ formadd.first_name(class="label") }}
                 <span></span>
                 {% endif %}
-<!--                <label for="email">Name</label>-->
-<!--                <input type="text" id="student_name" placeholder="enter students name">-->
             </div>
             <div class="form-element">
                 {{ formadd.second_name.label(class="label") }}
@@ -132,8 +129,6 @@
                     {{ formadd.second_name(class="label") }}
                 <span></span>
                 {% endif %}
-<!--                <label for="email">Name</label>-->
-<!--                <input type="text" id="student_name" placeholder="enter students name">-->
             </div>
             <div class="form-element">
                 {{ formadd.submit(class = "SubmitLogin") }}
@@ -141,39 +136,61 @@
         </div>
     </form>
     <div id="overlay"></div>
+
+<!--    flash messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category,message in messages %}
+                    <div class="{{ category  }}" >
+                        {{ message}}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+
 <!--    stiky sidebar-->
     <div class="sidebar">
         <div class="icon assignment">
             <i class='fas fa-book-open' style='font-size:48px; padding-top: 30px; margin-left: 15px;'></i>
+            <span class="toolText">Assignments</span>
         </div>
         <div class="icon project">
             <i class="fa fa-anchor" style="font-size:48px; padding-top: 30px; margin-left: 15px;"></i>
+            <span class="toolText"> Project </span>
         </div>
         <div class="icon students">
             <i class='fas fa-users fa-5x' style='font-size:48px; padding-top: 30px; margin-left: 15px;'></i>
+            <span class="toolText">Students</span>
         </div>
         <div class="icon account">
-            <i class='far fa-user-circle' style='font-size:48px;padding-top: 30px; margin-left: 15px;'></i>
+            <i class='far fa-user-circle' style='font-size:48px; padding-top: 30px; margin-left: 15px;'></i>
+            <span class="toolText">Account</span>
         </div>
         <div class="icon help">
             <i class='fa fa-question' style='font-size:48px;padding-top: 30px; margin-left: 15px;'></i>
+            <span class="toolText">help</span>
         </div>
     </div>
-     <!-- assignments-->
-    <div class="assignment_container">
-        <div class="content grade">
-            <p>Grade 1</p>
-        </div>
-        <div class="content topic">
-            <p>Topic</p>
-        </div>
-        <div class="content students_name">
-            <p>Students name</p>
-        </div>
-        <div class="content grade">
-            <p>Grade</p>
-        </div>
 
+<!--    teachers content container -->
+    <div class="container1">
+         <!-- assignments-->
+        <div class="assignment_container">
+            <div class="content grade">
+                <p>Grade 1</p>
+            </div>
+            <div class="content topic">
+                <p>Topic</p>
+            </div>
+            <div class="content students_name">
+                <p>Students name</p>
+            </div>
+            <div class="content grade">
+                <p>Grade</p>
+            </div>
+
+        </div>
     </div>
 
     <!-- end of assignments-->
