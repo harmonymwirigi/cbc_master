@@ -14,7 +14,7 @@
     <!-- Navigation bar -->
     <nav class="navbar">
         <div class="navbar__container">
-            <a href="#home" id="navbar__logo">CBC MASTER</a>
+            <a href="/teachers" id="navbar__logo">CBC MASTER</a>
             <div class="navbar__toggle" id="mobile-menu">
                 <span class="bar"></span>
                 <span class="bar"></span>
@@ -22,30 +22,40 @@
             </div>
             <ul class="navbar__menu">
                 <li class="navbar__item">
-                    <a href="#home" class="navbar__links" id="home-page">Home</a>
+                    <a href="#home" class="navbar__links" id="home-page" onclick="openContainer('home')"><i class="fa fa-fw fa-home"></i>Home</a>
                 </li>
                 <li class="navbar__item">
-                    <a href="#about" class="navbar__links" id="about-page">PROGRESS</a>
+                    <a href="#about" class="navbar__links" id="about-page" onclick="openContainer('assignment')">ASSIGNMENT</a>
                 </li>
                 <li class="navbar__item">
-                    <a href="#Services" class="navbar__links" id="service-page">STUDENTS</a>
+                    <a href="#Services" class="navbar__links" id="service-page" onclick="openContainer('students')">STUDENTS</a>
                 </li>
             </ul>
-            <ul class="account">
-                <li class="navbar__btn">
-                    <i class='fas fa-user-minus button' style='font-size:48px;' id="login"></i>
-                    <p>REMOVE LEARNER</p>
-                </li>
-                <li class="navbar__btn">
-                    <i class='fas fa-user-plus button' style='font-size:48px;' id="add"></i>
-                    <p>ADD<BR>LEARNER</p>
-                </li>
-            </ul>
+<!--            <ul class="account">-->
+<!--                <li class="navbar__btn">-->
+<!--                    <i class='fas fa-user-minus button' style='font-size:48px;' ></i>-->
+<!--                    <p>REMOVE LEARNER</p>-->
+<!--                </li>-->
+<!--                <li class="navbar__btn">-->
+<!--                    <i class='fas fa-user-plus button' style='font-size:48px;' ></i>-->
+<!--                    <p>ADD<BR>LEARNER</p>-->
+<!--                </li>-->
+<!--            </ul>-->
         </div>
         <button class="logout_button" >
-            <a href="/logout">LOGOUT</a>
+            <p>{{ current_user.email }}</p>
+             <i class='far fa-user-circle' style='font-size:48px; padding: 5px;'></i>
         </button>
-
+        <div class="sidebar">
+            <div class="side_item">
+                <a class="item progress">PROGRESS</a>
+                <a class="item setting">SETTING</a>
+                <a class="item materials">MATERIALS</a>
+                <a class="item adds" id="add">ADD</a>
+                <a class="item removes" id="login">REMOVE</a>
+                <a href="/logout" class="sign_out">SIGN OUT</a>
+            </div>
+        </div>
     </nav>
     <!-- removing student form -->
     <form action="/remove" class="popup" method="post">
@@ -150,50 +160,103 @@
 
 
 <!--    stiky sidebar-->
-    <div class="sidebar">
-        <div class="icon assignment">
-            <i class='fas fa-book-open' style='font-size:48px; padding-top: 30px; margin-left: 15px;'></i>
-            <span class="toolText">Assignments</span>
-        </div>
-        <div class="icon project">
-            <i class="fa fa-anchor" style="font-size:48px; padding-top: 30px; margin-left: 15px;"></i>
-            <span class="toolText"> Project </span>
-        </div>
-        <div class="icon students">
-            <i class='fas fa-users fa-5x' style='font-size:48px; padding-top: 30px; margin-left: 15px;'></i>
-            <span class="toolText">Students</span>
-        </div>
-        <div class="icon account">
-            <i class='far fa-user-circle' style='font-size:48px; padding-top: 30px; margin-left: 15px;'></i>
-            <span class="toolText">Account</span>
-        </div>
-        <div class="icon help">
-            <i class='fa fa-question' style='font-size:48px;padding-top: 30px; margin-left: 15px;'></i>
-            <span class="toolText">help</span>
-        </div>
-    </div>
+<!--    <div class="sidebar">-->
+<!--        <div class="icon assignment">-->
+<!--            <input type="checkbox" class="display" style="display: none;" id="assignment">-->
+<!--            <label>-->
+<!--                <i class='fas fa-book-open' style='font-size:48px; padding-top: 30px; margin-left: 15px;'></i>-->
+<!--                <span class="toolText">Assignments</span>-->
+<!--            </label>-->
+<!--        </div>-->
+<!--        <div class="icon project">-->
+<!--            <input type="checkbox" class="display" style="display: none;" id="project">-->
+<!--            <label>-->
+<!--                <i class="fa fa-anchor" style="font-size:48px; padding-top: 30px; margin-left: 15px;"></i>-->
+<!--                <span class="toolText"> Project </span>-->
+<!--            </label>-->
+<!--        </div>-->
+<!--        <div class="icon students">-->
+<!--            <input type="checkbox" class="display" style="display: none;" id="students">-->
+<!--            <label for="students">-->
+<!--                <i class='fas fa-users fa-5x' style='font-size:48px; padding-top: 30px; margin-left: 15px;'></i>-->
+<!--                <span class="toolText">Students</span>-->
+<!--            </label>-->
+<!--        </div>-->
+<!--        <div class="icon account">-->
+<!--            <input type="checkbox" class="display" style="display: none;" id="account">-->
+<!--            <label for="account">-->
+<!--                <i class='far fa-user-circle' style='font-size:48px; padding-top: 30px; margin-left: 15px;'></i>-->
+<!--                <span class="toolText">Account</span>-->
+<!--            </label>-->
+<!--        </div>-->
+<!--        <div class="icon help">-->
+<!--            <input type="checkbox" class="display" style="display: none;" id="help">-->
+<!--            <label for="help">-->
+<!--                <i class='fa fa-question' style='font-size:48px;padding-top: 30px; margin-left: 15px;'></i>-->
+<!--                <span class="toolText">help</span>-->
+<!--            </label>-->
+<!--        </div>-->
+<!--    </div>-->
 
 <!--    teachers content container -->
-    <div class="container1">
+    <div class="cont">
+        <div class="container1" id = "home" style="padding: 100px;">
+            <div class="con" id = "boxes">
+                <div class="content" style="height: 60vh;background: #fff;margin: 5px;" >
+                    <i class='fas fa-users fa-5x' style='font-size:70px; padding-top: 70px; margin-left: 15px;padding-bottom: 100px;'></i>
+                    <h2>34 STUDENTS</h2>
+                </div>
+                <div class="content" style="height: 60vh;background: #fff;margin: 5px;">
+                    <i class='fas fa-users fa-5x' style='font-size:48px; padding-top: 30px; margin-left: 15px;'></i>
+                </div>
+                <div class="content" style="height: 60vh;background: #fff;margin: 5px;">
+                    <i class='fas fa-users fa-5x' style='font-size:48px; padding-top: 30px; margin-left: 15px;'></i>
+                </div>
+                <div class="content" style="height: 60vh;background: #fff;margin: 5px;">
+                    <i class='fas fa-users fa-5x' style='font-size:48px; padding-top: 30px; margin-left: 15px;'></i>
+                </div>
+            </div>
+        </div>
+    <div class="container1" id="students" style="display:none;">
+        <h1 class="head">YOUR STUDENTS</h1>
+        <div class="con my_students">
+            <div class="content"><h4>Name</h4></div>
+            <div class="content"><h4>Student code</h4></div>
+            <div class="content"><h4>Grade</h4></div>
+            <div class="content"><h4>Progress</h4></div>
+        </div>
+        {% if learners %}
+        {% for learner in learners %}
+        <div class="from_db">
+            <div class="content">{{ learner.first_name }}</div>
+            <div class="content">323494</div>
+            <div class="content">{{ learner.grade }}</div>
+            <div class="content">{{ learner.progress }}</div>
+        </div>
+        {% endfor %}
+        {% endif %}
+    </div>
+
          <!-- assignments-->
-        <div class="assignment_container">
-            <div class="content grade">
-                <p>Grade 1</p>
-            </div>
-            <div class="content topic">
-                <p>Topic</p>
-            </div>
-            <div class="content students_name">
-                <p>Students name</p>
-            </div>
-            <div class="content grade">
-                <p>Grade</p>
+        <div class="container1" id="assignment" style="display:none;">
+            <h1 class="head">ASSIGNMENTS</h1>
+            <div class="con">
+                <div class="content">
+                    <p>Grade 1</p>
+                </div>
+                <div class="content">
+                    <p>Topic</p>
+                </div>
+                <div class="content">
+                    <p>Students name</p>
+                </div>
+                <div class="content">
+                    <p>Grade</p>
+                </div>
             </div>
 
         </div>
-    </div>
-
-    <!-- end of assignments-->
+        </div>
     <script src="{{url_for('static', filename='app.js')}}"></script>
     <script src="{{url_for('static', filename='script.js')}}"></script>
 </body>

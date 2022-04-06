@@ -3,7 +3,7 @@ from flask_login import login_user, current_user, logout_user, login_required
 
 from cbc.model import Teacher, teacher_learner, Learner, levels, Assignment, Assignment_material, Submission_material, \
     Submission, Strand_materials, Sub_strand, Strands, Sub_strand_materials
-from cbc.form import RegistrationForm, Login, addStudent, removeStudent
+from cbc.form import RegistrationForm, Login, addStudent, removeStudent, Student_login
 from flask import render_template, url_for, flash, redirect, request
 from flask_bcrypt import Bcrypt
 from cbc import app, db, bcrypt
@@ -23,7 +23,8 @@ def land():
 def teachers():
     formadd = addStudent()
     formremove = removeStudent()
-    return render_template('teachers_pannel.html', formadd=formadd, formremove=formremove)
+    learners = Learner.query.order_by(Learner.id.asc()).all()
+    return render_template('teachers_pannel.html', formadd=formadd, formremove=formremove, learners = learners)
 
 
 @app.route("/add", methods=["POST"])
@@ -43,9 +44,8 @@ def add():
             db.session.commit()
             email = request.form['email']
             flash(
-                f'Account Created for {formadd.email.data} we have sent a verification email to {email} ! ',
-                category="")
-            flash(f'Email sent successfully', category='success')
+                f'Account Created for {formadd.email.data} we have sent a verification email to {email} ',
+                category="success")
             return redirect(url_for('teachers'))
     else:
         flash(f'please enter correct details', category='warning')
@@ -118,3 +118,11 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('land'))
+
+@app.route("/student")
+def students():
+    form = Student_login()
+    if form.validate_on_submit():
+        email = form.email.data()
+        password = form.password.data()
+    return render_template('students_account.html', form = form)

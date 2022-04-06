@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewpoint"
+    content="width = device-width, initial-scale=1.0">
+    <title>cbc master.com</title>
+    <link rel="stylesheet" type="text/css" href="static/app.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <!-- Navigation bar -->
+    <nav class="navbar">
+        <div class="navbar__container">
+            <a href="#home" id="navbar__logo">CBC MASTER</a>
+            <div class="navbar__toggle" id="mobile-menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+            <ul class="navbar__menu">
+                <li class="navbar__item">
+                    <a href="#home" class="navbar__links" id="home-page">Home</a>
+                </li>
+                <li class="navbar__item">
+                    <a href="#about" class="navbar__links" id="about-page">About</a>
+                </li>
+                <li class="navbar__item">
+                    <a href="#Services" class="navbar__links" id="service-page">Service</a>
+                </li>
+            </ul>
+            <ul class="account">
+                <li class="navbar__btn">
+                    <a href="#sign-In" class="button" id="login">Login</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+<!-- Login page-->
+     <form action="/login" method="post" class="popup">
+        {{form.hidden_tag()}}
+        <div class="close-btn">&times;</div>
+        <div class="form">
+            <h2>Log in</h2>
+            <div class="form-element">
+                {{ form.email.label(class="label")}}
+                {% if form.email.errors %}
+                    {{ form.email(class="label")}}
+                        <div class="invalid_feedback">
+                            {% for error in form.email.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                {% else %}
+                    {{ form.email(class="label")}}
+                <span></span>
+                {% endif %}
+<!--                <label for="email">Email</label>-->
+<!--                <input type="text" id="email" placeholder="Enter email">-->
+            </div>
+            <div class="form-element">
+                {{ form.password.label(class="label")}}
+<!--                {{ form.password(class="label")}}-->
+                {% if form.password.errors %}
+                    {{ form.password(class="label")}}
+                        <div class="invalid_feedback">
+                            {% for error in form.password.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                {% else %}
+                    {{ form.password(class="label")}}
+                <span></span>
+                {% endif %}
+<!--                <label for="password">Password</label>-->
+<!--                <input type="text" id="password" placeholder="Enter password">-->
+            </div>
+            <div class="form-element">
+                {{ form.remember.label(class = "form-element")}}
+                {% if form.remember.errors %}
+                    {{ form.remember(class = "form-element")}}
+                        <div class="invalid_feedback">
+                            {% for error in form.remember.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                {% else %}
+                    {{ form.remember}}
+                <span></span>
+                {% endif %}
+<!--                <input type="checkbox" id="remember-me">-->
+<!--                <label for="remember-me">Remember me</label>-->
+            </div>
+            <div class="form-element">
+                {{ form.submit(class = "SubmitLogin")}}
+            </div>
+            <div class="form-element">
+                <a href="#">Forgot Password</a>
+            </div>
+        </div>
+    </form>
+    <div id="overlay"></div>
+    <!-- footer -->
+    <footer class="footer_container">
+        <div class="footer">
+            <div class="footer_heading footer_1">
+                <h2>About Us</h2>
+                <a href="#something">Something</a>
+                <a href="#something">Blog</a>
+            </div>
+            <div class="footer_heading footer_2">
+                <h2>Contact Us</h2>
+                <a href="#facebook">Facebook</a>
+                <a href="#instagram">Instagram</a>
+                <a href="#twitter">Twitter</a>
+            </div>
+        </div>
+    </footer>
+    <script src="{{url_for('static', filename='app.js')}}">
+    </script>
+    <script src="{{url_for('static', filename='script.js')}}"></script>
+</body>
+</html>

@@ -1,10 +1,22 @@
 /* teacher container */
 .container1
 {
-margin-left: 100px;
+padding: 50px;
 }
-
-.container1 .assignment_container{
+.head{
+text-align: center;
+padding: 5px;
+color: blue;
+}
+.container1 .con{
+width: 100%;
+margin: auto;
+padding: 15px;
+display: flex;
+text-align: center;
+background-color: #E5E4E2;
+}
+.container1 .from_db{
 width: 100%;
 height: 50px;
 margin: auto;
@@ -13,7 +25,11 @@ display: flex;
 text-align: center;
 background-color: #cecdcb;
 }
-.content{
+.container1 .con .content{
+height:100%;
+width:100%;
+}
+.container1 .from_db .content{
 height:100%;
 width:100%;
 }
@@ -99,21 +115,20 @@ border-radius:5px;
 
 .logout_button{
 display: flex;
-justify-content: center;
 align-items: center;
 text-decoration: none;
 padding: 10px 20px;
-height: 70px;;
 border: none;
 outline: none;
-border-radius: 5px;
-background: #833ab4;
-background: -webkit-linear-gradient(to right, #fcb045, #fd1d1d, #833ab4);
-background: linear-gradient(to right, #fcb045, #fd1d1d, #833ab4);
-color: #fff;
 transition: all 0.3s ease;
 cursor:pointer;
 margin-right:10px;
+}
+button .logout_button:hover
+{
+.sidebar{
+right: 0px;
+}
 }
 
 
@@ -229,32 +244,6 @@ border-radius:5px;
 }
 /*-- end add --*/
 
-
-/*-- sidebar --*/
-.sidebar{
-width: 100px;
-height: 120px;
-position: absolute;
-background-color:  #E5E4E2;
-display: block;
-cursor: pointer;
-}
-.sidebar .icon{
-width: 100%;
-height: 100%;
-background: rgba(0,0,0,.5);
-margin-bottom: 10px;
-}
-.sidebar .icon .toolText
-{
-visibility: hidden;
-width: 120px;
-background-color: black;
-color: #fff;
-text-align: center;
-border-radius: 6px;
-padding: 5px 0;
-
 /* Position the tooltip */
 position: absolute;
 z-index: 1;
@@ -262,4 +251,39 @@ z-index: 1;
 .icon:hover .toolText
 {
   visibility: visible;
+}
+@media screen and (max-width: 960px) {
+#boxes{
+display:grid;
+}
+.account{
+display:none;
+}
+}
+.sidebar {
+height:70vh;
+width:290px;
+right: -290px;
+top: 19vh;
+background-color:blue;
+position:fixed!important;
+z-index:1;
+overflow:auto;
+}
+.sidebar .side_item{
+padding:68px 76px;
+float:left;
+width:auto;
+border:none;
+outline:0;
+display: block;
+}
+.side_item .item
+{
+padding-bottom: 40px;
+border-size: 5px;
+display: block;
+}
+.side_item a{
+cursor: pointer;
 }

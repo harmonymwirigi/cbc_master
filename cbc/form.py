@@ -38,3 +38,9 @@ class addStudent(FlaskForm):
 class removeStudent(FlaskForm):
     email = StringField('Enter Student mail', validators=[DataRequired(), Email()])
     submit = SubmitField('Remove')
+
+class Student_login(FlaskForm):
+    email = StringField('Enter Your Email', validators = [DataRequired(), Email()])
+    password = PasswordField('Password', validators = [DataRequired()])
+    remember = BooleanField('Remember me')
+    submit = SubmitField('Login')

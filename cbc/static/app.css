@@ -197,6 +197,9 @@ cursor: pointer;
 .login ~.navbar__container{
 display:none;
 }
+.cont .container .con{
+display: grid;
+}
 }
 /* popup login*/
 .popup{
