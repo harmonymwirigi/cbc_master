@@ -42,13 +42,13 @@
 <!--                </li>-->
 <!--            </ul>-->
         </div>
-        <button class="logout_button" >
+        <button class="logout_button" id = "side">
             <p>{{ current_user.email }}</p>
              <i class='far fa-user-circle' style='font-size:48px; padding: 5px;'></i>
         </button>
-        <div class="sidebar">
+        <div class="sidebar" >
             <div class="side_item">
-                <a class="item progress">PROGRESS</a>
+                <a class="item progress" onclick="openContainer('lesson_plan')">LESSON PLAN</a>
                 <a class="item setting">SETTING</a>
                 <a class="item materials">MATERIALS</a>
                 <a class="item adds" id="add">ADD</a>
@@ -158,47 +158,6 @@
             {% endif %}
         {% endwith %}
 
-
-<!--    stiky sidebar-->
-<!--    <div class="sidebar">-->
-<!--        <div class="icon assignment">-->
-<!--            <input type="checkbox" class="display" style="display: none;" id="assignment">-->
-<!--            <label>-->
-<!--                <i class='fas fa-book-open' style='font-size:48px; padding-top: 30px; margin-left: 15px;'></i>-->
-<!--                <span class="toolText">Assignments</span>-->
-<!--            </label>-->
-<!--        </div>-->
-<!--        <div class="icon project">-->
-<!--            <input type="checkbox" class="display" style="display: none;" id="project">-->
-<!--            <label>-->
-<!--                <i class="fa fa-anchor" style="font-size:48px; padding-top: 30px; margin-left: 15px;"></i>-->
-<!--                <span class="toolText"> Project </span>-->
-<!--            </label>-->
-<!--        </div>-->
-<!--        <div class="icon students">-->
-<!--            <input type="checkbox" class="display" style="display: none;" id="students">-->
-<!--            <label for="students">-->
-<!--                <i class='fas fa-users fa-5x' style='font-size:48px; padding-top: 30px; margin-left: 15px;'></i>-->
-<!--                <span class="toolText">Students</span>-->
-<!--            </label>-->
-<!--        </div>-->
-<!--        <div class="icon account">-->
-<!--            <input type="checkbox" class="display" style="display: none;" id="account">-->
-<!--            <label for="account">-->
-<!--                <i class='far fa-user-circle' style='font-size:48px; padding-top: 30px; margin-left: 15px;'></i>-->
-<!--                <span class="toolText">Account</span>-->
-<!--            </label>-->
-<!--        </div>-->
-<!--        <div class="icon help">-->
-<!--            <input type="checkbox" class="display" style="display: none;" id="help">-->
-<!--            <label for="help">-->
-<!--                <i class='fa fa-question' style='font-size:48px;padding-top: 30px; margin-left: 15px;'></i>-->
-<!--                <span class="toolText">help</span>-->
-<!--            </label>-->
-<!--        </div>-->
-<!--    </div>-->
-
-<!--    teachers content container -->
     <div class="cont">
         <div class="container1" id = "home" style="padding: 100px;">
             <div class="con" id = "boxes">
@@ -231,7 +190,7 @@
             <div class="content">{{ learner.first_name }}</div>
             <div class="content">323494</div>
             <div class="content">{{ learner.grade }}</div>
-            <div class="content">{{ learner.progress }}</div>
+            <div class="content" ><p>{{ learner.progress }}%</p></div>
         </div>
         {% endfor %}
         {% endif %}
@@ -255,6 +214,21 @@
                 </div>
             </div>
 
+        </div>
+        <div class="container1" id="lesson_plan">
+                <form class="container_lesson">
+                    <div class="top_lesson">
+                        <div class="labels">
+                            <label>GRADE</label>
+                            <label>DATE</label>
+                        </div>
+                        <div class="input">
+                            <input type="text">
+                            <input type="date">
+                        </div>
+
+                    </div>
+                </form>
         </div>
         </div>
     <script src="{{url_for('static', filename='app.js')}}"></script>

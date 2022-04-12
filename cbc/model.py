@@ -1,5 +1,6 @@
 from cbc import db,login_manager
 from flask_login import UserMixin
+import datetime
 
 
 @login_manager.user_loader
@@ -32,8 +33,8 @@ class Learner(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     first_name = db.Column(db.String(20), nullable=False)
     second_name = db.Column(db.String(20), nullable=False)
-    email = db.Column(db.String(40), unique=True)
-    progress = db.Column(db.Integer, nullable=True)
+    email = db.Column(db.String(40), nullable = False)
+    progress = db.Column(db.Integer, default = 1)
     grade = db.Column(db.Integer, db.ForeignKey('levels.id'))
     submitted_assignment = db.relationship('Submission', backref="my_submission", lazy = True)
 
@@ -72,6 +73,7 @@ class Submission_material(db.Model):
 class levels(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     level_name = db.Column(db.String(20), unique=True)
+    lessonPlan = db.Column(db.Integer, db.ForeignKey('lessonplan.id'))
     strands= db.relationship('Strands', backref = "my_topics", lazy = True)
     students= db.relationship('Learner', backref = "my_learners", lazy = True)
 
@@ -104,6 +106,27 @@ class Sub_strand_materials(db.Model):
     material_file = db.Column(db.String(200), nullable=False)
     material_video = db.Column(db.String(200), nullable=False)
     material_picture = db.Column(db.String(200), nullable=False)
+class Lessonplan(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    grade = db.relationship('levels', backref="my_grade", lazy = True)
+    strands = db.Column(db.String(200), nullable = False)
+    date = db.Column(db.DateTime, nullable = False)
+    roll = db.Column(db.Integer)
+    subStrand = db.Column(db.String(200), nullable = False)
+    lesson_outcome = db.Column(db.String(500), nullable = False)
+    core_comp = db.Column(db.String(250), nullable = False)
+    values = db.Column(db.String(230), nullable = False)
+    pci = db.Column(db.String(300), nullable = False)
+    creativity = db.Column(db.String(300), nullable = False)
+    learning_meterial = db.Column(db.String(300), nullable = False)
+    introduction = db.Column(db.String(500), nullable = False)
+    LessonDev = db.Column(db.String(1000), nullable = False)
+    summary = db.Column(db.String(1000), nullable = False)
+    conclusion = db.Column(db.String(1000), nullable = False)
+    Extension = db.Column(db.String(1000), nullable = True)
+    week = db.Column(db.Integer, nullable = False)
+    lesson = db.Column(db.Integer, nullable = False)
+    self_remark = db.Column(db.String(400), nullable = True)
 
 def is_active(self):
     return True

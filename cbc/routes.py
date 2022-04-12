@@ -1,8 +1,7 @@
 import flask_bcrypt
 from flask_login import login_user, current_user, logout_user, login_required
 
-from cbc.model import Teacher, teacher_learner, Learner, levels, Assignment, Assignment_material, Submission_material, \
-    Submission, Strand_materials, Sub_strand, Strands, Sub_strand_materials
+from cbc.model import Teacher, teacher_learner, Learner, levels, Assignment, Assignment_material, Submission_material, Submission, Strand_materials, Sub_strand, Strands, Sub_strand_materials
 from cbc.form import RegistrationForm, Login, addStudent, removeStudent, Student_login
 from flask import render_template, url_for, flash, redirect, request
 from flask_bcrypt import Bcrypt

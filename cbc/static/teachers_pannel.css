@@ -33,6 +33,27 @@ width:100%;
 height:100%;
 width:100%;
 }
+.container1 .container_lesson
+{
+border-radius: 5px;
+background-color: #BFC9CA;
+padding: 20px;
+}
+.container1 form .top_lesson
+{
+display: inline-block;
+margin-right: 20px;
+}
+.container1 form .top_lesson .labels
+{
+margin: auto;
+display: flex;
+}
+.container1 form .top_lesson .input
+{
+margin: auto;
+display: flex;
+}
 .button {
 display: flex;
 justify-content: center;
@@ -124,12 +145,7 @@ transition: all 0.3s ease;
 cursor:pointer;
 margin-right:10px;
 }
-button .logout_button:hover
-{
-.sidebar{
-right: 0px;
-}
-}
+
 
 
 /* add student */
@@ -261,14 +277,18 @@ display:none;
 }
 }
 .sidebar {
-height:70vh;
 width:290px;
 right: -290px;
 top: 19vh;
-background-color:blue;
+background-color:#BFC9CA;
 position:fixed!important;
 z-index:1;
 overflow:auto;
+border-radius: 5px;
+}
+.sidebar.active
+{
+right: 0px;
 }
 .sidebar .side_item{
 padding:68px 76px;
