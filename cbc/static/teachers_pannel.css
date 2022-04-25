@@ -43,16 +43,90 @@ padding: 20px;
 {
 display: inline-block;
 margin-right: 20px;
+width:100%;
 }
 .container1 form .top_lesson .labels
 {
+width: 100%;
 margin: auto;
 display: flex;
+background-color: #fff;
+border: ridge;
+border-width: 1px;
+}
+.container1 form .top_lesson .labels .form_label
+{
+height:100%;
+width:100%;
+border: ridge;
+border-width: 2px;
 }
 .container1 form .top_lesson .input
 {
 margin: auto;
 display: flex;
+}
+.container1 form .top_lesson .input .form_input
+{
+height:100%;
+width:100%;
+}
+.container1 form .top_lesson .inquiry{
+margin-top: 7px;
+display: flex;
+width:100%;
+}
+.container1 form .con .inquiry .inquiry_input{
+display: inline-block;
+width: 100%;
+}
+.container1 form .con .inquiry .inquiry_input textarea
+{
+height: 150px;
+width: 70%;
+}
+.container1 form .top_lesson .resources-intro
+{
+margin-top: 20px;
+display: flex;
+width: 100%;
+}
+.container1 form .top_lesson .resources-intro div
+{
+width:100%;
+display:flex;
+}
+.container1 form .top_lesson .resources-intro div textarea
+{
+height: 120px;
+width:100%;
+margin: 10px;
+}
+.container1 form .top_lesson .lesson-dev
+{
+width: 100%;
+}
+.container1 form .top_lesson .lesson-dev textarea
+{
+width:100%;
+height: 150px;
+}
+.container1 form .top_lesson .summary-conclusion
+{
+margin-top: 20px;
+display: flex;
+width: 100%;
+}
+.container1 form .top_lesson .summary-conclusion div
+{
+width:100%;
+display:flex;
+}
+.container1 form .top_lesson .summary-conclusion div textarea
+{
+height: 120px;
+width:100%;
+margin: 10px;
 }
 .button {
 display: flex;
