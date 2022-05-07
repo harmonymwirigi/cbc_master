@@ -108,25 +108,19 @@ class Sub_strand_materials(db.Model):
     material_picture = db.Column(db.String(200), nullable=False)
 class Lessonplan(db.Model):
     id = db.Column(db.Integer, primary_key = True)
-    grade = db.relationship('levels', backref="my_grade", lazy = True)
+    grade = db.Column(db.String(30), nullable = False)
     strands = db.Column(db.String(200), nullable = False)
-    date = db.Column(db.DateTime, nullable = False)
     roll = db.Column(db.Integer)
     subStrand = db.Column(db.String(200), nullable = False)
     lesson_outcome = db.Column(db.String(500), nullable = False)
     core_comp = db.Column(db.String(250), nullable = False)
     values = db.Column(db.String(230), nullable = False)
     pci = db.Column(db.String(300), nullable = False)
-    creativity = db.Column(db.String(300), nullable = False)
-    learning_meterial = db.Column(db.String(300), nullable = False)
+    learning_material = db.Column(db.String(300), nullable = False)
     introduction = db.Column(db.String(500), nullable = False)
     LessonDev = db.Column(db.String(1000), nullable = False)
     summary = db.Column(db.String(1000), nullable = False)
     conclusion = db.Column(db.String(1000), nullable = False)
-    Extension = db.Column(db.String(1000), nullable = True)
-    week = db.Column(db.Integer, nullable = False)
-    lesson = db.Column(db.Integer, nullable = False)
-    self_remark = db.Column(db.String(400), nullable = True)
 
 def is_active(self):
     return True

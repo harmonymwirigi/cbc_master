@@ -21,13 +21,18 @@ function openContainer(containerName) {
   document.getElementById(containerName).style.display = "block";
 }
 
-function side(sidebar){
-document.getElementById(sidebar).style.right = "0px";
-}
+//function side(sidebar){
+//document.getElementById(sidebar).style.right = "0px";
+//}
 document.querySelector("#side").addEventListener('click', function(){
 document.querySelector(".sidebar").classList.add("active");
 });
 document.querySelector("#side").addEventListener('dblclick', function(){
 document.querySelector(".sidebar").classList.remove("active");
 });
-
+window.addEventListener("scroll", () => {
+    if(document.querySelector(".sidebar").classList.contains("active"))
+    {
+        document.querySelector(".sidebar").classList.remove("active");
+    }
+})

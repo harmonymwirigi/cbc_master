@@ -1,8 +1,8 @@
 import flask_bcrypt
 from flask_login import login_user, current_user, logout_user, login_required
 
-from cbc.model import Teacher, teacher_learner, Learner, levels, Assignment, Assignment_material, Submission_material, Submission, Strand_materials, Sub_strand, Strands, Sub_strand_materials
-from cbc.form import RegistrationForm, Login, addStudent, removeStudent, Student_login
+from cbc.model import Teacher, teacher_learner, Learner, levels, Assignment, Assignment_material, Submission_material, Submission, Strand_materials, Sub_strand, Strands, Sub_strand_materials, Lessonplan
+from cbc.form import RegistrationForm, Login, addStudent, removeStudent, Student_login, lessonPlan
 from flask import render_template, url_for, flash, redirect, request
 from flask_bcrypt import Bcrypt
 from cbc import app, db, bcrypt
@@ -13,7 +13,8 @@ from cbc import app, db, bcrypt
 def land():
     form = RegistrationForm()
     form2 = Login()
-    return render_template('landing.html', form=form, form2=form2)
+    form_lesson_plan = lessonPlan()
+    return render_template('landing.html', form=form, form2=form2, form_lesson = form_lesson_plan)
 
 
 # teachers pannel
@@ -22,8 +23,10 @@ def land():
 def teachers():
     formadd = addStudent()
     formremove = removeStudent()
+    form_lesson_plan = lessonPlan()
     learners = Learner.query.order_by(Learner.id.asc()).all()
-    return render_template('teachers_pannel.html', formadd=formadd, formremove=formremove, learners = learners)
+    lesson = Lessonplan.query.order_by(Lessonplan.id.asc()).all()
+    return render_template('teachers_pannel.html', formadd=formadd, formremove=formremove, learners = learners, lesson = lesson, form_lesson = form_lesson_plan)
 
 
 @app.route("/add", methods=["POST"])
@@ -31,6 +34,7 @@ def teachers():
 def add():
     formadd = addStudent()
     formremove = removeStudent()
+    form_lesson_plan = lessonPlan()
     if formadd.validate_on_submit():
         user = Learner.query.filter_by(email=formadd.email.data).first()
         if user:
@@ -49,7 +53,7 @@ def add():
     else:
         flash(f'please enter correct details', category='warning')
         return redirect(url_for('teachers'))
-    return render_template('teachers_pannel.html', formadd=formadd, formremove=formremove)
+    return render_template('teachers_pannel.html', formadd=formadd, formremove=formremove, form_lesson = form_lesson_plan)
 
 
 @app.route("/remove", methods=["POST"])
@@ -57,6 +61,7 @@ def add():
 def remove():
     formremove = removeStudent()
     formadd = addStudent()
+    form_lesson_plan = lessonPlan()
     if formremove.validate_on_submit():
         user = Learner.query.filter_by(email=formremove.email.data).first()
         if user:
@@ -71,7 +76,28 @@ def remove():
     else:
         flash(f'please enter correct details', category='warning')
         return redirect(url_for('teachers'))
-    return render_template('teachers_pannel.html', formremove=formremove, formadd=formadd)
+    return render_template('teachers_pannel.html', formremove=formremove, formadd=formadd, form_lesson = form_lesson_plan)
+@app.route("/lessonplan", methods = ["POST"])
+def lessonplan():
+    form_lesson_plan = lessonPlan()
+    formremove = removeStudent()
+    formadd = addStudent()
+    if form_lesson_plan.validate_on_submit():
+        lesson = Lessonplan(grade = form_lesson_plan.grade.data, strands = form_lesson_plan.topic.data,
+                            roll = form_lesson_plan.school.data, subStrand = form_lesson_plan.sub_strand.data, lesson_outcome = form_lesson_plan.learning_outcome.data,
+                            core_comp = form_lesson_plan.core_competencies.data, values = form_lesson_plan.values.data, pci = form_lesson_plan.Pcis.data,
+                            learning_material = form_lesson_plan.resources.data, introduction = form_lesson_plan.intro.data, LessonDev = form_lesson_plan.lesson_dev.data,
+                            summary = form_lesson_plan.summary.data, conclusion = form_lesson_plan.conclusion.data)
+        db.session.add(lesson)
+        db.session.commit()
+        flash(
+            f' the lesson plan created successfully ',
+            category="success")
+        return redirect(url_for('teachers'))
+    else:
+        flash(f'please enter correct details', category='warning')
+        return redirect(url_for('teachers'))
+    return render_template('teachers_pannel.html', formremove=formremove, formadd=formadd, form_lesson = form_lesson_plan)
 
 
 # signup
@@ -98,6 +124,7 @@ def login():
         return redirect(url_for('teachers'))
     form2 = Login()
     form = RegistrationForm()
+    form_lesson_plan = lessonPlan()
     if form2.validate_on_submit():
         user = Teacher.query.filter_by(email=form2.email.data).first()
         if user and bcrypt.check_password_hash(user.password, form2.password.data):
@@ -110,7 +137,7 @@ def login():
 
     else:
         flash(f'please enter correct details', category='warning')
-    return render_template('landing.html', form2=form2, form=form)
+    return render_template('landing.html', form2=form2, form=form, form_lesson = form_lesson_plan)
 
 
 @app.route("/logout")

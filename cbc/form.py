@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, DateField, SelectField, SubmitField, BooleanField
+from wtforms import StringField, PasswordField, DateField, SelectField, SubmitField, BooleanField, DateTimeField, TextAreaField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from cbc.model import Teacher,teacher_learner,Learner,levels,Assignment,Assignment_material,Submission_material,Submission,Strand_materials,Sub_strand,Strands,Sub_strand_materials
 
@@ -44,5 +44,23 @@ class Student_login(FlaskForm):
     password = PasswordField('Password', validators = [DataRequired()])
     remember = BooleanField('Remember me')
     submit = SubmitField('Login')
+class lessonPlan(FlaskForm):
+    grade = SelectField('Grade', validators=[DataRequired()],
+                        choices=[('pre-primary 1'), ('pre-primary'), ('Grade 1'), ('Grade 2'), ('Grade 2'), ('Grade 3'),
+                                 ('Grade 4'), ('Grade 5'),
+                                 ('Grade 6'), ('Grade 7'), ('Grade 8'), ('Grade 9')])
+    school = StringField(validators= [DataRequired()])
+    topic = TextAreaField()
+    sub_strand = TextAreaField()
+    learning_outcome = TextAreaField()
+    core_competencies = TextAreaField()
+    values = TextAreaField()
+    Pcis = TextAreaField()
+    resources = TextAreaField()
+    intro = TextAreaField()
+    lesson_dev = TextAreaField()
+    summary = TextAreaField()
+    conclusion = TextAreaField()
+    submit = SubmitField("Create")
 
 

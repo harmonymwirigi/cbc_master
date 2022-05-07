@@ -1,4 +1,17 @@
 /* teacher container */
+.btn
+{
+    font-size: 16px;
+    font-weight: 500;
+    padding: 12px 35px;
+    color: white;
+    border-radius: 40px;
+    display: inline-block;
+    white-space: nowrap;
+    border: none;
+    background: #1854b4;;
+    transition: all 0.3s ease;
+}
 .container1
 {
 padding: 50px;

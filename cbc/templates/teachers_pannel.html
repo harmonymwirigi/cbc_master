@@ -213,10 +213,23 @@
                     <p>Grade</p>
                 </div>
             </div>
-
         </div>
-        <div class="container1" id="lesson_plan" style="display:none;">
-                <form class="container_lesson">
+        <div class="container1" id="lesson_plan" style="display:none;item-align: center;">
+            {% if lesson %}
+            {% for lessons in lesson %}
+            <div class="from_db">
+                <div class="content">{{ lessons.id }}</div>
+                <div class="content">{{ lessons.grade }}</div>
+                <div class="content">{{ lessons.strands }}</div>
+                <div class="content">{{ lessons.subStrand }}</div>
+            </div>
+            {% endfor %}
+            {% endif %}
+            <a class="btn" onclick="openContainer('create_lesson')">CREATE</a>
+        </div>
+        <div class="container1"  style="display:none;" id="create_lesson">
+                <form class="container_lesson" method="post" action="\lessonplan">
+                    {{ form_lesson.hidden_tag() }}
                     <div class="con top_lesson">
                         <div class="labels">
                             <label class="form_label" style="border-right-style: none;"><b>GRADE</b></label>
@@ -224,66 +237,53 @@
                             <label class="form_label"><b>DATE</b></label>
                         </div>
                         <div class="input">
-                            <select name="cars" id="cars" class="form_input" style="height: 20px;">
-                              <option value="Pre-primary 1">Pre-primary 1</option>
-                              <option value="Pre-primary 2">Pre-primary 2</option>
-                              <option value="Grade 1">Grade 1</option>
-                              <option value="Grade 2">Grade 2</option>
-                              <option value="Grade 3">Grade 3</option>
-                              <option value="Grade 4">Grade 4</option>
-                              <option value="Grade 5">Grade 5</option>
-                              <option value="Grade 6">Grade 6</option>
-                              <option value="Grade 7">Grade 7</option>
-                              <option value="Grade 8">Grade 8</option>
-                              <option value="Grade 9">Grade 9</option>
-                            </select>
-                            <input type="text" class="form_input" style="height: 20px;">
-                            <input type="date" class="form_input" style="height: 20px;">
+                             {{ form_lesson.grade(class="form_input") }}
+                             {{ form_lesson.school(class="form_input") }}
                         </div>
-                        <div style="display:flex;margin-top: 30px;"><h1> STRAND/THEME/TOPIC: </h1><input type="text" style="width:100%;margin: 5px;"></div>
-                        <div style="margin-top: 30px; display:flex;"><h2>SUBSTRAND/SUB-THEME/SUB-TOPIC:</h2><textarea></textarea></div>
-                        <div style="margin-top: 30px; display:flex;"><h3>SPECIFIC LEARNING OUTCOME:</h3><textarea style="width:75%;height:100px; margin: 5px;" placeholder="by the end of this lesson the leaner should be able to sort and group object according to shape"></textarea></div>
+                        <div style="display:flex;margin-top: 30px;"><h1> STRAND/THEME/TOPIC: </h1>{{ form_lesson.topic }}</div>
+                        <div style="margin-top: 30px; display:flex;"><h2>SUBSTRAND/SUB-THEME/SUB-TOPIC:</h2>{{ form_lesson.sub_strand }}</div>
+                        <div style="margin-top: 30px; display:flex;"><h3>SPECIFIC LEARNING OUTCOME:</h3>{{ form_lesson.sub_strand }}</div>
                         <h1 style="margin-top: 7px;">KEY INQUIRY QUESTION (S)</h1>
                         <div class="inquiry">
                             <div class="inquiry_input">
                                 <h3>Core Competencies</h3>
-                                <textarea ></textarea>
+                                {{ form_lesson.core_competencies }}
                             </div>
                             <div class="inquiry_input">
                                 <h3>Values</h3>
-                                <textarea ></textarea>
+                                {{ form_lesson.values }}
                             </div>
                             <div class="inquiry_input">
                                 <h3>PCIs</h3>
-                                <textarea ></textarea>
+                                {{ form_lesson.Pcis }}
                             </div>
                         </div>
                         <div class="resources-intro">
                             <div>
                                 <h3>LEARNING RESOURCES:</h3>
-                                <textarea></textarea>
+                                {{ form_lesson.resources }}
                             </div>
                             <div>
                                 <h3>INTRODUCTION:</h3>
-                                <textarea></textarea>
+                                {{ form_lesson.intro }}
                             </div>
                         </div>
                         <div class="lesson-dev">
                             <h3>LESSON DEVELOPMENT (Assessment ass learning)</h3>
-                            <textarea></textarea>
+                            {{ form_lesson.lesson_dev }}
                         </div>
                         <div class="summary-conclusion">
                             <div>
                                 <h3>SUMMARY:</h3>
-                                <textarea></textarea>
+                                {{ form_lesson.summary }}
                             </div>
                             <div>
                                 <h3>CONCLUSION:</h3>
-                                <textarea></textarea>
+                                {{ form_lesson.conclusion }}
                             </div>
                         </div>
 
-                        <input type="submit">
+                        {{ form_lesson.submit(class="btn") }}
 
                     </div>
                 </form>
