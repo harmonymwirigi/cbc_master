@@ -27,7 +27,7 @@ class Teacher(db.Model, UserMixin):
     teaching = db.relationship('Learner', secondary = teacher_learner, backref = "teachers")
 
     def __repr__(self):
-        return f"Teacher('{Teacher.username}','{Teacher.email}','{Teacher.first_name}'"
+        return f"Teacher('{Teacher.first_name}','{Teacher.email}','{Teacher.first_name}'"
 
 class Learner(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
@@ -36,6 +36,7 @@ class Learner(db.Model, UserMixin):
     email = db.Column(db.String(40), nullable = False)
     progress = db.Column(db.Integer, default = 1)
     grade = db.Column(db.Integer, db.ForeignKey('levels.id'))
+    pass_code = db.Column(db.Integer, nullable = False)
     submitted_assignment = db.relationship('Submission', backref="my_submission", lazy = True)
 
 
@@ -108,6 +109,7 @@ class Sub_strand_materials(db.Model):
     material_picture = db.Column(db.String(200), nullable=False)
 class Lessonplan(db.Model):
     id = db.Column(db.Integer, primary_key = True)
+    teacher_id = db.Column(db.Integer, db.ForeignKey("teacher.id"), nullable = False)
     grade = db.Column(db.String(30), nullable = False)
     strands = db.Column(db.String(200), nullable = False)
     roll = db.Column(db.Integer)

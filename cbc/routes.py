@@ -6,6 +6,7 @@ from cbc.form import RegistrationForm, Login, addStudent, removeStudent, Student
 from flask import render_template, url_for, flash, redirect, request
 from flask_bcrypt import Bcrypt
 from cbc import app, db, bcrypt
+from random import randint
 
 
 # landing page route
@@ -24,8 +25,8 @@ def teachers():
     formadd = addStudent()
     formremove = removeStudent()
     form_lesson_plan = lessonPlan()
-    learners = Learner.query.order_by(Learner.id.asc()).all()
-    lesson = Lessonplan.query.order_by(Lessonplan.id.asc()).all()
+    learners = current_user.teaching
+    lesson = Lessonplan.query.filter_by(teacher_id = current_user.id).all()
     return render_template('teachers_pannel.html', formadd=formadd, formremove=formremove, learners = learners, lesson = lesson, form_lesson = form_lesson_plan)
 
 
@@ -41,9 +42,18 @@ def add():
             flash(f'the student exist', category='error')
             return redirect(url_for('teachers'))
         else:
-            learner = Learner(email=formadd.email.data, grade=formadd.grade.data, first_name=formadd.first_name.data,
+            code = []
+            for i in range(1, 5):
+                n = randint(0, 9)
+                code.append(n)
+            cod = [str(item) for item in code]
+
+            learner = Learner(email=formadd.email.data, grade=formadd.grade.data, first_name=formadd.first_name.data, pass_code = int("".join(cod)),
                               second_name=formadd.second_name.data)
+
             db.session.add(learner)
+            db.session.commit()
+            current_user.teaching.append(learner)
             db.session.commit()
             email = request.form['email']
             flash(
@@ -56,34 +66,49 @@ def add():
     return render_template('teachers_pannel.html', formadd=formadd, formremove=formremove, form_lesson = form_lesson_plan)
 
 
-@app.route("/remove", methods=["POST"])
+@app.route("/learner/<studentId>")
 @login_required
-def remove():
+def learner(studentId):
+    student = Learner.query.filter_by(id = studentId).first_or_404()
+    learners = current_user.teaching
+    lesson = Lessonplan.query.filter_by(teacher_id=current_user.id).all()
     formremove = removeStudent()
     formadd = addStudent()
     form_lesson_plan = lessonPlan()
-    if formremove.validate_on_submit():
-        user = Learner.query.filter_by(email=formremove.email.data).first()
-        if user:
-            learner = Learner.query.filter_by(email=formremove.email.data).first()
-            db.session.delete(learner)
-            db.session.commit()
-            flash(f'The student has been removed successfully', category='success')
-            return redirect(url_for('teachers'))
-        else:
-            flash(f'the student does not exist', category='error')
-            return redirect(url_for('teachers'))
-    else:
-        flash(f'please enter correct details', category='warning')
-        return redirect(url_for('teachers'))
-    return render_template('teachers_pannel.html', formremove=formremove, formadd=formadd, form_lesson = form_lesson_plan)
+    # if formremove.validate_on_submit():
+    #     user = Learner.query.filter_by(email=formremove.email.data).first()
+    #     if user:
+    #         learner = Learner.query.filter_by(email=formremove.email.data).first()
+    #         db.session.delete(learner)
+    #         db.session.commit()
+    #         flash(f'The student has been removed successfully', category='success')
+    #         return redirect(url_for('teachers'))
+    #     else:
+    #         flash(f'the student does not exist', category='error')
+    #         return redirect(url_for('teachers'))
+    # else:
+    #     flash(f'please enter correct details', category='warning')
+    #     return redirect(url_for('teachers'))
+    return render_template('remove.html', student = student, formadd=formadd, formremove=formremove, form_lesson = form_lesson_plan, learners = learners, lesson = lesson)
+#  formremove=formremove, formadd=formadd, form_lesson = form_lesson_plan
+@app.route("/remove/<studentId>")
+def remove(studentId):
+    student = Learner.query.filter_by(id = studentId).first()
+    form_lesson_plan = lessonPlan()
+    formremove = removeStudent()
+    formadd = addStudent()
+    db.session.delete(student)
+    db.session.commit()
+    flash("Student Remove successfully", 'success')
+    return redirect(url_for('teachers'))
+
 @app.route("/lessonplan", methods = ["POST"])
 def lessonplan():
     form_lesson_plan = lessonPlan()
     formremove = removeStudent()
     formadd = addStudent()
     if form_lesson_plan.validate_on_submit():
-        lesson = Lessonplan(grade = form_lesson_plan.grade.data, strands = form_lesson_plan.topic.data,
+        lesson = Lessonplan(grade = form_lesson_plan.grade.data,teacher_id = current_user.id, strands = form_lesson_plan.topic.data,
                             roll = form_lesson_plan.school.data, subStrand = form_lesson_plan.sub_strand.data, lesson_outcome = form_lesson_plan.learning_outcome.data,
                             core_comp = form_lesson_plan.core_competencies.data, values = form_lesson_plan.values.data, pci = form_lesson_plan.Pcis.data,
                             learning_material = form_lesson_plan.resources.data, introduction = form_lesson_plan.intro.data, LessonDev = form_lesson_plan.lesson_dev.data,

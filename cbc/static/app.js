@@ -21,6 +21,17 @@ document.querySelector(".popup").classList.remove("active");
 document.querySelector(".popup .close-btn").addEventListener("click",function(){
 document.querySelector("#overlay").classList.remove("active");
 });
+function remove_student(id_std){
+//let id_student=id_std.value;
+      // login popup
+
+document.querySelector(".popup").classList.add("active");
+
+document.querySelector("#3844").addEventListener("click",function(){
+document.querySelector("#overlay").classList.add("active");
+});
+
+}
 
 
 document.querySelector("#signup").addEventListener("click",function(){

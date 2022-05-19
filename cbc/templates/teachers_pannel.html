@@ -1,14 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% block head %}
     <meta charset="UTF-8">
     <meta name="viewpoint"
     content="width = device-width, initial-scale=1.0">
-    <title>teachers</title>
-    <link rel="stylesheet" type="text/css" href="static/app.css">
-    <link rel="stylesheet" type="text/css" href="static/teachers_pannel.css">
+    <title>{% block title %} teachers {% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='app.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" type="text/css" href="static/facebox.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='teachers_pannel.css') }}">
     <script src="https://kit.fontawesome.com/yourcode.js" crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/a57c871a6e.js" crossorigin="anonymous"></script>
+    {% endblock %}
 </head>
 <body>
     <!-- Navigation bar -->
@@ -51,8 +55,6 @@
                 <a class="item progress" onclick="openContainer('lesson_plan')">LESSON PLAN</a>
                 <a class="item setting">SETTING</a>
                 <a class="item materials">MATERIALS</a>
-                <a class="item adds" id="add">ADD</a>
-                <a class="item removes" id="login">REMOVE</a>
                 <a href="/logout" class="sign_out">SIGN OUT</a>
             </div>
         </div>
@@ -176,21 +178,26 @@
                 </div>
             </div>
         </div>
-    <div class="container1" id="students" style="display:none;">
+    <div class="container1 padd-15" id="students" style="display:none;">
         <h1 class="head">YOUR STUDENTS</h1>
+        <a class="btn " id = "add" style="float: right; margin: 10px;" >ADD</a>
         <div class="con my_students">
             <div class="content"><h4>Name</h4></div>
             <div class="content"><h4>Student code</h4></div>
             <div class="content"><h4>Grade</h4></div>
             <div class="content"><h4>Progress</h4></div>
+            <div class="content"><h4></h4></div>
         </div>
         {% if learners %}
         {% for learner in learners %}
         <div class="from_db">
             <div class="content">{{ learner.first_name }}</div>
-            <div class="content">323494</div>
+            <div class="content">{{ learner.pass_code }}4</div>
             <div class="content">{{ learner.grade }}</div>
             <div class="content" ><p>{{ learner.progress }}%</p></div>
+            <div class="content"> <a rel="facebox" href="{{ url_for('learner', studentId = learner.id) }}" >REMOVE
+            </a> </div>
+
         </div>
         {% endfor %}
         {% endif %}
@@ -214,7 +221,9 @@
                 </div>
             </div>
         </div>
-        <div class="container1" id="lesson_plan" style="display:none;item-align: center;">
+        <div class="container1" id="lesson_plan" style="display:none;item-align: center;margin-bottom: 15px;">
+            <h1 class="head">LESSON PLAN</h1>
+            <a class="btn" style="float: right; margin: 10px;" onclick="openContainer('create_lesson')">CREATE</a>
             {% if lesson %}
             {% for lessons in lesson %}
             <div class="from_db">
@@ -225,7 +234,6 @@
             </div>
             {% endfor %}
             {% endif %}
-            <a class="btn" onclick="openContainer('create_lesson')">CREATE</a>
         </div>
         <div class="container1"  style="display:none;" id="create_lesson">
                 <form class="container_lesson" method="post" action="\lessonplan">
@@ -288,8 +296,101 @@
                     </div>
                 </form>
         </div>
+        <footer class="contact section" >
+            <div class="contain">
+                <h3 class="contact-title padd-15"> <a href="#">About Us</a></h3>
+                <h3 class="contact-sub-title padd-15"> EMAIL US?</h3>
+                <!--=== Contact Form===-->
+                <div class="row">
+                    <div class="contact-form padd-15">
+                        <div class="row">
+                            <div class="form-item col-6 padd-15">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" placeholder="Name">
+                                </div>
+                            </div>
+                            <div class="form-item col-6 padd-15">
+                                <div class="form-group">
+                                    <input type="email" class="form-control" placeholder="Email">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-item col-12 padd-15">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" placeholder="Subject">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-item col-12 padd-15">
+                                <div class="form-group">
+                                    <textarea name="" class="form-control" placeholder="Message"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-item col-12 padd-15">
+                                <button type="submit" class="btn">Send Message</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <!--=== Contact Info item start ===-->
+                    <div class="contact-info-item">
+                        <div class="icon"><i class="fa fa-phone"></i></div>
+                        <h4>Call Me On</h4>
+                        <p>+254 713028200</p>
+                    </div>
+                    <!--=== Contact Info item end ===-->
+                    <!--=== Contact Info item start ===-->
+                    <div class="contact-info-item padd-15">
+                        <div class="icon"><i class="fa fa-map-marker-alt"></i></div>
+                        <h4>Office</h4>
+                        <p>Nyahururu</p>
+                    </div>
+                    <!--=== Contact Info item end ===-->
+                    <!--=== Contact Info item start ===-->
+                    <div class="contact-info-item padd-15">
+                        <div class="icon"><i class="fa fa-envelope"></i></div>
+                        <h4>Email</h4>
+                        <p>harmonymwithilii@gmail.com</p>
+                    </div>
+                    <!--=== Contact Info item end ===-->
+                    <!--=== Contact Info item start ===-->
+                    <div class="contact-info-item padd-15">
+                        <div class="icon"><i class="fab fa-facebook-f"></i></div>
+                        <h4>Call Me On</h4>
+                        <p>harmonymwirigi</p>
+                    </div>
+                    <!--=== Contact Info item end ===-->
+                    <!--=== Contact Info item start ===-->
+                    <div class="contact-info-item padd-15">
+                        <div class="icon"> <i class="fa-brands fa-twitter"></i></div>
+                        <h4>Twitter</h4>
+                        <p>harmonymwirigi</p>
+                    </div>
+                    <!--=== Contact Info item end ===-->
+                </div>
+            </div>
+        </footer>
         </div>
+
     <script src="{{url_for('static', filename='app.js')}}"></script>
     <script src="{{url_for('static', filename='script.js')}}"></script>
+    <script src="{{url_for('static', filename='facebox.js')}}"></script>
+    <script type="text/javascript">
+        jQuery(document).ready(function($) {
+        $('a[rel*=facebox]').facebox({
+        loadingImage: 'imp.png',
+         closeImage: 'img.jpg'
+         })
+        })
+    </script>
+    {% block remove %}
+{% endblock %}
 </body>
+{% block script %}
+{% endblock %}
 </html>

@@ -1,0 +1,27 @@
+{% extends 'teachers_pannel.html' %}
+{% block remove %}
+<form action="/login" method="post" class="popup active" id="remove">
+        <a class="close-btn" href = "{{ url_for('teachers') }}">&times;</a>
+        <div class="form" style="align-items: center; justify-content: center;text-align: center;">
+            <h2 ><p>{{student.first_name}}</p> <p>{{student.second_name}}</p></h2>
+            <div class="form-element" style="text-align: center;">
+                <label>GRADE: {{student.grade}}</label>
+            </div>
+            <div class="form-element" style="text-align: center;">
+                <label >CODE: {{student.pass_code}}</label>
+            </div>
+            <div class="form-element">
+            </div>
+            <a class="btn" href="{{ url_for('remove', studentId = student.id)}}">REMOVE</a>
+        </div>
+    </form>
+    <div id="overlay" class="active"></div>
+{% endblock %}
+{% block script %}
+<script>
+    $(document).ready(function(){
+        console.log("window is loaded")
+        $("#remove").remove("show")
+    })
+</script>
+{% endblock %}

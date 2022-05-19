@@ -382,21 +382,85 @@
         </div>
     </div>
     <!-- footer -->
-    <footer class="footer_container">
-        <div class="footer">
-            <div class="footer_heading footer_1">
-                <h2>About Us</h2>
-                <a href="#something">Something</a>
-                <a href="#something">Blog</a>
+    <footer class="contact section" >
+            <div class="contain">
+                <h3 class="contact-title padd-15"> <a href="#">About Us</a></h3>
+                <h3 class="contact-sub-title padd-15"> EMAIL US?</h3>
+                <!--=== Contact Form===-->
+                <div class="row">
+                    <div class="contact-form padd-15">
+                        <div class="row">
+                            <div class="form-item col-6 padd-15">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" placeholder="Name">
+                                </div>
+                            </div>
+                            <div class="form-item col-6 padd-15">
+                                <div class="form-group">
+                                    <input type="email" class="form-control" placeholder="Email">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-item col-12 padd-15">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" placeholder="Subject">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-item col-12 padd-15">
+                                <div class="form-group">
+                                    <textarea name="" class="form-control" placeholder="Message"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-item col-12 padd-15">
+                                <button type="submit" class="btn">Send Message</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <!--=== Contact Info item start ===-->
+                    <div class="contact-info-item">
+                        <div class="icon"><i class="fa fa-phone"></i></div>
+                        <h4>Call Me On</h4>
+                        <p>+254 713028200</p>
+                    </div>
+                    <!--=== Contact Info item end ===-->
+                    <!--=== Contact Info item start ===-->
+                    <div class="contact-info-item padd-15">
+                        <div class="icon"><i class="fa fa-map-marker-alt"></i></div>
+                        <h4>Office</h4>
+                        <p>Nyahururu</p>
+                    </div>
+                    <!--=== Contact Info item end ===-->
+                    <!--=== Contact Info item start ===-->
+                    <div class="contact-info-item padd-15">
+                        <div class="icon"><i class="fa fa-envelope"></i></div>
+                        <h4>Email</h4>
+                        <p>harmonymwithilii@gmail.com</p>
+                    </div>
+                    <!--=== Contact Info item end ===-->
+                    <!--=== Contact Info item start ===-->
+                    <div class="contact-info-item padd-15">
+                        <div class="icon"><i class="fab fa-facebook-f"></i></div>
+                        <h4>Call Me On</h4>
+                        <p>harmonymwirigi</p>
+                    </div>
+                    <!--=== Contact Info item end ===-->
+                    <!--=== Contact Info item start ===-->
+                    <div class="contact-info-item padd-15">
+                        <div class="icon"> <i class="fa-brands fa-twitter"></i></div>
+                        <h4>Twitter</h4>
+                        <p>harmonymwirigi</p>
+                    </div>
+                    <!--=== Contact Info item end ===-->
+                </div>
             </div>
-            <div class="footer_heading footer_2">
-                <h2>Contact Us</h2>
-                <a href="#facebook">Facebook</a>
-                <a href="#instagram">Instagram</a>
-                <a href="#twitter">Twitter</a>
-            </div>
-        </div>
-    </footer>
+        </footer>
     <script src="{{url_for('static', filename='app.js')}}">
     </script>
     <script src="{{url_for('static', filename='script.js')}}"></script>
