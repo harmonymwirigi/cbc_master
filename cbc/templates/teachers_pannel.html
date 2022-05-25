@@ -26,13 +26,14 @@
             </div>
             <ul class="navbar__menu">
                 <li class="navbar__item">
-                    <a href="#home" class="navbar__links" id="home-page" onclick="openContainer('home')"><i class="fa fa-fw fa-home"></i>Home</a>
+                    <a  class="navbar__links" id="home-page" onclick="openContainer('home')" href="{{url_for('teachers')}}"><i class="fa fa-fw fa-home"></i>Home</a>
                 </li>
                 <li class="navbar__item">
                     <a href="#about" class="navbar__links" id="about-page" onclick="openContainer('assignment')">ASSIGNMENT</a>
                 </li>
                 <li class="navbar__item">
-                    <a href="#Services" class="navbar__links" id="service-page" onclick="openContainer('students')">STUDENTS</a>
+                    <a class="navbar__links" id="service-page" href="{{ url_for('learners') }}">STUDENTS</a>
+<!--                    <a class="navbar__links" id="service-page" onclick="openContainer('students')">STUDENTS</a>-->
                 </li>
             </ul>
 <!--            <ul class="account">-->
@@ -159,7 +160,7 @@
                 {% endfor %}
             {% endif %}
         {% endwith %}
-
+    {% block home %}
     <div class="cont">
         <div class="container1" id = "home" style="padding: 100px;">
             <div class="con" id = "boxes">
@@ -178,34 +179,15 @@
                 </div>
             </div>
         </div>
-    <div class="container1 padd-15" id="students" style="display:none;">
-        <h1 class="head">YOUR STUDENTS</h1>
-        <a class="btn " id = "add" style="float: right; margin: 10px;" >ADD</a>
-        <div class="con my_students">
-            <div class="content"><h4>Name</h4></div>
-            <div class="content"><h4>Student code</h4></div>
-            <div class="content"><h4>Grade</h4></div>
-            <div class="content"><h4>Progress</h4></div>
-            <div class="content"><h4></h4></div>
-        </div>
-        {% if learners %}
-        {% for learner in learners %}
-        <div class="from_db">
-            <div class="content">{{ learner.first_name }}</div>
-            <div class="content">{{ learner.pass_code }}4</div>
-            <div class="content">{{ learner.grade }}</div>
-            <div class="content" ><p>{{ learner.progress }}%</p></div>
-            <div class="content"> <a rel="facebox" href="{{ url_for('learner', studentId = learner.id) }}" >REMOVE
-            </a> </div>
+        {% endblock %}
 
-        </div>
-        {% endfor %}
-        {% endif %}
-    </div>
+        {% block student %}
+        {% endblock %}
 
          <!-- assignments-->
         <div class="container1" id="assignment" style="display:none;">
             <h1 class="head">ASSIGNMENTS</h1>
+            <a class="btn " id = "assign" style="float: right; margin: 10px;" >ASSIGN</a>
             <div class="con">
                 <div class="content">
                     <p>Grade 1</p>
@@ -388,8 +370,6 @@
          })
         })
     </script>
-    {% block remove %}
-{% endblock %}
 </body>
 {% block script %}
 {% endblock %}

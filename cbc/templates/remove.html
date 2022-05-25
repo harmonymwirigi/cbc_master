@@ -1,7 +1,18 @@
-{% extends 'teachers_pannel.html' %}
+{% extends 'student.html' %}
+{% block body %}
+{% block head %}
+{% block title %}
+{% endblock %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='app.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" type="text/css" href="static/facebox.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='teachers_pannel.css') }}">
+    <script src="https://kit.fontawesome.com/yourcode.js" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/a57c871a6e.js" crossorigin="anonymous"></script>
+{% endblock %}
 {% block remove %}
 <form action="/login" method="post" class="popup active" id="remove">
-        <a class="close-btn" href = "{{ url_for('teachers') }}">&times;</a>
+        <a class="close-btn" href="{{ url_for('learners') }}">&times;</a>
         <div class="form" style="align-items: center; justify-content: center;text-align: center;">
             <h2 ><p>{{student.first_name}}</p> <p>{{student.second_name}}</p></h2>
             <div class="form-element" style="text-align: center;">
@@ -16,6 +27,7 @@
         </div>
     </form>
     <div id="overlay" class="active"></div>
+{% endblock %}
 {% endblock %}
 {% block script %}
 <script>
