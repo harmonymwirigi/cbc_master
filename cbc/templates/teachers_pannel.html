@@ -32,25 +32,17 @@
                     <a href="#about" class="navbar__links" id="about-page" onclick="openContainer('assignment')">ASSIGNMENT</a>
                 </li>
                 <li class="navbar__item">
-                    <a class="navbar__links" id="service-page" href="{{ url_for('learners') }}">STUDENTS</a>
+                    <a class="navbar__links" id="service-page" href="{{ url_for('classes') }}">CLASSES</a>
 <!--                    <a class="navbar__links" id="service-page" onclick="openContainer('students')">STUDENTS</a>-->
                 </li>
             </ul>
-<!--            <ul class="account">-->
-<!--                <li class="navbar__btn">-->
-<!--                    <i class='fas fa-user-minus button' style='font-size:48px;' ></i>-->
-<!--                    <p>REMOVE LEARNER</p>-->
-<!--                </li>-->
-<!--                <li class="navbar__btn">-->
-<!--                    <i class='fas fa-user-plus button' style='font-size:48px;' ></i>-->
-<!--                    <p>ADD<BR>LEARNER</p>-->
-<!--                </li>-->
-<!--            </ul>-->
         </div>
+        {% block side %}
         <button class="logout_button" id = "side">
             <p>{{ current_user.email }}</p>
              <i class='far fa-user-circle' style='font-size:48px; padding: 5px;'></i>
         </button>
+        {% endblock %}
         <div class="sidebar" >
             <div class="side_item">
                 <a class="item progress" onclick="openContainer('lesson_plan')">LESSON PLAN</a>
@@ -85,71 +77,6 @@
             </div>
         </div>
     </form>
-
-<!--    adding student form -->
-    <form method="post" class="add" action="\add">
-        {{ formadd.hidden_tag() }}
-        <div class="close-btn">&times;</div>
-        <div class="form">
-            <h2>ADD STUDENT</h2>
-            <div class="form-element">
-                {{ formadd.email.label(class="label") }}
-                {{ formadd.email(class="label") }}
-                {% if formadd.email.errors %}
-                        <div class="invalid_feedback">
-                            {% for error in formadd.email.errors %}
-                            <p style="padding-left: 40px;color:red;">{{ error }}</p>
-                            {% endfor %}
-                        </div>
-                <span></span>
-                {% endif %}
-            </div>
-            <div class="form-element">
-                {{ formadd.grade.label(class="label") }}
-                {% if formadd.grade.errors %}
-                        <div class="invalid_feedback">
-                            {% for error in formadd.grade.errors %}
-                            <span>{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                {% else %}
-                    {{ formadd.grade(class="label") }}
-                <span></span>
-                {% endif %}
-            </div>
-            <div class="form-element">
-                {{ formadd.first_name.label(class="label") }}
-                {% if formadd.first_name.errors %}
-                        <div class="invalid_feedback">
-                            {% for error in formadd.first_name.errors %}
-                            <span>{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                {% else %}
-                    {{ formadd.first_name(class="label") }}
-                <span></span>
-                {% endif %}
-            </div>
-            <div class="form-element">
-                {{ formadd.second_name.label(class="label") }}
-                {% if formadd.second_name.errors %}
-                        <div class="invalid_feedback">
-                            {% for error in formadd.second_name.errors %}
-                            <span>{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                {% else %}
-                    {{ formadd.second_name(class="label") }}
-                <span></span>
-                {% endif %}
-            </div>
-            <div class="form-element">
-                {{ formadd.submit(class = "SubmitLogin") }}
-            </div>
-        </div>
-    </form>
-    <div id="overlay"></div>
-
 <!--    flash messages -->
     {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
@@ -166,16 +93,7 @@
             <div class="con" id = "boxes">
                 <div class="content" style="height: 60vh;background: #fff;margin: 5px;" >
                     <i class='fas fa-users fa-5x' style='font-size:70px; padding-top: 70px; margin-left: 15px;padding-bottom: 100px;'></i>
-                    <h2>34 STUDENTS</h2>
-                </div>
-                <div class="content" style="height: 60vh;background: #fff;margin: 5px;">
-                    <i class='fas fa-users fa-5x' style='font-size:48px; padding-top: 30px; margin-left: 15px;'></i>
-                </div>
-                <div class="content" style="height: 60vh;background: #fff;margin: 5px;">
-                    <i class='fas fa-users fa-5x' style='font-size:48px; padding-top: 30px; margin-left: 15px;'></i>
-                </div>
-                <div class="content" style="height: 60vh;background: #fff;margin: 5px;">
-                    <i class='fas fa-users fa-5x' style='font-size:48px; padding-top: 30px; margin-left: 15px;'></i>
+                    <h2>{{ learners }} STUDENTS</h2>
                 </div>
             </div>
         </div>
@@ -183,7 +101,8 @@
 
         {% block student %}
         {% endblock %}
-
+        {% block classDetails %}
+        {% endblock %}
          <!-- assignments-->
         <div class="container1" id="assignment" style="display:none;">
             <h1 class="head">ASSIGNMENTS</h1>
@@ -358,19 +277,10 @@
             </div>
         </footer>
         </div>
-
+{% block script %}
     <script src="{{url_for('static', filename='app.js')}}"></script>
     <script src="{{url_for('static', filename='script.js')}}"></script>
     <script src="{{url_for('static', filename='facebox.js')}}"></script>
-    <script type="text/javascript">
-        jQuery(document).ready(function($) {
-        $('a[rel*=facebox]').facebox({
-        loadingImage: 'imp.png',
-         closeImage: 'img.jpg'
-         })
-        })
-    </script>
-</body>
-{% block script %}
 {% endblock %}
+</body>
 </html>

@@ -1,8 +1,9 @@
 import flask_bcrypt
 from flask_login import login_user, current_user, logout_user, login_required
 
-from cbc.model import Teacher, teacher_learner, Learner, levels, Assignment, Assignment_material, Submission_material, Submission, Strand_materials, Sub_strand, Strands, Sub_strand_materials, Lessonplan
-from cbc.form import RegistrationForm, Login, addStudent, removeStudent, Student_login, lessonPlan
+from cbc.model import Teacher, teacher_learner, Learner, levels, Assignment, Assignment_material, Submission_material, \
+    Submission, Strand_materials, Sub_strand, Strands, Sub_strand_materials, Lessonplan, Class
+from cbc.form import RegistrationForm, Login, addStudent, removeStudent, Student_login, lessonPlan, CreateClass
 from flask import render_template, url_for, flash, redirect, request
 from flask_bcrypt import Bcrypt
 from cbc import app, db, bcrypt
@@ -15,7 +16,7 @@ def land():
     form = RegistrationForm()
     form2 = Login()
     form_lesson_plan = lessonPlan()
-    return render_template('landing.html', form=form, form2=form2, form_lesson = form_lesson_plan)
+    return render_template('landing.html', form=form, form2=form2, form_lesson=form_lesson_plan)
 
 
 # teachers pannel
@@ -23,19 +24,41 @@ def land():
 @login_required
 def teachers():
     formadd = addStudent()
+    learners = current_user.teaching
     formremove = removeStudent()
     form_lesson_plan = lessonPlan()
-    lesson = Lessonplan.query.filter_by(teacher_id = current_user.id).all()
-    return render_template('teachers_pannel.html', formadd=formadd, formremove=formremove, lesson = lesson, form_lesson = form_lesson_plan)
+    lesson = Lessonplan.query.filter_by(teacher_id=current_user.id).all()
+    return render_template('teachers_pannel.html', formadd=formadd, learners=len(learners), formremove=formremove,
+                           lesson=lesson, form_lesson=form_lesson_plan)
 
-@app.route("/teachers/learner")
+
+@app.route("/teachers/classes/createclass", methods=['POST'])
 @login_required
-def learners():
-    learners = current_user.teaching
+def createClass():
+    formadd = addStudent()
+    classes = current_user.myClass
+    formcreate = CreateClass()
+    formremove = removeStudent()
+    form_lesson_plan = lessonPlan()
+    if formcreate.validate_on_submit():
+        Classes = Class(className=formcreate.name.data, Teacher=current_user.id)
+        db.session.add(Classes)
+        db.session.commit()
+        return redirect(url_for('classes'))
+    return render_template('class.html', formcreate=formcreate, formremove=formremove, form_lesson=form_lesson_plan,classes=classes, formadd=formadd)
+
+
+@app.route("/teachers/classes")
+@login_required
+def classes():
+    classes = current_user.myClass
     formadd = addStudent()
     formremove = removeStudent()
+    formcreate = CreateClass()
     form_lesson_plan = lessonPlan()
-    return  render_template('student.html', learners = learners, formadd=formadd, formremove=formremove, form_lesson = form_lesson_plan)
+    return render_template('class.html',formcreate=formcreate, formremove=formremove, form_lesson=form_lesson_plan,classes=classes, formadd=formadd)
+
+
 @app.route("/add", methods=["POST"])
 @login_required
 def add():
@@ -54,7 +77,8 @@ def add():
                 code.append(n)
             cod = [str(item) for item in code]
 
-            learner = Learner(email=formadd.email.data, grade=formadd.grade.data, first_name=formadd.first_name.data, pass_code = int("".join(cod)),
+            learner = Learner(email=formadd.email.data, grade=formadd.grade.data, first_name=formadd.first_name.data,
+                              pass_code=int("".join(cod)),
                               second_name=formadd.second_name.data)
 
             db.session.add(learner)
@@ -69,23 +93,26 @@ def add():
     else:
         flash(f'please enter correct details', category='warning')
         return redirect(url_for('learners'))
-    return render_template('student.html', formadd=formadd, formremove=formremove, form_lesson = form_lesson_plan)
+    return render_template('class.html', formadd=formadd, formremove=formremove, form_lesson=form_lesson_plan)
 
 
-@app.route("/teacher/learner/<studentId>")
+@app.route("/teacher/class/<classId>")
 @login_required
-def learner(studentId):
-    student = Learner.query.filter_by(id = studentId).first_or_404()
+def  classDetails(classId):
+    clas = Class.query.filter_by(id= classId).first_or_404()
     learners = current_user.teaching
     lesson = Lessonplan.query.filter_by(teacher_id=current_user.id).all()
     formremove = removeStudent()
     formadd = addStudent()
     form_lesson_plan = lessonPlan()
-    return render_template('remove.html', student = student, formadd=formadd, formremove=formremove, form_lesson = form_lesson_plan, learners = learners, lesson = lesson)
+    return render_template('class_details.html', student= clas, formadd=formadd, formremove=formremove,
+                           form_lesson=form_lesson_plan, learners=learners, lesson=lesson)
+
+
 #  formremove=formremove, formadd=formadd, form_lesson = form_lesson_plan
 @app.route("/remove/<studentId>")
 def remove(studentId):
-    student = Learner.query.filter_by(id = studentId).first()
+    student = Learner.query.filter_by(id=studentId).first()
     form_lesson_plan = lessonPlan()
     formremove = removeStudent()
     formadd = addStudent()
@@ -94,17 +121,22 @@ def remove(studentId):
     flash("Student Remove successfully", 'success')
     return redirect(url_for('learners'))
 
-@app.route("/lessonplan", methods = ["POST"])
+
+@app.route("/lessonplan", methods=["POST"])
 def lessonplan():
     form_lesson_plan = lessonPlan()
     formremove = removeStudent()
     formadd = addStudent()
     if form_lesson_plan.validate_on_submit():
-        lesson = Lessonplan(grade = form_lesson_plan.grade.data,teacher_id = current_user.id, strands = form_lesson_plan.topic.data,
-                            roll = form_lesson_plan.school.data, subStrand = form_lesson_plan.sub_strand.data, lesson_outcome = form_lesson_plan.learning_outcome.data,
-                            core_comp = form_lesson_plan.core_competencies.data, values = form_lesson_plan.values.data, pci = form_lesson_plan.Pcis.data,
-                            learning_material = form_lesson_plan.resources.data, introduction = form_lesson_plan.intro.data, LessonDev = form_lesson_plan.lesson_dev.data,
-                            summary = form_lesson_plan.summary.data, conclusion = form_lesson_plan.conclusion.data)
+        lesson = Lessonplan(grade=form_lesson_plan.grade.data, teacher_id=current_user.id,
+                            strands=form_lesson_plan.topic.data,
+                            roll=form_lesson_plan.school.data, subStrand=form_lesson_plan.sub_strand.data,
+                            lesson_outcome=form_lesson_plan.learning_outcome.data,
+                            core_comp=form_lesson_plan.core_competencies.data, values=form_lesson_plan.values.data,
+                            pci=form_lesson_plan.Pcis.data,
+                            learning_material=form_lesson_plan.resources.data, introduction=form_lesson_plan.intro.data,
+                            LessonDev=form_lesson_plan.lesson_dev.data,
+                            summary=form_lesson_plan.summary.data, conclusion=form_lesson_plan.conclusion.data)
         db.session.add(lesson)
         db.session.commit()
         flash(
@@ -114,7 +146,7 @@ def lessonplan():
     else:
         flash(f'please enter correct details', category='warning')
         return redirect(url_for('teachers'))
-    return render_template('teachers_pannel.html', formremove=formremove, formadd=formadd, form_lesson = form_lesson_plan)
+    return render_template('teachers_pannel.html', formremove=formremove, formadd=formadd, form_lesson=form_lesson_plan)
 
 
 # signup
@@ -154,7 +186,7 @@ def login():
 
     else:
         flash(f'please enter correct details', category='warning')
-    return render_template('landing.html', form2=form2, form=form, form_lesson = form_lesson_plan)
+    return render_template('landing.html', form2=form2, form=form, form_lesson=form_lesson_plan)
 
 
 @app.route("/logout")
@@ -162,10 +194,11 @@ def logout():
     logout_user()
     return redirect(url_for('land'))
 
+
 @app.route("/student")
 def students():
     form = Student_login()
     if form.validate_on_submit():
         email = form.email.data()
         password = form.password.data()
-    return render_template('students_account.html', form = form)
+    return render_template('students_account.html', form=form)

@@ -79,7 +79,6 @@
 <!--                <input type="text" id="password" placeholder="Enter password">-->
             </div>
             <div class="form-element">
-                {{ form2.remember.label(class = "form-element")}}
                 {% if form2.remember.errors %}
                     {{ form2.remember(class = "form-element")}}
                         <div class="invalid_feedback">
@@ -89,6 +88,7 @@
                         </div>
                 {% else %}
                     {{ form2.remember}}
+                {{ form2.remember.label(class = "form-element")}}
                 <span></span>
                 {% endif %}
 <!--                <input type="checkbox" id="remember-me">-->

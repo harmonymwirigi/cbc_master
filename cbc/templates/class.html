@@ -1,0 +1,59 @@
+{% extends 'teachers_pannel.html' %}
+{% block student %}
+
+<!--    adding CLASS form -->
+    <form method="post" class="add" action="/teachers/classes/createclass">
+        {{ formcreate.hidden_tag() }}
+        <div class="close-btn">&times;</div>
+        <div class="form">
+            <h2>ADD STUDENT</h2>
+            <div class="form-element">
+                {{ formcreate.name.label(class="label") }}
+                {{ formcreate.name(class="label") }}
+                {% if formcreate.name.errors %}
+                        <div class="invalid_feedback">
+                            {% for error in formcreate.nameemail.errors %}
+                            <p style="padding-left: 40px;color:red;">{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                <span></span>
+                {% endif %}
+            </div>
+            <div class="form-element">
+                {{ formcreate.submit(class = "SubmitLogin") }}
+            </div>
+        </div>
+    </form>
+    <div id="overlay"></div>
+
+
+<div style="display: none"> {% block home %} {% endblock %}</div>
+<div class="container1 padd-15" id="students" >
+        <h1 class="head">YOUR CLASSES</h1>
+        <a class="btn " id = "add" style="float: right; margin: 10px;" >CREATE CLASS</a>
+        <div class="con my_students">
+            <div class="content"><h4>Name</h4></div>
+            <div class="content"><h4>NUMBER OF STUDENTS</h4></div>
+            <div class="content"><h4>Grade</h4></div>
+            <div class="content"><h4>Progress</h4></div>
+            <div class="content"><h4></h4></div>
+        </div>
+        {% if classes  %}
+        {% for i in classes %}
+        <div href="#" class="from_db" >
+            <div class="content"> {{ i.className }}</div>
+            <div class="content">{{ i.className }}</div>
+            <div class="content">{{ i.Teacher }}</div>
+            <div class="content" ><p>{{ i.className }}%</p></div>
+            <div class="content"> <a href="{{ url_for('classDetails', classId = i.id) }}" > MORE </a> </div>
+            </div>
+            {% block remove%}
+            {% endblock %}
+        {% endfor %}
+        {% endif %}
+    </div>
+{% endblock %}
+{% block script %}
+<script src="{{url_for('static', filename='app.js')}}"></script>
+<script src="{{url_for('static', filename='script.js')}}"></script>
+{% endblock %}

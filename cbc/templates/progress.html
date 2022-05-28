@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Progress</title>
+  <link rel="stylesheet" href="static/sty.css">
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['line']});
+      google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+
+      var data = new google.visualization.DataTable();
+      data.addColumn('number', 'TIME');
+      data.addColumn('number', 'Mathematics');
+      data.addColumn('number', 'ENGLISH');
+      data.addColumn('number', 'ENVIRONMENT');
+
+      data.addRows([
+        [1,  10, 80.8, 41.8],
+        [2,  20, 69.5, 32.4],
+        [3,  30,   57, 25.7],
+        [4,  47, 18.8, 10.5],
+        [5,  50, 17.6, 10.4],
+        [6,  58, 13.6,  7.7],
+        [7,  58, 12.3,  9.6],
+        [8,  80, 29.2, 10.6],
+        [9,  90, 42.9, 14.8],
+        [10, 90, 30.9, 11.6],
+        [11,  87,  7.9,  4.7],
+        [12,  89,  8.4,  5.2],
+        [13,  59,  6.3,  3.6],
+        [14,  90,  6.2,  3.4]
+      ]);
+
+      var options = {
+        chart: {
+          title: 'Box Office Earnings in First Two Weeks of Opening',
+          subtitle: 'in millions of dollars (USD)'
+        },
+        width: 900,
+        height: 500,
+        axes: {
+          x: {
+            0: {side: 'top'}
+          }
+        }
+      };
+
+      var chart = new google.charts.Line(document.getElementById('line_top_x'));
+
+      chart.draw(data, google.charts.Line.convertOptions(options));
+    }
+  </script>
+</head>
+<body>
+  <div id="line_top_x"></div>
+</body>
+</html>

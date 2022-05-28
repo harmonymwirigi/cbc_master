@@ -156,8 +156,8 @@ transition: all 0.5s ease;
 z-index: -1;
 }
 .navbar__menu.active{
-background: #131313;
-top: 100%;
+background: #969696;
+top: 23%;
 opacity: 1;
 transition: all 0.5s ease;
 z-index: 99;

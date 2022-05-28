@@ -35,6 +35,10 @@ class addStudent(FlaskForm):
     second_name = StringField('Second name', validators =[DataRequired(), Length(min=2, max=40)])
     submit = SubmitField('ADD')
 
+class CreateClass(FlaskForm):
+    name = StringField('Enter Class name', validators = [DataRequired()])
+    submit = SubmitField('CREATE')
+
 class removeStudent(FlaskForm):
     email = StringField('Enter Student mail', validators=[DataRequired(), Email()])
     submit = SubmitField('Remove')
@@ -62,5 +66,4 @@ class lessonPlan(FlaskForm):
     summary = TextAreaField()
     conclusion = TextAreaField()
     submit = SubmitField("Create")
-
 
