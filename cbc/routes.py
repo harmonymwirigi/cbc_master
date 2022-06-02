@@ -3,7 +3,7 @@ from flask_login import login_user, current_user, logout_user, login_required
 
 from cbc.model import Teacher, teacher_learner, Learner, levels, Assignment, Assignment_material, Submission_material, \
     Submission, Strand_materials, Sub_strand, Strands, Sub_strand_materials, Lessonplan, Class
-from cbc.form import RegistrationForm, Login, addStudent, removeStudent, Student_login, lessonPlan, CreateClass
+from cbc.form import RegistrationForm, Login, addStudent, removeStudent, Student_login, lessonPlan, CreateClass, Student_signup
 from flask import render_template, url_for, flash, redirect, request
 from flask_bcrypt import Bcrypt
 from cbc import app, db, bcrypt
@@ -14,9 +14,10 @@ from random import randint
 @app.route("/")
 def land():
     form = RegistrationForm()
+    formsignup = Student_signup()
     form2 = Login()
     form_lesson_plan = lessonPlan()
-    return render_template('landing.html', form=form, form2=form2, form_lesson=form_lesson_plan)
+    return render_template('landing.html', form=form, form2=form2, form_lesson=form_lesson_plan, formsignup = formsignup)
 
 
 # teachers pannel
@@ -41,11 +42,13 @@ def createClass():
     formremove = removeStudent()
     form_lesson_plan = lessonPlan()
     if formcreate.validate_on_submit():
-        Classes = Class(className=formcreate.name.data, Teacher=current_user.id)
+        Classes = Class(className=formcreate.name.data, Teacher=current_user.id, level = formcreate.grade.data)
         db.session.add(Classes)
         db.session.commit()
         return redirect(url_for('classes'))
-    return render_template('class.html', formcreate=formcreate, formremove=formremove, form_lesson=form_lesson_plan,classes=classes, formadd=formadd)
+    return render_template('class.html', formcreate=formcreate,
+                           formremove=formremove, form_lesson=form_lesson_plan,
+                           classes=classes, formadd=formadd)
 
 
 @app.route("/teachers/classes")
@@ -56,7 +59,9 @@ def classes():
     formremove = removeStudent()
     formcreate = CreateClass()
     form_lesson_plan = lessonPlan()
-    return render_template('class.html',formcreate=formcreate, formremove=formremove, form_lesson=form_lesson_plan,classes=classes, formadd=formadd)
+    return render_template('class.html',formcreate=formcreate,
+                           formremove=formremove, form_lesson=form_lesson_plan,
+                           classes=classes, formadd=formadd)
 
 
 @app.route("/add", methods=["POST"])
@@ -153,6 +158,17 @@ def lessonplan():
 @app.route("/signup", methods=["POST"])
 def signup():
     form = RegistrationForm()
+    formstudent = Student_signup()
+    if formstudent.validate_on_submit():
+        hashed_passwed = flask_bcrypt.generate_password_hash(formstudent.password.data).decode('utf-8')
+        learner = Learner(first_name = formstudent.first_name.data, second_name = formstudent.last_name.data,
+                          email = formstudent.email.data , user_name = formstudent.username.data,
+                          grade = formstudent.grade.data, password = hashed_passwed,
+                          confirm_password =formstudent.confirm_password.data)
+        db.session.add(learner)
+        db.session.commit()
+        flash(f'you have created account successfully', category='success')
+        return redirect(url_for('land'))
     if form.validate_on_submit():
         hashed_passwed = flask_bcrypt.generate_password_hash(form.password.data).decode('utf-8')
         teacher = Teacher(first_name=form.first_name.data, last_name=form.last_name.data, email=form.email.data,
@@ -166,7 +182,6 @@ def signup():
 
     return render_template('landing.html', form=form)
 
-
 @app.route("/login", methods=["POST"])
 def login():
     if current_user.is_authenticated:
@@ -175,12 +190,18 @@ def login():
     form = RegistrationForm()
     form_lesson_plan = lessonPlan()
     if form2.validate_on_submit():
-        user = Teacher.query.filter_by(email=form2.email.data).first()
+        user = Teacher.query.filter_by(user_name = form2.username.data).first()
+        user2 = Learner.query.filter_by(user_name = form2.username.data).first()
         if user and bcrypt.check_password_hash(user.password, form2.password.data):
             flash(f'login successful', category='success')
             login_user(user, remember=form2.remember.data)
             next_page = request.args.get('next')
             return redirect(next_page) if next_page else redirect(url_for('teachers'))
+        elif user2 and bcrypt.check_password_hash(user2.password, form2.password.data):
+            flash(f'login successful', category='success')
+            login_user(user2, remember=form2.remember.data)
+            next_page = request.args.get('next')
+            return redirect(next_page) if next_page else redirect(url_for('students'))
         else:
             flash(f'invalid email or password', category='error')
 
@@ -197,8 +218,7 @@ def logout():
 
 @app.route("/student")
 def students():
-    form = Student_login()
-    if form.validate_on_submit():
-        email = form.email.data()
-        password = form.password.data()
-    return render_template('students_account.html', form=form)
+    form2 = Login()
+    form = RegistrationForm()
+    formsignup = Student_signup()
+    return render_template('student_pannel.html', form2=form2, form=form, formsignup = formsignup)

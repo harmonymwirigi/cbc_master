@@ -22,7 +22,7 @@ class RegistrationForm(FlaskForm):
     submit = SubmitField('Sign Up')
 
 class Login(FlaskForm):
-    email = StringField('Enter Email Address', validators=[DataRequired(), Email()])
+    username = StringField('Enter User Name', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
     remember = BooleanField('Remember me')
     submit = SubmitField('Login')
@@ -37,11 +37,29 @@ class addStudent(FlaskForm):
 
 class CreateClass(FlaskForm):
     name = StringField('Enter Class name', validators = [DataRequired()])
+    grade = SelectField('Grade', validators=[DataRequired()],
+                        choices=[('pre-primary 1'), ('pre-primary'), ('Grade 1'), ('Grade 2'), ('Grade 2'), ('Grade 3'),
+                                 ('Grade 4'), ('Grade 5'),
+                                 ('Grade 6'), ('Grade 7'), ('Grade 8'), ('Grade 9')])
     submit = SubmitField('CREATE')
 
 class removeStudent(FlaskForm):
     email = StringField('Enter Student mail', validators=[DataRequired(), Email()])
     submit = SubmitField('Remove')
+
+class Student_signup(FlaskForm):
+    first_name = StringField('First Name', validators=[DataRequired()])
+    last_name = StringField('Second Name', validators=[DataRequired()])
+    username = StringField('User Name', validators=[DataRequired()])
+    email = StringField('Email Address', validators=[DataRequired(), Email()])
+    grade = SelectField('Grade', validators=[DataRequired()],
+                        choices=[('pre-primary 1'), ('pre-primary'), ('Grade 1'), ('Grade 2'), ('Grade 2'), ('Grade 3'),
+                                 ('Grade 4'), ('Grade 5'),
+                                 ('Grade 6'), ('Grade 7'), ('Grade 8'), ('Grade 9')])
+    password = PasswordField('Password', validators=[DataRequired(), Length(min=2, max=23)])
+    confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
+    submit = SubmitField('Sign Up')
+
 
 class Student_login(FlaskForm):
     email = StringField('Enter Your Email', validators = [DataRequired(), Email()])

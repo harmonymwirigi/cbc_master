@@ -20,6 +20,19 @@
                 {% endif %}
             </div>
             <div class="form-element">
+                {{ formcreate.grade.label(class="label") }}
+                {% if formcreate.grade.errors %}
+                        <div class="invalid_feedback">
+                            {% for error in formcreate.grade.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                {% else %}
+                    {{ formcreate.grade(class="label") }}
+                <span></span>
+                {% endif %}
+            </div>
+            <div class="form-element">
                 {{ formcreate.submit(class = "SubmitLogin") }}
             </div>
         </div>
@@ -42,9 +55,9 @@
         {% for i in classes %}
         <div href="#" class="from_db" >
             <div class="content"> {{ i.className }}</div>
-            <div class="content">{{ i.className }}</div>
-            <div class="content">{{ i.Teacher }}</div>
-            <div class="content" ><p>{{ i.className }}%</p></div>
+            <div class="content"></div>
+            <div class="content">{{ i.level }}</div>
+            <div class="content" ><p>{{ 0 }}%</p></div>
             <div class="content"> <a href="{{ url_for('classDetails', classId = i.id) }}" > MORE </a> </div>
             </div>
             {% block remove%}

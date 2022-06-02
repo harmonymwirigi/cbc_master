@@ -35,17 +35,41 @@ document.querySelector("#overlay").classList.add("active");
 
 
 document.querySelector("#signup").addEventListener("click",function(){
-document.querySelector(".container").classList.add("active");
+document.querySelector(".choose").classList.add("active");
 });
 document.querySelector("#signup").addEventListener("click",function(){
+document.querySelector("#overlay").classList.add("active");
+});
+document.querySelector(".choose .close-btn").addEventListener("click",function(){
+document.querySelector(".choose").classList.remove("active");
+});
+document.querySelector(".choose .close-btn").addEventListener("click",function(){
+document.querySelector("#overlay").classList.remove("active");
+});
+
+document.querySelector("#teacher").addEventListener("click",function(){
+document.querySelector(".container").classList.add("active");
+document.querySelector(".choose").classList.remove("active");
+});
+document.querySelector("#teacher").addEventListener("click",function(){
 document.querySelector("#overlay").classList.add("active");
 });
 document.querySelector(".container .close-signup-btn").addEventListener("click",function(){
 document.querySelector(".container").classList.remove("active");
 });
-document.querySelector(".container .close-signup-btn").addEventListener("click",function(){
+
+document.querySelector("#learner").addEventListener("click",function(){
+document.querySelector(".learner").classList.add("active");
+document.querySelector(".choose").classList.remove("active");
+});
+document.querySelector("#learner").addEventListener("click",function(){
+document.querySelector("#overlay").classList.add("active");
+});
+document.querySelector(".learner .close-btn").addEventListener("click",function(){
+document.querySelector(".learner").classList.remove("active");
 document.querySelector("#overlay").classList.remove("active");
 });
+
 
 const slidePage = document.querySelector(".slidepage");
 const firtNextBtn = document.querySelector(".nextBtn");

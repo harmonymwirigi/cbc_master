@@ -34,6 +34,11 @@
                     <a href="#sign-In" class="button" id="login">Login</a>
                 </li>
             </ul>
+            <ul class="account">
+                <li class="navbar__btn">
+                    <a href="#sign-In" class="button" id="signup">CREATE ACCOUNT</a>
+                </li>
+            </ul>
         </div>
     </nav>
 <!-- Login page-->
@@ -55,12 +60,9 @@
                     {{ form.email(class="label")}}
                 <span></span>
                 {% endif %}
-<!--                <label for="email">Email</label>-->
-<!--                <input type="text" id="email" placeholder="Enter email">-->
             </div>
             <div class="form-element">
                 {{ form.password.label(class="label")}}
-<!--                {{ form.password(class="label")}}-->
                 {% if form.password.errors %}
                     {{ form.password(class="label")}}
                         <div class="invalid_feedback">
@@ -72,8 +74,6 @@
                     {{ form.password(class="label")}}
                 <span></span>
                 {% endif %}
-<!--                <label for="password">Password</label>-->
-<!--                <input type="text" id="password" placeholder="Enter password">-->
             </div>
             <div class="form-element">
                 {{ form.remember.label(class = "form-element")}}
@@ -88,8 +88,6 @@
                     {{ form.remember}}
                 <span></span>
                 {% endif %}
-<!--                <input type="checkbox" id="remember-me">-->
-<!--                <label for="remember-me">Remember me</label>-->
             </div>
             <div class="form-element">
                 {{ form.submit(class = "SubmitLogin")}}
@@ -100,6 +98,63 @@
         </div>
     </form>
     <div id="overlay"></div>
+
+    <!--  =========== SIGNUP ============= -->
+    <form action="/login" method="post" class="popup">
+        {{formsignup.hidden_tag()}}
+        <div class="close-btn">&times;</div>
+        <div class="form">
+            <h2>Log in</h2>
+            <div class="form-element">
+                {{ formsignup.email.label(class="label")}}
+                {% if formsignup.email.errors %}
+                    {{ formsignup.email(class="label")}}
+                        <div class="invalid_feedback">
+                            {% for error in formsignup.email.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                {% else %}
+                    {{ formsignup.email(class="label")}}
+                <span></span>
+                {% endif %}
+            </div>
+            <div class="form-element">
+                {{ formsignup.password.label(class="label")}}
+                {% if formsignup.password.errors %}
+                    {{ formsignup.password(class="label")}}
+                        <div class="invalid_feedback">
+                            {% for error in formsignup.password.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                {% else %}
+                    {{ formsignup.password(class="label")}}
+                <span></span>
+                {% endif %}
+            </div>
+            <div class="form-element">
+                {{ formsignup.remember.label(class = "form-element")}}
+                {% if formsignup.remember.errors %}
+                    {{ formsignup.remember(class = "form-element")}}
+                        <div class="invalid_feedback">
+                            {% for error in formsignup.remember.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                {% else %}
+                    {{ formsignup.remember}}
+                <span></span>
+                {% endif %}
+            </div>
+            <div class="form-element">
+                {{ formsignup.submit(class = "SubmitLogin")}}
+            </div>
+            <div class="form-element">
+                <a href="#">Forgot Password</a>
+            </div>
+        </div>
+    </form>
     <!-- footer -->
     <footer class="footer_container">
         <div class="footer">

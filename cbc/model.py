@@ -26,7 +26,7 @@ class Teacher(db.Model, UserMixin):
     email = db.Column(db.String(40), unique=True, nullable=False)
     phone_number = db.Column(db.String(15), unique=True, nullable=False)
     gender = db.Column(db.String(10), nullable=False)
-    user_name = db.Column(db.String(10), unique=True)
+    user_name = db.Column(db.String(40), unique=True)
     password = db.Column(db.String(120), nullable=False)
     confirm_password = db.Column(db.String(120), nullable=False)
     assignments = db.relationship('Assignment', backref='assignments', lazy=True)
@@ -41,9 +41,11 @@ class Learner(db.Model, UserMixin):
     first_name = db.Column(db.String(20), nullable=False)
     second_name = db.Column(db.String(20), nullable=False)
     email = db.Column(db.String(40), nullable=False)
+    user_name = db.Column(db.String(40), unique=True)
     progress = db.Column(db.Integer, default=1)
     grade = db.Column(db.Integer, db.ForeignKey('levels.id'))
-    pass_code = db.Column(db.Integer, nullable=False)
+    password = db.Column(db.String(120), nullable=False)
+    confirm_password = db.Column(db.String(120), nullable=False)
     submitted_assignment = db.relationship('Submission', backref="my_submission", lazy=True)
 
 
@@ -51,6 +53,7 @@ class Class(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     className = db.Column(db.String(20), nullable=False)
     Teacher = db.Column(db.Integer, db.ForeignKey('teacher.id'))
+    level = db.Column(db.String(30), nullable = False)
     myStudents = db.relationship('Learner', secondary = class_learner, backref = "learners")
 
 

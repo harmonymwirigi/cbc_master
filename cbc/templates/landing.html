@@ -19,16 +19,21 @@
                 <span class="bar"></span>
             </div>
             <ul class="navbar__menu">
+                {% block nav %}
                 <li class="navbar__item">
                     <a href="#home" class="navbar__links" id="home-page">Home</a>
                 </li>
+                {% block about %}
                 <li class="navbar__item">
                     <a href="#about" class="navbar__links" id="about-page">About</a>
                 </li>
+                {% endblock %}
                 <li class="navbar__item">
                     <a href="#Services" class="navbar__links" id="service-page">Service</a>
                 </li>
+                {% endblock %}
             </ul>
+            {% block authenticate %}
             <ul class="account">
                 <li class="navbar__btn">
                     <a href="#sign-In" class="button" id="login">Login</a>
@@ -37,8 +42,11 @@
                     <a href="#sign-up " class="button" id="signup">Signup</a>
                 </li>
             </ul>
+            {% endblock %}
         </div>
     </nav>
+    {% block student %}
+    {% endblock %}
     <!-- login page -->
     <form action="/login" method="post" class="popup">
         {{form2.hidden_tag()}}
@@ -46,16 +54,16 @@
         <div class="form">
             <h2>Log in</h2>
             <div class="form-element">
-                {{ form2.email.label(class="label")}}
-                {% if form2.email.errors %}
-                    {{ form2.email(class="label")}}
+                {{ form2.username.label(class="label")}}
+                {% if form2.username.errors %}
+                    {{ form2.username(class="label")}}
                         <div class="invalid_feedback">
-                            {% for error in form2.email.errors %}
+                            {% for error in form2.username.errors %}
                             <span>{{ error }}</span>
                             {% endfor %}
                         </div>
                 {% else %}
-                    {{ form2.email(class="label")}}
+                    {{ form2.username(class="label")}}
                 <span></span>
                 {% endif %}
 <!--                <label for="email">Email</label>-->
@@ -75,8 +83,6 @@
                     {{ form2.password(class="label")}}
                 <span></span>
                 {% endif %}
-<!--                <label for="password">Password</label>-->
-<!--                <input type="text" id="password" placeholder="Enter password">-->
             </div>
             <div class="form-element">
                 {% if form2.remember.errors %}
@@ -91,8 +97,6 @@
                 {{ form2.remember.label(class = "form-element")}}
                 <span></span>
                 {% endif %}
-<!--                <input type="checkbox" id="remember-me">-->
-<!--                <label for="remember-me">Remember me</label>-->
             </div>
             <div class="form-element">
                 {{ form2.submit(class = "SubmitLogin")}}
@@ -103,27 +107,23 @@
         </div>
     </form>
     <div id="overlay"></div>
-    <!-- sign up -->
-<!--    <div class="signup_container">-->
-<!--        <form class="form">-->
-<!--            <h2>CREATE ACCOUNT</h2>-->
-<!--            <div class="form-element">-->
-<!--                <label for="email_sign">Email</label>-->
-<!--                <input type="text" id="email_sign" placeholder="Enter email" required>-->
-<!--            </div>-->
-<!--            <div class="form-element">-->
-<!--                <label for="password_sign">Password</label>-->
-<!--                <input type="text" id="password_sign" placeholder="Enter Password" required>-->
-<!--            </div>-->
-<!--            <div class="form-element">-->
-<!--                <label for="Cpassword_sign">Confirm Password</label>-->
-<!--                <input type="text" id="Cpassword_sign" placeholder="Confirm Password" required>-->
-<!--            </div>-->
-<!--            <div class="form-element">-->
-<!--                <button>NEXT</button>-->
-<!--            </div>-->
-<!--        </form>-->
-<!--    </div>-->
+
+    <!--============ CHOOSE LOGIN OPTION================-->
+
+
+    <form  class="choose">
+        <div class="close-btn">&times;</div>
+        <div class="form" style="text-align:center;">
+            <h2>SIGNUP US?</h2>
+            <div class="form-element">
+                <a class="btn" id = "teacher"> TEACHER </a>
+            </div>
+            <div class="form-element">
+                <a class="btn" id= "learner"> LEARNER </a>
+            </div>
+        </div>
+    </form>
+    <!--============ TEACHER ACCOUNT CREATION FORM================-->
     <div class="container">
         <div class="close-signup-btn">&times;</div>
     <header >CREATE ACCOUNT FORM</header>
@@ -326,6 +326,119 @@
     </form>
     </div>
 </div>
+
+     <!--============ STUDENT ACCOUNT CREATION FORM================-->
+    <form action="/signup" method="post" class="learner">
+        {{formsignup.hidden_tag()}}
+        <div class="close-btn">&times;</div>
+        <div class="form">
+            <h2>STUDENT LOGIN</h2>
+            <div class="form-element">
+                {{ formsignup.first_name.label(class="label")}}
+                {% if formsignup.first_name.errors %}
+                    {{ formsignup.first_name(class="label")}}
+                        <div class="invalid_feedback">
+                            {% for error in formsignup.first_name.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                {% else %}
+                    {{ formsignup.first_name(class="label")}}
+                <span></span>
+                {% endif %}
+            </div>
+            <div class="form-element">
+                {{ formsignup.last_name.label(class="label")}}
+                {% if formsignup.last_name.errors %}
+                    {{ formsignup.last_name(class="label")}}
+                        <div class="invalid_feedback">
+                            {% for error in formsignup.last_name.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                {% else %}
+                    {{ formsignup.last_name(class="label")}}
+                <span></span>
+                {% endif %}
+            </div>
+            <div class="form-element">
+                {{ formsignup.email.label(class="label")}}
+                {% if formsignup.email.errors %}
+                    {{ formsignup.email(class="label")}}
+                        <div class="invalid_feedback">
+                            {% for error in formsignup.email.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                {% else %}
+                    {{ formsignup.email(class="label")}}
+                <span></span>
+                {% endif %}
+            </div>
+            <div class="form-element">
+                {{ formsignup.grade.label(class="label")}}
+                {% if formsignup.grade.errors %}
+                    {{ formsignup.grade(class="label")}}
+                        <div class="invalid_feedback">
+                            {% for error in formsignup.grade.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                {% else %}
+                    {{ formsignup.grade(class="label")}}
+                <span></span>
+                {% endif %}
+            </div>
+            <div class="form-element">
+                {{ formsignup.username.label(class="label")}}
+                {% if formsignup.username.errors %}
+                    {{ formsignup.username(class="label")}}
+                        <div class="invalid_feedback">
+                            {% for error in formsignup.username.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                {% else %}
+                    {{ formsignup.username(class="label")}}
+                <span></span>
+                {% endif %}
+            </div>
+            <div class="form-element">
+                {{ formsignup.password.label(class="label")}}
+                {% if formsignup.password.errors %}
+                    {{ formsignup.password(class="label")}}
+                        <div class="invalid_feedback">
+                            {% for error in formsignup.password.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                {% else %}
+                    {{ formsignup.password(class="label")}}
+                <span></span>
+                {% endif %}
+            </div>
+            <div class="form-element">
+                {{ formsignup.confirm_password.label(class="label")}}
+                {% if formsignup.confirm_password.errors %}
+                    {{ formsignup.confirm_password(class="label")}}
+                        <div class="invalid_feedback">
+                            {% for error in formsignup.confirm_password.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                {% else %}
+                    {{ formsignup.confirm_password(class="label")}}
+                <span></span>
+                {% endif %}
+            </div>
+            <div class="form-element">
+                {{ formsignup.submit(class = "SubmitLogin")}}
+            </div>
+            <div class="form-element">
+                <a href="#">Already have an account. Login</a>
+            </div>
+        </div>
+    </form>
      <!-- body -->
     <div class="bodi">
         <!-- videos -->
