@@ -1,0 +1,47 @@
+class MigrateUsersForm(FlaskForm):
+    multiselect = SelectMultipleField("Utilisateurs des anciennes campagne")
+    multiselect_to = SelectMultipleField("Utilisateurs de la campagne en cours")
+    submit = SubmitField('Valider')
+
+    def __init__(self, *args, **kwargs):
+        super(MigrateUsersForm, self).__init__(*args, **kwargs)
+        self.multiselect.choices = [(s.id, s.nom_agent+" "+s.prenoms_agent) for s in (User.query.filter(User.id!=current_user.id, User.id.in_(db.session.query(Users_Campagne.users_id).join(Campagnes).filter(Users_Campagne.campagne_id==Campagnes.campagne_id, Campagnes.isActive==0))).order_by(User.nom_agent).all())]
+        self.multiselect_to.choices = [(s.id, s.nom_agent+" "+s.prenoms_agent) for s in (User.query.filter(User.id!=current_user.id, User.id.in_(db.session.query(Users_Campagne.users_id).join(Campagnes).filter(Users_Campagne.campagne_id==Campagnes.campagne_id, Campagnes.isActive==1))).order_by(User.nom_agent).all())]
+
+<form action="" method="post" class="" autocomplete="off">
+                    {{ form.csrf_token }}
+                        <div class="row">
+                            <div class="col-xs-5 col-md-5 col-sm-5">
+                                <div class="form-group ">
+                                    <label for="multiselect" class="col-form-label">Anciens utilisateurs *</label>
+                                    {{ form.multiselect(size=10, class='form-control',  multiple="multiple") }}
+                                    <span style="color: #f00"> {% if form.multiselect.errors %}{{ form.multiselect.errors[0] }}{% endif %}</span>
+                                </div>
+                            </div>
+                            <div class="col-xs-2 col-md-2 col-sm-2" style="padding-top: 7%;">
+                                <button type="button" id="multiselect_rightAll" class="btn btn-block"><span class="icon-forward3"></span></button>
+                                <button type="button" id="multiselect_rightSelected" class="btn btn-block"><span class="icon-cheveron-right"></span></button>
+                                <button type="button" id="multiselect_leftSelected" class="btn btn-block"><span class="icon-cheveron-left"></span></button>
+                                <button type="button" id="multiselect_leftAll" class="btn btn-block"><span class="icon-backward2"></span></button>
+                            </div>
+                            <div class="col-xs-5 col-md-5 col-sm-5">
+                                <div class="form-group ">
+                                    <label for="multiselect_to" class="col-form-label">Nouveau utilisateurs *</label>
+                                    {{ form.multiselect_to(size=10, class='form-control',  multiple="multiple") }}
+                                    <span style="color: #f00"> {% if form.multiselect_to.errors %}{{ form.multiselect_to.errors[0] }}{% endif %}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                           <button type="submit" class="btn btn-primary">Valider</button>
+                        </div>
+                    </form>
+
+from wtforms import SelectMultipleField
+
+language = SelectMultipleField('Programming Language',
+                               choices=[
+                                 ('cpp', 'C++'),
+                                 ('py', 'Python'),
+                                 ('text', 'Plain Text')
+                               ])

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>I AM TEACHER {{current_user.first_name}}</h1>
+{% if teaching_courses %}
+{% for j in teaching_courses %}
+<p>I teach {{ j.className }} level {{ j.my_level }}</p>
+{% endfor %}
+{% endif %}
+</body>
+</html>

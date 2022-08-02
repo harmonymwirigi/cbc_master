@@ -36,10 +36,10 @@
             {% block authenticate %}
             <ul class="account">
                 <li class="navbar__btn">
-                    <a href="#sign-In" class="button" id="login">Login</a>
+                    <p href="#sign-In" id="login">Login</p>
                 </li>
                 <li class="navbar__btn">
-                    <a href="#sign-up " class="button" id="signup">Signup</a>
+                    <p href="#sign-up" a id="signup">Start Trial</p>
                 </li>
             </ul>
             {% endblock %}
@@ -54,16 +54,16 @@
         <div class="form">
             <h2>Log in</h2>
             <div class="form-element">
-                {{ form2.username.label(class="label")}}
-                {% if form2.username.errors %}
-                    {{ form2.username(class="label")}}
+                {{ form2.email.label(class="label")}}
+                {% if form2.email.errors %}
+                    {{ form2.email(class="label")}}
                         <div class="invalid_feedback">
-                            {% for error in form2.username.errors %}
+                            {% for error in form2.email.errors %}
                             <span>{{ error }}</span>
                             {% endfor %}
                         </div>
                 {% else %}
-                    {{ form2.username(class="label")}}
+                    {{ form2.email(class="label")}}
                 <span></span>
                 {% endif %}
 <!--                <label for="email">Email</label>-->
@@ -114,19 +114,16 @@
     <form  class="choose">
         <div class="close-btn">&times;</div>
         <div class="form" style="text-align:center;">
-            <h2>SIGNUP US?</h2>
+            <h2>WELCOME TO CBC MASTER</h2>
             <div class="form-element">
-                <a class="btn" id = "teacher"> TEACHER </a>
-            </div>
-            <div class="form-element">
-                <a class="btn" id= "learner"> LEARNER </a>
+                <a class="btn" id = "teacher"> REGISTER YOUR SCHOOL? </a>
             </div>
         </div>
     </form>
     <!--============ TEACHER ACCOUNT CREATION FORM================-->
     <div class="container">
         <div class="close-signup-btn">&times;</div>
-    <header >CREATE ACCOUNT FORM</header>
+    <header >CREATING ACCOUNT FOR YOUR SCHOOL</header>
     <div class="progress-bar">
         <div class="step">
             <p>Basic info</p>
@@ -163,33 +160,31 @@
         <div class="page slidepage">
             <div class="title">Basic info:</div>
             <div class="field">
-                {{ form.first_name.label(class="label")}}
-                {% if form.first_name.errors %}
-                {{ form.first_name(class="label")}}
+                {{ form.school_name.label(class="label")}}
+                {% if form.school_name.errors %}
+                {{ form.school_name(class="label")}}
                         <div class="invalid_feedback">
-                            {% for error in form.first_name.errors %}
+                            {% for error in form.school_name.errors %}
                             <span>{{ error }}</span>
                             {% endfor %}
                         </div>
                 {% else %}
-                    {{ form.first_name(class="label")}}
+                    {{ form.school_name(class="label")}}
                 <span></span>
                 {% endif %}
             </div>
 
             <div class="field">
-                {{ form.last_name.label(class="label")}}
-<!--                <div class="label">Last Name</div>-->
-<!--                <input type="text" name="last_name" required>-->
-                {% if form.last_name.errors %}
-                    {{ form.last_name(class="label")}}
+                {{ form.level.label(class="label")}}
+                {% if form.level.errors %}
+                    {{ form.level(class="label")}}
                         <div class="invalid_feedback">
-                            {% for error in form.last_name.errors %}
+                            {% for error in form.level.errors %}
                             <span>{{ error }}</span>
                             {% endfor %}
                         </div>
                 {% else %}
-                    {{ form.last_name(class="label")}}
+                    {{ form.level(class="label")}}
                 <span></span>
                 {% endif %}
             </div>
@@ -243,43 +238,6 @@
         </div>
 
         <div class="page page3">
-            <div class="title">Date of Birth:</div>
-            <div class="field">
-                {{ form.user_name.label(class="label")}}
-<!--                {{ form.user_name(class="label")}}-->
-                {% if form.user_name.errors %}
-                    {{ form.user_name(class="label")}}
-                        <div class="invalid_feedback">
-                            {% for error in form.user_name.errors %}
-                            <span>{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                {% else %}
-                    {{ form.user_name(class="label")}}
-                <span></span>
-                {% endif %}
-            </div>
-            <div class="field">
-                {{ form.gender.label(class="label")}}
-                {% if form.gender.errors %}
-                    {{ form.gender(class="label")}}
-                        <div class="invalid_feedback">
-                            {% for error in form.gender.errors %}
-                            <span>{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                {% else %}
-                    {{ form.gender(class="label")}}
-                <span></span>
-                {% endif %}
-            </div>
-            <div class="field btns">
-                <button class="prev-2 prev" type="button">Previous</button>
-                <button class="next-2 next" type="button">Next</button>
-            </div>
-        </div>
-
-        <div class="page page4">
             <div class="title">Login Details:</div>
 
             <div class="field">
@@ -317,7 +275,7 @@
 <!--                <input type="password" name="confirm_password" class="confirm_password" required minlength="6" maxlength="120">-->
             </div>
             <div class="field btns">
-                <button class="prev-3 prev">Previous</button>
+                <button class="prev-2 prev">Previous</button>
                 {{ form.submit(class = "Submit")}}
 <!--                <button class="Submit" type="submit">Submit-->
 <!--                </button>-->
@@ -327,118 +285,7 @@
     </div>
 </div>
 
-     <!--============ STUDENT ACCOUNT CREATION FORM================-->
-    <form action="/signup" method="post" class="learner">
-        {{formsignup.hidden_tag()}}
-        <div class="close-btn">&times;</div>
-        <div class="form">
-            <h2>STUDENT LOGIN</h2>
-            <div class="form-element">
-                {{ formsignup.first_name.label(class="label")}}
-                {% if formsignup.first_name.errors %}
-                    {{ formsignup.first_name(class="label")}}
-                        <div class="invalid_feedback">
-                            {% for error in formsignup.first_name.errors %}
-                            <span>{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                {% else %}
-                    {{ formsignup.first_name(class="label")}}
-                <span></span>
-                {% endif %}
-            </div>
-            <div class="form-element">
-                {{ formsignup.last_name.label(class="label")}}
-                {% if formsignup.last_name.errors %}
-                    {{ formsignup.last_name(class="label")}}
-                        <div class="invalid_feedback">
-                            {% for error in formsignup.last_name.errors %}
-                            <span>{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                {% else %}
-                    {{ formsignup.last_name(class="label")}}
-                <span></span>
-                {% endif %}
-            </div>
-            <div class="form-element">
-                {{ formsignup.email.label(class="label")}}
-                {% if formsignup.email.errors %}
-                    {{ formsignup.email(class="label")}}
-                        <div class="invalid_feedback">
-                            {% for error in formsignup.email.errors %}
-                            <span>{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                {% else %}
-                    {{ formsignup.email(class="label")}}
-                <span></span>
-                {% endif %}
-            </div>
-            <div class="form-element">
-                {{ formsignup.grade.label(class="label")}}
-                {% if formsignup.grade.errors %}
-                    {{ formsignup.grade(class="label")}}
-                        <div class="invalid_feedback">
-                            {% for error in formsignup.grade.errors %}
-                            <span>{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                {% else %}
-                    {{ formsignup.grade(class="label")}}
-                <span></span>
-                {% endif %}
-            </div>
-            <div class="form-element">
-                {{ formsignup.username.label(class="label")}}
-                {% if formsignup.username.errors %}
-                    {{ formsignup.username(class="label")}}
-                        <div class="invalid_feedback">
-                            {% for error in formsignup.username.errors %}
-                            <span>{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                {% else %}
-                    {{ formsignup.username(class="label")}}
-                <span></span>
-                {% endif %}
-            </div>
-            <div class="form-element">
-                {{ formsignup.password.label(class="label")}}
-                {% if formsignup.password.errors %}
-                    {{ formsignup.password(class="label")}}
-                        <div class="invalid_feedback">
-                            {% for error in formsignup.password.errors %}
-                            <span>{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                {% else %}
-                    {{ formsignup.password(class="label")}}
-                <span></span>
-                {% endif %}
-            </div>
-            <div class="form-element">
-                {{ formsignup.confirm_password.label(class="label")}}
-                {% if formsignup.confirm_password.errors %}
-                    {{ formsignup.confirm_password(class="label")}}
-                        <div class="invalid_feedback">
-                            {% for error in formsignup.confirm_password.errors %}
-                            <span>{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                {% else %}
-                    {{ formsignup.confirm_password(class="label")}}
-                <span></span>
-                {% endif %}
-            </div>
-            <div class="form-element">
-                {{ formsignup.submit(class = "SubmitLogin")}}
-            </div>
-            <div class="form-element">
-                <a href="#">Already have an account. Login</a>
-            </div>
-        </div>
-    </form>
+
      <!-- body -->
     <div class="bodi">
         <!-- videos -->
@@ -451,49 +298,56 @@
                 {% endfor %}
             {% endif %}
         {% endwith %}
-        <h3 class="videos">VIDEOS</h3>
-        <hr>
-        <div class="videos-container">
-            <div class="video">
-                <iframe  src="https://www.youtube.com/embed/9VZL81prrRk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                <br>
-                <p>Grade 1 Kiswahili</p>
-            </div>
-            <div class="video">
-                <iframe src="https://www.youtube.com/embed/nIpF3GozIJ0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                <p >Grade 1 English</p>
-            </div>
-            <div class="video">
-                <iframe  src="https://www.youtube.com/embed/LqTbbQPInMg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                <p >Grade 1 vowel reading</p>
-            </div>
-            <div class="video">
-                <iframe src="https://www.youtube.com/embed/GhZH_1sIVvI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                <p >Grade 1 Guided writing</p>
-            </div><div class="video">
-                <iframe src="https://www.youtube.com/embed/Smjk12HBZUo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                <p >Grade 1 Environmental Activities</p>
-            </div>
-            </div><div class="video">
-                <iframe src="https://www.youtube.com/embed/Z757THlXLA8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                <p >Grade 5 Multiply Math</p>
-            </div>
-        </div>
-        <hr>
-        <!-- learning-material -->
-        <div class="learning-material">
+        <div class="body_container">
+            <section class="service">
+                <header>
+                    <h1>HEADLINES CBC MASTER</h1>
+                </header>
+                <button>Start Trial</button>
+            </section>
+            <section class="start_trial">
+                <header>
+                    <h1>SERVICE</h1>
+                </header>
+                <div class="slider">
+                    <div class="slide">
+                        <input type="radio" name="radio-btn" id = "radio1">
+                        <input type="radio" name="radio-btn" id = "radio2">
+                        <input type="radio" name="radio-btn" id = "radio3">
+                        <input type="radio" name="radio-btn" id = "radio4">
+                        <div class="st first">
+                            <h3> Teach and help you learner in the system</h3>
+                            <img src="{{url_for('static', filename = 'images/learn.jpg')}}" alt="" >
+                        </div>
+                        <div class="st">
+                            <h3> Assignment Done online and graded online</h3>
+                            <img src="{{url_for('static', filename = 'images/assignment.jpg')}}" alt="" >
+                        </div>
+                        <div class="st">
+                            <h3> Connect the parent and the child </h3>
+                            <img src="{{url_for('static', filename = 'images/parentchildbest.jpg')}}" alt="" >
+                        </div>
+                        <div class="st" >
+                            <h3> Digital Examine </h3>
+                            <img src="{{url_for('static', filename = 'images/exams.jpg')}}" alt=""><br>
+                        </div>
 
-        </div>
-        <h3 >LEARNING MATERIALS</h3>
-        <hr>
-        <div class="learning_materials">
-            <div class="materials-container">
-                <div class="materials">
-
+                    </div>
+                    <div class="nav-m">
+                        <label for="radio1" class="m-btn"></label>
+                        <label for="radio2" class="m-btn"></label>
+                        <label for="radio3" class="m-btn"></label>
+                        <label for="radio4" class="m-btn"></label>
+                    </div>
                 </div>
-            </div>
+            </section>
+            <section class="start_trial" id = "about">
+                <header>
+                    <h1>ABOUT US</h1>
+                </header>
+                <button>Start Trial</button>
+            </section>
         </div>
-    </div>
     <!-- footer -->
     <footer class="contact section" >
             <div class="contain">
@@ -574,8 +428,21 @@
                 </div>
             </div>
         </footer>
+        </div>
     <script src="{{url_for('static', filename='app.js')}}">
     </script>
     <script src="{{url_for('static', filename='script.js')}}"></script>
+
+    <script type="text/javascript">
+        var counter = 1;
+        setInterval(function(){
+            document.getElementById('radio' + counter).checked = true;
+            counter++;
+            if(counter > 4)
+            {
+                counter = 1
+            }
+        }, 5000)
+    </script>
 </body>
 </html>

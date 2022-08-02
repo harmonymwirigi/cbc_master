@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ current_user.School_Name }}</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='school.css')}}">
+    <script src="https://kit.fontawesome.com/yourcode.js" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/a57c871a6e.js" crossorigin="anonymous"></script>
+</head>
+<body onload="flashMessage()">
+<nav class="top-nav">
+    <div class="logo">
+        <h3>CBC MASTER</h3>
+    </div>
+    <div class="head">
+        <h3> {{current_user.School_Name}} {{ current_user.type}}</h3>
+    </div>
+    <div>
+        <a href="/logout" style=" margin-right: 50px;">LOGOUT</a>
+    </div>
+</nav>
+<section class="body-container">
+    <div class="sidebar">
+        <div class="dropdown">
+            <h4><a onclick="openSide('default')"> CLASSES </a></h4>
+            <div class="drop"> <i class="fa-solid fa-circle-chevron-down" style="margin-left: 30px;" id = "dropdown"> D</i> </div>
+        </div>
+        <ul class="class-items">
+            <li>
+                <button id="add-class" class="btn">ADD</button>
+            </li>
+            <li>
+                <form class="class-form" action="/school/add" method="post">
+                    {{ form.hidden_tag() }}
+
+                    {{ form.name.label}}
+                    {% if form.name.errors %}
+                    {{ form.name}}
+                    {% for error in form.name.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                    {% else %}
+                    {{ form.name(class="label")}}
+                    {% endif %}
+                    <span></span>
+
+                    {{ form.submit}}
+            </form>
+            </li>
+            {% if classes%}
+            {% for clas in classes %}
+            <li><a class="classes"> {{ clas.Name }} </a></li>
+            {% endfor %}
+            {% endif %}
+        </ul>
+        <div class="dropdown">
+            <h4><a onclick="openSide('teachers')">TEACHERS</a></h4>
+        </div>
+        <div class="dropdown">
+            <h4 onclick="openSide('classes')">CLASSES</h4>
+        </div>
+    </div>
+    <div class="info" id="default">
+        <div class="top-basic">
+            <div class="teachers">
+                <p>number of teachers</p>
+            </div>
+            <div class="learners">
+                <p>number of learners</p>
+            </div>
+            <div class="classes">
+                <p>number of classes</p>
+            </div>
+        </div>
+    </div>
+    <div class="info" id="teachers" style="display: none;">
+        <h1 class="head">TEACHERS</h1>
+                <a class="btn" style="float: right; margin: 10px;" id = "add_teacher" >ADD A TEACHER</a>
+        <form method="post" action="/school/teachers" class="form-teacher" style="display: none;">
+            <div class="close-btn" id="close-teacher">CLOSE</div>
+                {{teacher_form.hidden_tag()}}
+                <div class="form-container">
+                    <div class="side">
+                        <div class="form-element">
+                            {{ teacher_form.Fname.label(class = 'form-label')}}<br>
+                            {{ teacher_form.Fname }}
+                        </div>
+                        <div class="form-element">
+                            {{ teacher_form.Sname.label(class = 'form-label')}}<br>
+                            {{ teacher_form.Sname }}
+                        </div>
+                        <div class="form-element">
+                            {{ teacher_form.email.label(class = 'form-label')}}<br>
+                            {{ teacher_form.email }}
+                        </div>
+                    </div>
+                    <div class="side">
+                        <div class="form-element">
+                            {{ teacher_form.Phone_Number.label(class = 'form-label')}}<br>
+                            {{ teacher_form.Phone_Number }}
+                        </div>
+                        <div class="form-element">
+                            {{ teacher_form.Password.label(class = 'form-label')}}<br>
+                            {{ teacher_form.Password }}
+                        </div>
+                        <div class="form-element">
+                            {{ teacher_form.Confirm_Password.label(class = 'form-label')}}<br>
+                            {{ teacher_form.Confirm_Password }}
+                        </div>
+                    </div>
+                </div>
+                <div class="form-submit">
+                            {{ teacher_form.submit }}
+                </div>
+            </form>
+            <div class="container1" style="item-align: center;margin-bottom: 15px;">
+                <div class="con">
+                    <div class="content">
+                       FIRST NAME
+                    </div>
+                    <div class="content">
+                       SECOND NAME
+                    </div>
+                    <div class="content">
+                       SECOND NAME
+                    </div>
+                    <div class="content">
+                       LEVEL
+                    </div>
+                </div>
+                {% if teachers %}
+                {% for teacher in teachers %}
+            <div class="from_db">
+                <div class="content">{{ teacher.first_name }}</div>
+                <div class="content">{{ teacher.last_name }}</div>
+                <div class="content">{{ teacher.phone_number }}</div>
+                <div class="content">{{ teacher.email }}</div>
+            </div>
+                {% endfor %}
+                {% endif %}
+            </div>
+    </div>
+    <div class="info" id="classes" style="display: none;">
+        <h1 class="head">CLASSES</h1>
+        <a class="btn" style="float: right; margin: 10px;" id = "add_classes" >ADD A CLASS</a>
+        <form method="post" action="/school/Courses" class="form-class" style="display: none;">
+            <div class="close-btn" id="close-class">CLOSE</div>
+                {{courses.csrf_token}}
+                <div class="form-container">
+                    <div class="side">
+                        <div class="form-element">
+                            {{ courses.className.label(class = 'form-label')}}<br>
+                            {{ courses.className }}
+                        </div>
+                        <div class="form-element">
+                            {{ courses.Teacher.label(class = 'form-label')}}<br>
+                            {{ courses.Teacher }}
+                        </div>
+                        <div class="form-element">
+                            {{ courses.my_level.label(class = 'form-label')}}<br>
+                            {{ courses.my_level }}
+                        </div>
+                    </div>
+                </div>
+                <div class="form-submit">
+                            {{ courses.submit }}
+                </div>
+            </form>
+
+            <div class="container1" style="item-align: center;margin-bottom: 15px;">
+                <div class="con">
+                    <div class="content">
+                       CLASS CODE
+                    </div>
+                    <div class="content">
+                       TEACHER
+                    </div>
+                    <div class="content">
+                       LEVEL
+                    </div>
+                </div>
+                {% if cours %}
+                {% for i in cours %}
+            <div class="from_db">
+                <div class="content">{{ i.className }}</div>
+                <div class="content">{{ i.Teacher }}</div>
+                <div class="content">{{ i.my_level }}</div>
+            </div>
+                {% endfor %}
+                {% endif %}
+            </div>
+    </div>
+    </div>
+    </div>
+</section>
+<script>
+    document.querySelector('#dropdown').addEventListener('click', function(){
+    document.querySelector(".class-items").classList.add("active");
+    });
+    document.querySelector('#add_teacher').addEventListener('click', function(){
+    document.querySelector(".form-teacher").style.display = "block";
+    });
+    document.querySelector('#add_classes').addEventListener('click', function(){
+    document.querySelector(".form-class").style.display = "block";
+    });
+    document.querySelector('#close-class').addEventListener('click', function(){
+    document.querySelector(".form-class").style.display = "none";
+    });
+    document.querySelector('#close-teacher').addEventListener('click', function(){
+    document.querySelector(".form-teacher").style.display = "none";
+    });
+    document.querySelector('#add-class').addEventListener('click', function(){
+    document.querySelector(".class-form").classList.add("active");
+    });
+    function openSide(container){
+        var x;
+        var y = document.getElementsByClassName("info");
+        for(x = 0;x < y.length; x++){
+        y[x].style.display = "none";
+        }
+    document.getElementById(container).style.display = "block";
+    }
+    function flashMessage() {
+      if ("{{ flash_message }}" == "True") {
+        alert("[LOGIN SUCCESS]");
+      }
+    }
+</script>
+</body>
+</html>

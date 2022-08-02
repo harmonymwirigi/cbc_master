@@ -58,17 +58,7 @@ document.querySelector(".container .close-signup-btn").addEventListener("click",
 document.querySelector(".container").classList.remove("active");
 });
 
-document.querySelector("#learner").addEventListener("click",function(){
-document.querySelector(".learner").classList.add("active");
-document.querySelector(".choose").classList.remove("active");
-});
-document.querySelector("#learner").addEventListener("click",function(){
-document.querySelector("#overlay").classList.add("active");
-});
-document.querySelector(".learner .close-btn").addEventListener("click",function(){
-document.querySelector(".learner").classList.remove("active");
-document.querySelector("#overlay").classList.remove("active");
-});
+
 
 
 const slidePage = document.querySelector(".slidepage");

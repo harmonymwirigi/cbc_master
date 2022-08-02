@@ -1,0 +1,220 @@
+*{
+margin: 0;
+padding: 0;
+font-family: 'Kumbh Sans', sans-serif;
+}
+.top-nav{
+height: 4em;
+display: flex;
+background-color:#E5E4E2;
+justify-content: center;
+align-items: center;
+position: relative;
+overflow: hidden;
+z-index: 999;
+}
+.logo{
+    margin: 1 auto;
+    padding: 0 50px;
+    align-items: center;
+    font-size: 16px;
+    background-color:#E5E4E2;
+}
+.head{
+    margin: 0 auto;
+    align-items: center;
+    padding: 0 50px;
+    background-color:#E5E4E2;
+}
+.head h3{
+       text-transform: uppercase;
+}
+.sidebar {
+    background-color: #F0F0F0;
+    margin: 0;
+    width: 20%;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    height: 80vh;
+}
+.body-container{
+    position: relative;
+    display: flex;
+}
+.body-container .sidebar .dropdown{
+    align-items: center;
+    width: 100%;
+    justify-content: center;
+    cursor: pointer;
+    margin-top: 10px;
+    background-color:#cecdcb;;
+    justify-content: center;
+    display: flex;
+    height: 2em;
+}
+.body-container .sidebar .dropdown .drop{
+    color: #FFFFFF;
+}
+.body-container .sidebar .dropdown h4{
+    color: blue;
+    margin-right: 5px;
+    border: none;
+}
+.body-container .sidebar .class-items{
+    display: none;
+    position: relative;
+}
+.body-container .sidebar .class-items.active{
+    display: block;
+}
+.body-container .sidebar .class-items .classes{
+    display: block;
+    margin-top: 5px;
+    border-radius: 5px;
+    padding: 5px;
+    cursor: pointer;
+}
+.body-container .sidebar ul li #add-class{
+    margin: 1em;
+    background-color: black;
+    cursor: pointer;
+    border-radius: 5px;
+    color: white;
+}
+.body-container .sidebar ul li .class-form{
+    display:none;
+}
+.body-container .sidebar ul li .class-form.active{
+    display: block;
+}
+.body-container .sidebar ul li .class-form input{
+    height: 25px;
+}
+.body-container .info{
+    width: 80%;
+    margin: 2em;
+}
+.body-container .info .top-basic{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.body-container .info .top-basic div{
+    margin-left: 4em;
+    justify-content: center;
+    text-alignment: center;
+    align-items: center;
+    background: #F1F1F1;
+    border-radius: 5px;
+    padding: 3em;
+    cursor: pointer;
+}
+.body-container .info form{
+    justify-content: center;
+    align-items: center;
+    background: #F1F1F1;
+    border-radius: 5px;
+    padding: 3em;
+    cursor: pointer;
+}
+.body-container .info form .form-container{
+    justify-content: center;;
+    align-items: center;
+    background: #F1F1F1;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+}
+.body-container .info form .form-container .side{
+    margin:2em;
+    justify-content: center;
+    align-items: center;
+    text-alignment: center;
+}
+.body-container .info form .form-container .side .form-element{
+    display: block;
+    margin: 2em;
+    justify-content: center;
+    align-items: center;
+    text-alignment: center;
+}
+.close-btn{
+position:relative;
+top:15px;
+right:15px;
+width: 70px;
+background: #888;
+color:#eee;
+text-align: center;
+line-height:15px;
+border-radius:15px;
+cursor:pointer;
+}
+.body-container .info form .form-container .side .form-element input{
+    height: 2em;
+    border-radius: 5px;
+}
+.body-container .info form .form-container .side .form-element select{
+    width: 13em;
+    height: 2em;
+    text-alignment: center;
+    align-items: center;
+    justify-content: center;
+}
+.body-container .info form .form-submit{
+    justify-content: center;
+    align-items: center;
+    text-alignment: center;
+    padding-left: 50%;
+    border: none;
+}
+.body-container .info .container1
+{
+padding: 50px;
+}
+.body-container .info .head{
+text-align: center;
+padding: 5px;
+color: blue;
+}
+.body-container .info .container1 .con{
+width: 100%;
+margin: auto;
+padding: 15px;
+display: flex;
+text-align: center;
+background-color: #E5E4E2;
+}
+.body-container .info .container1 .from_db{
+width: 100%;
+height: 50px;
+margin: auto;
+padding: 15px;
+display: flex;
+text-align: center;
+background-color: #cecdcb;
+}
+.body-container .info .container1 .con .content{
+height:100%;
+width:100%;
+}
+.body-container .info .container1 .from_db .content{
+height:100%;
+width:100%;
+}
+.btn
+{
+    font-size: 16px;
+    font-weight: 500;
+    padding: 12px 35px;
+    color: white;
+    border-radius: 40px;
+    display: inline-block;
+    white-space: nowrap;
+    border: none;
+    background: #1854b4;;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}

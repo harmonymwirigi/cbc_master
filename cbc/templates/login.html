@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>login</title>
+    <meta name="viewpoint" content="width = device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="static/app.css">
+</head>
+<body>
+<form action="/cbc.com" method="post" class="popup active">
+        {{form2.hidden_tag()}}
+        <div class="form">
+            <h2>Log in</h2>
+            <div class="form-element">
+                <label class="label"> Enter Your Email</label>
+                {% if form2.email.errors %}
+                    {{ form2.email(class="label")}}
+                        <div class="invalid_feedback">
+                            {% for error in form2.email.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                {% else %}
+                    {{ form2.email(class="label")}}
+                <span></span>
+                {% endif %}
+<!--                <label for="email">Email</label>-->
+<!--                <input type="text" id="email" placeholder="Enter email">-->
+            </div>
+            <div class="form-element">
+                {{ form2.password.label(class="label")}}
+<!--                {{ form2.password(class="label")}}-->
+                {% if form2.password.errors %}
+                    {{ form2.password(class="label")}}
+                        <div class="invalid_feedback">
+                            {% for error in form2.password.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                {% else %}
+                    {{ form2.password(class="label")}}
+                <span></span>
+                {% endif %}
+            </div>
+            <div class="form-element">
+                {% if form2.remember.errors %}
+                    {{ form2.remember(class = "form-element")}}
+                        <div class="invalid_feedback">
+                            {% for error in form2.remember.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                {% else %}
+                    {{ form2.remember}}
+                {{ form2.remember.label(class = "form-element")}}
+                <span></span>
+                {% endif %}
+            </div>
+            <div class="form-element">
+                {{ form2.submit(class = "SubmitLogin")}}
+            </div>
+            <div class="form-element">
+                <a href="#">Forgot Password</a>
+            </div>
+        </div>
+    </form>
+    <div id="overlay" class="active"></div>
+</body>
+</html>
