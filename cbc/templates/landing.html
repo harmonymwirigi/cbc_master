@@ -45,6 +45,15 @@
             {% endblock %}
         </div>
     </nav>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category,message in messages %}
+                    <div class="{{ category  }}" style="text-align: center; justify-content: center;align-items: center;" >
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
     {% block student %}
     {% endblock %}
     <!-- login page -->
@@ -289,15 +298,7 @@
      <!-- body -->
     <div class="bodi">
         <!-- videos -->
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category,message in messages %}
-                    <div class="{{ category  }}" >
-                        {{ message }}
-                    </div>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
+
         <div class="body_container">
             <section class="service">
                 <header>

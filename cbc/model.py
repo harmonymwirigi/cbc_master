@@ -11,6 +11,8 @@ def load_user(user_id):
             return School.query.get(int(user_id))
         if session["user_type"] == "teacher":
             return Teacher.query.get(int(user_id))
+        if session["user_type"] == "learner":
+            return Learner.query.get(int(user_id))
 
 class_learner = db.Table('class_learner',
                          db.Column('student_id', db.Integer, db.ForeignKey('learner.id')),
@@ -30,6 +32,7 @@ class School(db.Model, UserMixin):
     Teachers = db.relationship('Teacher', backref="school", lazy=True)
     levels = db.relationship('Level', backref='school', lazy=True)
     courses = db.relationship('Class', backref='school', lazy=True)
+    code = db.Column(db.String(20), unique = True)
 
 
 class Teacher(db.Model, UserMixin):
@@ -52,25 +55,25 @@ class Learner(db.Model, UserMixin):
     first_name = db.Column(db.String(20), nullable=False)
     second_name = db.Column(db.String(20), nullable=False)
     email = db.Column(db.String(40), nullable=False)
-    reg_no = db.Column(db.String(20), nullable=False, unique=True)
+    reg_no = db.Column(db.String(20), nullable=False, unique=True, default = 1)
     progress = db.Column(db.Integer, default=1)
     my_level = db.Column(db.Integer, db.ForeignKey('level.id'))
     pass_code = db.Column(db.String(120), nullable=False)
+    my_course = db.relationship('Class', secondary=class_learner, backref="learners")
     my_school = db.Column(db.Integer, db.ForeignKey('school.id'))
 
 
 class Class(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
-    className = db.Column(db.String(20), nullable=False, unique = True)
-    Teacher = db.Column(db.String(40), db.ForeignKey('teacher.first_name'))
-    my_level = db.Column(db.String(40), db.ForeignKey('level.Name'))
-    myStudents = db.relationship('Learner', secondary=class_learner, backref="learners")
+    className = db.Column(db.String(20), nullable=False)
+    Teacher = db.Column(db.String(40), db.ForeignKey('teacher.id'))
+    my_level = db.Column(db.Integer, db.ForeignKey('level.id'))
     my_school = db.Column(db.Integer, db.ForeignKey('school.id'))
 
 
 class Level(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    Name = db.Column(db.String(20), nullable=False, unique = True)
+    Name = db.Column(db.String(20), nullable=False)
     classes = db.relationship('Class', backref='level', lazy=True)
     students = db.relationship('Learner', backref='level', lazy=True)
     my_school = db.Column(db.Integer, db.ForeignKey('school.id'))

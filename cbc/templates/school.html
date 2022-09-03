@@ -8,6 +8,13 @@
     <script src="https://kit.fontawesome.com/a57c871a6e.js" crossorigin="anonymous"></script>
 </head>
 <body onload="flashMessage()">
+<script>
+    function flashMessage() {
+      if ("{{ flash_message }}" == "True") {
+        alert("LOGIN SUCCESS");
+      }
+    }
+</script>
 <nav class="top-nav">
     <div class="logo">
         <h3>CBC MASTER</h3>
@@ -59,17 +66,20 @@
         <div class="dropdown">
             <h4 onclick="openSide('classes')">CLASSES</h4>
         </div>
+        <div class="dropdown">
+            <h4 onclick="openSide('learners')">LEARNERS</h4>
+        </div>
     </div>
     <div class="info" id="default">
         <div class="top-basic">
             <div class="teachers">
-                <p>number of teachers</p>
+                <p style="font-size: 30px;">{{ no_of_teachers }} TEACHERS</p>
             </div>
             <div class="learners">
-                <p>number of learners</p>
+                <p style="font-size: 30px;">{{ no_of_courses }} COURSES</p>
             </div>
             <div class="classes">
-                <p>number of classes</p>
+                <p style="font-size: 30px;"> {{ no_of_classes }} CLASSES</p>
             </div>
         </div>
     </div>
@@ -89,7 +99,7 @@
                             {{ teacher_form.Sname.label(class = 'form-label')}}<br>
                             {{ teacher_form.Sname }}
                         </div>
-                        <div class="form-element">
+                        <div class="form-element">{{ no_of_classes }}
                             {{ teacher_form.email.label(class = 'form-label')}}<br>
                             {{ teacher_form.email }}
                         </div>
@@ -190,6 +200,78 @@
                 {% endif %}
             </div>
     </div>
+    <div class="info" id="learners" style="display: none;">
+        <h1 class="head">LEARNERS</h1>
+        <a class="btn" style="float: right; margin: 10px;" id = "add_learners" >ADD A LEARNERS</a>
+        <form method="post" action="/school/learners" class="form-learner" style="display: none;">
+            <div class="close-btn" id="close-learner">CLOSE</div>
+                {{ learners.hidden_tag() }}
+                <div class="form-container">
+                    <div class="side">
+                        <div class="form-element">
+                            {{ learners.Fname.label(class = 'form-label')}}<br>
+                            {{ learners.Fname }}
+                        </div>
+                        <div class="form-element">
+                            {{ learners.Sname.label(class = 'form-label')}}<br>
+                            {{ learners.Sname }}
+                        </div>
+                        <div class="form-element">
+                            {{ learners.email.label(class = 'form-label')}}<br>
+                            {{ learners.email }}
+                        </div>
+                        <div class="form-element">
+                            {{ learners.Phone_number.label(class = 'form-label')}}<br>
+                            {{ learners.Phone_number }}
+                        </div>
+                    </div>
+                    <div class="side">
+                        <div class="form-element">
+                            {{ learners.courses.label(class = 'form-label')}}<br>
+                            {{ learners.courses }}
+                        </div>
+                        <div class="form-element">
+                            {{ learners.level.label(class = 'form-label')}}<br>
+                            {{ learners.level }}
+                        </div>
+                        <div class="form-element">
+                            {{ learners.pass_code.label(class = 'form-label')}}<br>
+                            {{ learners.pass_code }}
+                        </div>
+                        <div class="form-element">
+                            {{ learners.confirm_pass_code.label(class = 'form-label')}}<br>
+                            {{ learners.confirm_pass_code }}
+                        </div>
+                    </div>
+                </div>
+                <div class="form-submit">
+                            {{ learners.submit }}
+                </div>
+            </form>
+
+            <div class="container1" style="item-align: center;margin-bottom: 15px;">
+                <div class="con">
+                    <div class="content">
+                       FIRST NAME
+                    </div>
+                    <div class="content">
+                       SECOND NAME
+                    </div>
+                    <div class="content">
+                       LEVEL
+                    </div>
+                </div>
+                {% if learner %}
+                {% for j in learner %}
+            <div class="from_db">
+                <div class="content">{{ j.first_name }}</div>
+                <div class="content">{{ j.second_name }}</div>
+                <div class="content">{{ j.my_level }}</div>
+            </div>
+                {% endfor %}
+                {% endif %}
+            </div>
+    </div>
     </div>
     </div>
 </section>
@@ -202,6 +284,9 @@
     });
     document.querySelector('#add_classes').addEventListener('click', function(){
     document.querySelector(".form-class").style.display = "block";
+    });
+    document.querySelector('#add_learners').addEventListener('click', function(){
+    document.querySelector(".form-learner").style.display = "block";
     });
     document.querySelector('#close-class').addEventListener('click', function(){
     document.querySelector(".form-class").style.display = "none";
@@ -219,11 +304,6 @@
         y[x].style.display = "none";
         }
     document.getElementById(container).style.display = "block";
-    }
-    function flashMessage() {
-      if ("{{ flash_message }}" == "True") {
-        alert("[LOGIN SUCCESS]");
-      }
     }
 </script>
 </body>
