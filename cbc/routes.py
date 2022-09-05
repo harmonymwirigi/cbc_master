@@ -1,9 +1,9 @@
 import flask_bcrypt
 from flask_login import login_user, current_user, logout_user, login_required
-
-from cbc.model import School, Teacher, Learner, Level, Class
-from cbc.form import RegistrationForm, Login, addStudent, removeStudent, Student_login, lessonPlan, CreateClass, \
-    Student_signup, AddLevel, Teachers, Courses, Learners
+import base64
+from cbc.model import School, Teacher, Learner, Level, Class, Assignment
+from cbc.form import RegistrationForm, Login, addStudent, removeStudent, Student_login, CreateClass, \
+    Student_signup, AddLevel, Teachers, Courses, Learners, Assignment_form
 from flask import render_template, url_for, flash, redirect, request, session
 from flask_bcrypt import Bcrypt
 from cbc import app, db, bcrypt
@@ -16,8 +16,7 @@ def land():
     form = RegistrationForm()
     formsignup = Student_signup()
     form2 = Login()
-    form_lesson_plan = lessonPlan()
-    return render_template('landing.html', form=form, form2=form2, form_lesson=form_lesson_plan, formsignup=formsignup)
+    return render_template('landing.html', form=form, form2=form2, formsignup=formsignup)
 
 
 # schools account
@@ -91,11 +90,11 @@ def signup():
     form = RegistrationForm()
     if form.validate_on_submit():
         schools = School.query.all()
-        k = len(schools)+1
+        k = len(schools) + 1
         hashed_passwed = flask_bcrypt.generate_password_hash(form.password.data).decode('utf-8')
         school = School(School_Name=form.school_name.data, type=form.level.data, School_Email=form.email.data,
                         Phone_Number=form.phone_number.data, Password=hashed_passwed,
-                        Confirm_Password=hashed_passwed, code =  "{:04d}".format(k))
+                        Confirm_Password=hashed_passwed, code="{:04d}".format(k))
         db.session.add(school)
         db.session.commit()
         print("{:04d}".format(school.id))
@@ -131,7 +130,7 @@ def login():
 def addlevel():
     addForm = AddLevel()
     if addForm.validate_on_submit():
-        name1 = Level.query.filter_by(Name= addForm.name.data, my_school = current_user.id).first()
+        name1 = Level.query.filter_by(Name=addForm.name.data, my_school=current_user.id).first()
         if name1:
             flash(f"CLASS ALREADY EXIST", category="warning")
         else:
@@ -139,7 +138,7 @@ def addlevel():
             db.session.add(clas)
             db.session.commit()
             return redirect(url_for('levels'))
-    return render_template('home/level.html', form = addForm)
+    return render_template('home/level.html', form=addForm)
 
 
 @app.route("/cbc.com", methods=["POST", "GET"])
@@ -147,7 +146,7 @@ def TLearner():
     form2 = Student_login()
     if form2.validate_on_submit():
         teacher = Teacher.query.filter_by(email=form2.email.data).first()
-        learner = Learner.query.filter_by(reg_no = form2.email.data).first()
+        learner = Learner.query.filter_by(reg_no=form2.email.data).first()
         if teacher and bcrypt.check_password_hash(teacher.password, form2.password.data):
             session['user_type'] = 'teacher'
             login_user(teacher, remember=form2.remember.data)
@@ -198,8 +197,8 @@ def addCourses():
         if name1:
             flash(f"CLASS ALREADY EXIST", category="warning")
         else:
-            course1 = Level.query.filter_by(Name=courses.my_level.data, my_school = current_user.id).first()
-            teacher1 = Teacher.query.filter_by(first_name=courses.Teacher.data, my_school = current_user.id).first()
+            course1 = Level.query.filter_by(Name=courses.my_level.data, my_school=current_user.id).first()
+            teacher1 = Teacher.query.filter_by(first_name=courses.Teacher.data, my_school=current_user.id).first()
             course = Class(className=courses.className.data, Teacher=teacher1.id, my_level=course1.id,
                            my_school=current_user.id)
             db.session.add(course)
@@ -210,7 +209,7 @@ def addCourses():
                 for student in students:
                     l = student.my_course
                     for i in l:
-                        c = Level.query.filter_by(id = i.my_level).first()
+                        c = Level.query.filter_by(id=i.my_level).first()
                         if c.Name == courses.my_level.data:
                             if course not in l:
                                 student.my_course.append(course)
@@ -219,27 +218,27 @@ def addCourses():
     return render_template('index.html', teacher_form=teacher_form, form=addForm, courses=courses, learners=learners)
 
 
-@app.route("/school/learners", methods=['GET','POST'])
+@app.route("/school/learners", methods=['GET', 'POST'])
 @login_required
 def addLearner():
     learners = Learners()
-    f = Learner.query.filter_by(my_school= current_user.id).all()
-    reg_no = str(current_user.code) + "/" + str("{:04d}".format(len(f)+1))
+    f = Learner.query.filter_by(my_school=current_user.id).all()
+    reg_no = str(current_user.code) + "/" + str("{:04d}".format(len(f) + 1))
     learners.level.choices = [(level.Name) for level in
                               Level.query.filter_by(my_school=current_user.id).all()]
     if learners.validate_on_submit():
         hashed_pass_code = flask_bcrypt.generate_password_hash(learners.pass_code.data).decode('utf-8')
-        class1 = Level.query.filter_by(Name=learners.level.data, my_school = current_user.id).first()
+        class1 = Level.query.filter_by(Name=learners.level.data, my_school=current_user.id).first()
         learners1 = Learner(first_name=learners.Fname.data, second_name=learners.Sname.data, email=learners.email.data,
-                            reg_no= reg_no, my_level=class1.id, pass_code=hashed_pass_code,
+                            reg_no=reg_no, my_level=class1.id, pass_code=hashed_pass_code,
                             my_school=current_user.id)
         courses = current_user.courses
         print(courses)
         db.session.add(learners1)
         db.session.commit()
         for i in courses:
-            student_level = Level.query.filter_by(id = i.my_level).first()
-            courses_level = Level.query.filter_by(id = learners1.my_level).first()
+            student_level = Level.query.filter_by(id=i.my_level).first()
+            courses_level = Level.query.filter_by(id=learners1.my_level).first()
             print(i, i.my_level, learners1.my_level)
             if student_level.Name == courses_level.Name:
                 learners1.my_course.append(i)
@@ -262,7 +261,7 @@ def tables():
 @login_required
 def levels():
     addForm = AddLevel()
-    classes = Level.query.filter_by(my_school = current_user.id).all()
+    classes = Level.query.filter_by(my_school=current_user.id).all()
     return render_template('home/level.html', form=addForm, classes=classes)
 
 
@@ -278,7 +277,9 @@ def courses():
                                Teacher.query.filter_by(my_school=current_user.id).all()]
     courses.my_level.choices = [(course.Name) for course in
                                 Level.query.filter_by(my_school=current_user.id).all()]
-    return render_template("home/courses.html", teachers=teachas, form=addForm, classes=classes, courses=courses, cours=coursess)
+    return render_template("home/courses.html", teachers=teachas, form=addForm, classes=classes, courses=courses,
+                           cours=coursess)
+
 
 @app.route("/students")
 @login_required
@@ -289,43 +290,88 @@ def learners():
     learner = current_user.Students
     for i in learner:
         print(len(i.my_course))
-    return render_template("home/students.html", learners=learners, learner = learner)
+    return render_template("home/students.html", learners=learners, learner=learner)
 
 
 @app.route("/teacher")
 @login_required
 def Tlearn():
-    courses = Class.query.filter_by(Teacher = current_user.id).all()
+    courses = Class.query.filter_by(Teacher=current_user.id).all()
     no = [i.learners for i in courses]
     print(no)
     students = [(student.id) for student in Class.query.filter_by(Teacher=current_user.id).all()]
     learner = [(Learner.query.filter_by(id=i).first()) for i in students]
-    return render_template("teachers-index.html", no_of_courses = len(courses), courses=courses,learner = learner, no_of_learners = len(no))
+    return render_template("teachers-index.html", no_of_courses=len(courses), courses=courses, learner=learner,
+                           no_of_learners=len(no))
 
 
 @app.route("/teacher/courses")
 @login_required
 def Tcourses():
-    courses = Class.query.filter_by(Teacher = current_user.id).all()
+    courses = Class.query.filter_by(Teacher=current_user.id).all()
     return render_template("home/Tcourse.html", courses=courses)
+
+def render_picture(data):
+    render_pic = base64.b64encode(data).decode('ascii')
+    return render_pic
+
+
+@app.route("/teacher/add_assignments", methods=['POST', 'GET'])
+@login_required
+def addTassignment():
+    assignment_form = Assignment_form()
+    assignment_form.course.choices = [(course.className) for course in
+                                      Class.query.filter_by(Teacher=current_user.id).all()]
+    if assignment_form.validate_on_submit():
+        file1 = request.files['file']
+        data = file1.read()
+        render_file = render_picture(data)
+        course1 = Class.query.filter_by(className=assignment_form.course.data).first()
+        assignment= Assignment(my_teacher=current_user.id, course=course1.id,data = data,rendered_data = render_file,
+                                     assignment_content=assignment_form.content.data)
+        db.session.add(assignment)
+        db.session.commit()
+        courses = Class.query.filter_by(Teacher=current_user.id, id = assignment.course).all()
+        k = []
+        for i in courses:
+            for j in i.learners:
+                k.append(j)
+        l = list(dict.fromkeys(k))
+        for student in l:
+            student.my_assignents.append()
+            db.session.commit()
+        return redirect(url_for('Tassignment'))
+    return render_template("home/Tassignment.html", assignment_form = assignment_form)
+
+@app.route("/teacher/assignments")
+@login_required
+def Tassignment():
+    assignment_form = Assignment_form()
+    assignment_form.course.choices = [(course.className) for course in
+                                      Class.query.filter_by(Teacher=current_user.id).all()]
+    assignment = Assignment.query.filter_by(my_teacher = current_user.id)
+    return render_template("home/Tassignment.html", assignments = assignment, assignment_form = assignment_form)
+
+
+
 
 @app.route("/teacher/students")
 @login_required
 def Tstudents():
-    courses = Class.query.filter_by(Teacher=current_user.id, my_school = current_user.my_school).all()
+    courses = Class.query.filter_by(Teacher=current_user.id, my_school=current_user.my_school).all()
     k = []
     for i in courses:
         for j in i.learners:
             k.append(j)
     l = list(dict.fromkeys(k))
-    return render_template("home/Tstudents.html", courses = courses, learner = l)
+    return render_template("home/Tstudents.html", courses=courses, learner=l)
 
 
 @app.route("/students/<user_id>")
 @login_required
 def profile(user_id):
-    user1 = Learner.query.filter_by(id = user_id).first()
-    return render_template("home/profile.html", user = user1)
+    user1 = Learner.query.filter_by(id=user_id).first()
+    return render_template("home/profile.html", user=user1)
 
 
 @app.route("/logout")

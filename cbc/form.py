@@ -1,4 +1,5 @@
 from flask_wtf import FlaskForm
+from flask_wtf.file import FileField, FileAllowed
 from wtforms import StringField, PasswordField, DateField, SelectField, SubmitField, BooleanField, DateTimeField, \
     TextAreaField, SelectMultipleField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
@@ -94,26 +95,11 @@ class Student_login(FlaskForm):
     remember = BooleanField('Remember me')
     submit = SubmitField('Login')
 
-
-class lessonPlan(FlaskForm):
-    grade = SelectField('Grade', validators=[DataRequired()],
-                        choices=[('pre-primary 1'), ('pre-primary'), ('Grade 1'), ('Grade 2'), ('Grade 2'), ('Grade 3'),
-                                 ('Grade 4'), ('Grade 5'),
-                                 ('Grade 6'), ('Grade 7'), ('Grade 8'), ('Grade 9')])
-    school = StringField(validators=[DataRequired()])
-    topic = TextAreaField()
-    sub_strand = TextAreaField()
-    learning_outcome = TextAreaField()
-    core_competencies = TextAreaField()
-    values = TextAreaField()
-    Pcis = TextAreaField()
-    resources = TextAreaField()
-    intro = TextAreaField()
-    lesson_dev = TextAreaField()
-    summary = TextAreaField()
-    conclusion = TextAreaField()
-    submit = SubmitField("Create")
-
+class Assignment_form(FlaskForm):
+    course = SelectField("choose course", validators = [DataRequired()])
+    content = TextAreaField("assignment content/instructions", validators = [DataRequired()])
+    file = FileField("ATTACH FILE", validators = [FileAllowed(['docx', 'png', 'jpg', 'pdf'])])
+    submit = SubmitField()
 
 class AddLevel(FlaskForm):
     name = StringField('Class Name', validators=[DataRequired()])

@@ -1,0 +1,99 @@
+{% extends "teachers-base.html" %}
+
+{% block title %} Tables {% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+  <div class="container-fluid py-4">
+    <div class="row">
+      <div class="col-12">
+        <div class="card my-4">
+          <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+            <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+              <h6 class="text-white text-capitalize ps-3">ASSIGNMENT</h6>
+            </div>
+            <div>
+              <a class="btn bg-gradient-primary mt-4 w-10"
+               target="_blank" type="button" id = "add_course">ADD
+              </a>
+            </div>
+            <form method="post" action="/teacher/add_assignments" class="form-class" style="display: none;", enctype="multipart/form-data">
+            <div class="close-btn" id="close-class">CLOSE</div>
+                {{assignment_form.csrf_token}}
+                <div class="form-container">
+                    <div class="side">
+                        <div class="form-element">
+                            {{ assignment_form.course.label(class = 'form-label')}}<br>
+                            {{ assignment_form.course }}
+                        </div>
+                        <div class="form-element">
+                            {{ assignment_form.content.label(class = 'form-label')}}<br>
+                            {{ assignment_form.content }}
+                        </div>
+                        <div class="form-element">
+                            {{ assignment_form.file.label(class = 'form-label')}}<br>
+                            {{ assignment_form.file }}
+                        </div>
+                    </div>
+                </div>
+                <div class="form-submit">
+                            {{ assignment_form.submit }}
+                </div>
+            </form>
+            <script>
+                document.querySelector('#add_course').addEventListener('click', function(){
+                document.querySelector(".form-class").style.display = "block";
+                });
+                document.querySelector('#close-class').addEventListener('click', function(){
+                document.querySelector(".form-class").style.display = "none";
+                });
+              </script>
+          <div class="card-body px-0 pb-2">
+            <div class="table-responsive p-0">
+              <table class="table align-items-center mb-0">
+                <thead>
+                  <tr>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"><h4>COURSE NAME</h4></th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"><h4>TEACHER</h4></th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"><h4>LEVEL</h4></th>
+                    <th class="text-secondary opacity-7"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                {% if assignments %}
+                {% for assignment in assignments %}
+                  <tr>
+                    <td>
+                      <div class="d-flex px-2 py-1">
+                        <div class="d-flex flex-column justify-content-center">
+                          <h6 class="mb-0 text-sm">{{ assignment.course }}</h6>
+                        </div>
+                      </div>
+                    </td>
+                    <td style="margin-bottom:2rem;">
+                      <h4 class="text-xs font-weight-bold mb-3">
+                        {{ assignment.my_teacher['first_name'] }}
+                          </h4>
+                    </td>
+                    <td class="align-middle text-center text-sm">
+                       <h6 class="mb-0 text-sm">{{ assignment.state }}</h6>
+                    </td>
+                  </tr>
+                {% endfor %}
+                {% endif %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}

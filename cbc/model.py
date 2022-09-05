@@ -14,10 +14,15 @@ def load_user(user_id):
         if session["user_type"] == "learner":
             return Learner.query.get(int(user_id))
 
+
 class_learner = db.Table('class_learner',
                          db.Column('student_id', db.Integer, db.ForeignKey('learner.id')),
                          db.Column('class_id', db.Integer, db.ForeignKey('class.id'))
                          )
+learner_assignment = db.Table('learner_assignment',
+                              db.Column('student_id', db.Integer, db.ForeignKey('learner.id')),
+                              db.Column('assignment_id', db.Integer, db.ForeignKey('assignment.id'))
+                              )
 
 
 class School(db.Model, UserMixin):
@@ -32,7 +37,7 @@ class School(db.Model, UserMixin):
     Teachers = db.relationship('Teacher', backref="school", lazy=True)
     levels = db.relationship('Level', backref='school', lazy=True)
     courses = db.relationship('Class', backref='school', lazy=True)
-    code = db.Column(db.String(20), unique = True)
+    code = db.Column(db.String(20), unique=True)
 
 
 class Teacher(db.Model, UserMixin):
@@ -47,7 +52,7 @@ class Teacher(db.Model, UserMixin):
     my_school = db.Column(db.Integer, db.ForeignKey('school.id'))
 
     def __repr__(self):
-        return f"Teacher('{Teacher.first_name}','{Teacher.email}','{Teacher.first_name}'"
+        return f'<Class "{self.first_name}">'
 
 
 class Learner(db.Model, UserMixin):
@@ -55,12 +60,15 @@ class Learner(db.Model, UserMixin):
     first_name = db.Column(db.String(20), nullable=False)
     second_name = db.Column(db.String(20), nullable=False)
     email = db.Column(db.String(40), nullable=False)
-    reg_no = db.Column(db.String(20), nullable=False, unique=True, default = 1)
+    reg_no = db.Column(db.String(20), nullable=False, unique=True, default=1)
     progress = db.Column(db.Integer, default=1)
     my_level = db.Column(db.Integer, db.ForeignKey('level.id'))
     pass_code = db.Column(db.String(120), nullable=False)
     my_course = db.relationship('Class', secondary=class_learner, backref="learners")
     my_school = db.Column(db.Integer, db.ForeignKey('school.id'))
+    my_assignents = db.relationship('Assignment', secondary=learner_assignment, backref="learners")
+    def __repr__(self):
+        return f'<Level "{self.first_name}">'
 
 
 class Class(db.Model, UserMixin):
@@ -69,6 +77,8 @@ class Class(db.Model, UserMixin):
     Teacher = db.Column(db.String(40), db.ForeignKey('teacher.id'))
     my_level = db.Column(db.Integer, db.ForeignKey('level.id'))
     my_school = db.Column(db.Integer, db.ForeignKey('school.id'))
+    def __repr__(self):
+        return f'"{self.className}">'
 
 
 class Level(db.Model):
@@ -77,21 +87,24 @@ class Level(db.Model):
     classes = db.relationship('Class', backref='level', lazy=True)
     students = db.relationship('Learner', backref='level', lazy=True)
     my_school = db.Column(db.Integer, db.ForeignKey('school.id'))
+    def __repr__(self):
+        return f'"{self.Name}"'
 
     def __repr__(self):
         return '<Choice {}>'.format(self.Name)
 
 
-# class Assignment(db.Model):
-#     id = db.Column(db.Integer, primary_key=True)
-#     teacher = db.Column(db.Integer, db.ForeignKey('teacher.id'))
-#     sub_strand = db.Column(db.Integer, db.ForeignKey('sub_strand.id'))
-#     assignment_content = db.Column(db.Text, nullable=False)
-#     state = db.Column(db.Boolean, nullable=False, default=False)
-#     submission = db.relationship('Submission', backref="submission")
-#     materials = db.relationship('Assignment_material', backref="my_materials", lazy=True)
-#
-#
+class Assignment(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    course = db.Column(db.Integer, db.ForeignKey('class.id'))
+    my_teacher = db.Column(db.Integer, db.ForeignKey('teacher.id'))
+    assignment_content = db.Column(db.Text, nullable=False)
+    state = db.Column(db.Boolean, nullable=False, default=False)
+    data = db.Column(db.LargeBinary, nullable=False)
+    rendered_data = db.Column(db.Text, nullable=False)
+    text = db.Column(db.Text)
+
+
 # class Assignment_material(db.Model):
 #     id = db.Column(db.Integer, primary_key=True)
 #     assignment = db.Column(db.Integer, db.ForeignKey('assignment.id'))
