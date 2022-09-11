@@ -50,9 +50,10 @@ class Teacher(db.Model, UserMixin):
     password = db.Column(db.String(120), nullable=False)
     confirm_password = db.Column(db.String(120), nullable=False)
     my_school = db.Column(db.Integer, db.ForeignKey('school.id'))
+    assignment = db.relationship('Assignment', backref = 'teacher', lazy = True)
 
     def __repr__(self):
-        return f'<Class "{self.first_name}">'
+        return f'{self.first_name}'
 
 
 class Learner(db.Model, UserMixin):
@@ -66,7 +67,8 @@ class Learner(db.Model, UserMixin):
     pass_code = db.Column(db.String(120), nullable=False)
     my_course = db.relationship('Class', secondary=class_learner, backref="learners")
     my_school = db.Column(db.Integer, db.ForeignKey('school.id'))
-    my_assignents = db.relationship('Assignment', secondary=learner_assignment, backref="learners")
+    my_assignments = db.relationship('Assignment', secondary=learner_assignment, backref="learners")
+
     def __repr__(self):
         return f'<Level "{self.first_name}">'
 
@@ -74,11 +76,13 @@ class Learner(db.Model, UserMixin):
 class Class(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     className = db.Column(db.String(20), nullable=False)
-    Teacher = db.Column(db.String(40), db.ForeignKey('teacher.id'))
+    Teacher = db.Column(db.Integer, db.ForeignKey('teacher.id'))
     my_level = db.Column(db.Integer, db.ForeignKey('level.id'))
     my_school = db.Column(db.Integer, db.ForeignKey('school.id'))
+    assignments = db.relationship('Assignment', backref='course', lazy = True)
+
     def __repr__(self):
-        return f'"{self.className}">'
+        return f'"{self.className}"'
 
 
 class Level(db.Model):
@@ -87,107 +91,35 @@ class Level(db.Model):
     classes = db.relationship('Class', backref='level', lazy=True)
     students = db.relationship('Learner', backref='level', lazy=True)
     my_school = db.Column(db.Integer, db.ForeignKey('school.id'))
-    def __repr__(self):
-        return f'"{self.Name}"'
 
     def __repr__(self):
         return '<Choice {}>'.format(self.Name)
 
+    def __repr__(self):
+        return f'{self.Name}'
+
 
 class Assignment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    course = db.Column(db.Integer, db.ForeignKey('class.id'))
+    title = db.Column(db.String(30))
+    my_course = db.Column(db.Integer, db.ForeignKey('class.id'))
     my_teacher = db.Column(db.Integer, db.ForeignKey('teacher.id'))
     assignment_content = db.Column(db.Text, nullable=False)
+    submited = db.relationship('SubmittedAssignment', backref = 'my_assignment', lazy = True)
     state = db.Column(db.Boolean, nullable=False, default=False)
     data = db.Column(db.LargeBinary, nullable=False)
-    rendered_data = db.Column(db.Text, nullable=False)
-    text = db.Column(db.Text)
+    name = db.Column(db.String(30))
 
 
-# class Assignment_material(db.Model):
-#     id = db.Column(db.Integer, primary_key=True)
-#     assignment = db.Column(db.Integer, db.ForeignKey('assignment.id'))
-#     material_file = db.Column(db.String(200), nullable=False)
-#     material_video = db.Column(db.String(200), nullable=False)
-#     material_picture = db.Column(db.String(200), nullable=False)
-#
-#
-# class Submission(db.Model):
-#     id = db.Column(db.Integer, primary_key=True)
-#     marks = db.Column(db.String(20))
-#     assignment = db.Column(db.Integer, db.ForeignKey('assignment.id'))
-#     student = db.Column(db.Integer, db.ForeignKey('learner.id'))
-#     materials = db.relationship('Submission_material', backref="my_materials", lazy=True)
-#
-#
-# class Submission_material(db.Model):
-#     id = db.Column(db.Integer, primary_key=True)
-#     submission = db.Column(db.Integer, db.ForeignKey('submission.id'))
-#     material_text = db.Column(db.Text, nullable=False)
-#     material_file = db.Column(db.String(200), nullable=False)
-#     material_video = db.Column(db.String(200), nullable=False)
-#     material_picture = db.Column(db.String(200), nullable=False)
-#
-#
-# class levels(db.Model):
-#     id = db.Column(db.Integer, primary_key=True)
-#     level_name = db.Column(db.String(20), unique=True)
-#     lessonPlan = db.Column(db.Integer, db.ForeignKey('lessonplan.id'))
-#     strands = db.relationship('Strands', backref="my_topics", lazy=True)
-#     students = db.relationship('Learner', backref="my_learners", lazy=True)
-#
-#
-# class Strands(db.Model):
-#     id = db.Column(db.Integer, primary_key=True)
-#     title = db.Column(db.Text, nullable=False)
-#     grade_id = db.Column(db.Integer, db.ForeignKey('levels.id'))
-#     sub_strand = db.relationship('Sub_strand', backref="my_sub_strands", lazy=True)
-#     materials = db.relationship('Strand_materials', backref="my_materials", lazy=True)
-#
-#
-# class Strand_materials(db.Model):
-#     id = db.Column(db.Integer, primary_key=True)
-#     strand = db.Column(db.Integer, db.ForeignKey('strands.id'))
-#     text = db.Column(db.Text, nullable=True)
-#     file = db.Column(db.Text, nullable=True)
-#     video = db.Column(db.Text, nullable=True)
-#     picture = db.Column(db.Text, nullable=True)
-#
-#
-# class Sub_strand(db.Model):
-#     id = db.Column(db.Integer, primary_key=True)
-#     title = db.Column(db.Text, nullable=False)
-#     strand = db.Column(db.Integer, db.ForeignKey('strands.id'))
-#     materials = db.relationship('Sub_strand_materials', backref="my_materials", lazy=True)
-#     assignment = db.relationship('Assignment', backref="my_assignments", lazy=True)
-#
-#
-# class Sub_strand_materials(db.Model):
-#     id = db.Column(db.Integer, primary_key=True)
-#     sub_strand = db.Column(db.Integer, db.ForeignKey('sub_strand.id'))
-#     material_text = db.Column(db.Text, nullable=False)
-#     material_file = db.Column(db.String(200), nullable=False)
-#     material_video = db.Column(db.String(200), nullable=False)
-#     material_picture = db.Column(db.String(200), nullable=False)
-#
-#
-# class Lessonplan(db.Model):
-#     id = db.Column(db.Integer, primary_key=True)
-#     teacher_id = db.Column(db.Integer, db.ForeignKey("teacher.id"), nullable=False)
-#     grade = db.Column(db.String(30), nullable=False)
-#     strands = db.Column(db.String(200), nullable=False)
-#     roll = db.Column(db.Integer)
-#     subStrand = db.Column(db.String(200), nullable=False)
-#     lesson_outcome = db.Column(db.String(500), nullable=False)
-#     core_comp = db.Column(db.String(250), nullable=False)
-#     values = db.Column(db.String(230), nullable=False)
-#     pci = db.Column(db.String(300), nullable=False)
-#     learning_material = db.Column(db.String(300), nullable=False)
-#     introduction = db.Column(db.String(500), nullable=False)
-#     LessonDev = db.Column(db.String(1000), nullable=False)
-#     summary = db.Column(db.String(1000), nullable=False)
-#     conclusion = db.Column(db.String(1000), nullable=False)
+class SubmittedAssignment(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    content = db.Column(db.Text, nullable = False)
+    data = db.Column(db.LargeBinary, nullable = False)
+    name = db.Column(db.String(30))
+    assignment = db.Column(db.Integer, db.ForeignKey('assignment.id'))
+    student = db.Column(db.Integer, db.ForeignKey('learner.id'))
+    marks = db.Column(db.Integer, default = 0)
+
 
 
 def is_active(self):

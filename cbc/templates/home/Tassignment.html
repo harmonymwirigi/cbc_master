@@ -26,6 +26,10 @@
                 <div class="form-container">
                     <div class="side">
                         <div class="form-element">
+                            {{ assignment_form.title.label(class = 'form-label')}}<br>
+                            {{ assignment_form.title }}
+                        </div>
+                        <div class="form-element">
                             {{ assignment_form.course.label(class = 'form-label')}}<br>
                             {{ assignment_form.course }}
                         </div>
@@ -56,9 +60,10 @@
               <table class="table align-items-center mb-0">
                 <thead>
                   <tr>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"><h4>COURSE NAME</h4></th>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"><h4>TEACHER</h4></th>
-                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"><h4>LEVEL</h4></th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"><h4>TITLE</h4></th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"><h4>ATTACHMENT</h4></th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"><h4>STATUS</h4></th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"><h4>SUBMITTED</h4></th>
                     <th class="text-secondary opacity-7"></th>
                   </tr>
                 </thead>
@@ -69,17 +74,32 @@
                     <td>
                       <div class="d-flex px-2 py-1">
                         <div class="d-flex flex-column justify-content-center">
-                          <h6 class="mb-0 text-sm">{{ assignment.course }}</h6>
+                            {{ assignment.title }}
                         </div>
                       </div>
                     </td>
                     <td style="margin-bottom:2rem;">
                       <h4 class="text-xs font-weight-bold mb-3">
-                        {{ assignment.my_teacher['first_name'] }}
+                          <a href="{{ url_for('download',id = assignment.id)}}"> {{ assignment.name }} </a>
                           </h4>
                     </td>
                     <td class="align-middle text-center text-sm">
-                       <h6 class="mb-0 text-sm">{{ assignment.state }}</h6>
+                           {% if assignment.state == False %}
+                             <h6 class="mb-0 text-sm">UNCHECKED</h6>
+                            {% elif assignment.state == True %}
+                             <h6 class="mb-0 text-sm">CHECKED</h6>
+                           {% endif %}
+                    </td>
+                    <td class="align-middle text-center text-sm">
+                        <p style="border-radius:50%; height: 100%;width:100%;cursor: pointer;" >
+                            {% if assignment.submited %}
+                            {% for i in assignment.submited %}
+                            <a href="{{url_for('submitted', id = assignment.id)}}"> {{ i.id }} </a>
+                            {% endfor %}
+                            {% else %}
+                            0
+                            {% endif %}
+                        </p>
                     </td>
                   </tr>
                 {% endfor %}

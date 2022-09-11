@@ -1,13 +1,14 @@
 import flask_bcrypt
 from flask_login import login_user, current_user, logout_user, login_required
 import base64
-from cbc.model import School, Teacher, Learner, Level, Class, Assignment
-from cbc.form import RegistrationForm, Login, addStudent, removeStudent, Student_login, CreateClass, \
-    Student_signup, AddLevel, Teachers, Courses, Learners, Assignment_form
-from flask import render_template, url_for, flash, redirect, request, session
+from cbc.model import School, Teacher, Learner, Level, Class, Assignment, SubmittedAssignment
+from cbc.form import RegistrationForm, Login, Student_login, \
+    Student_signup, AddLevel, Teachers, Courses, Learners, Assignment_form, AssignmentSubmission
+from flask import render_template, url_for, flash, redirect, request, session, send_file
 from flask_bcrypt import Bcrypt
 from cbc import app, db, bcrypt
 from random import randint
+from io import BytesIO
 
 
 # landing page route
@@ -43,51 +44,14 @@ def school():
                            learner=learner, no_of_courses=len(coursess), no_of_learner=len(learner))
 
 
-# @app.route("/teacher/class/<classId>")
-# @login_required
-# def  classDetails(classId):
-#     clas = Class.query.filter_by(id= classId).first_or_404()
-#     learners = current_user.teaching
-#     lesson = Lessonplan.query.filter_by(teacher_id=current_user.id).all()
-#     formremove = removeStudent()
-#     formadd = addStudent()
-#     form_lesson_plan = lessonPlan()
-#     return render_template('class_details.html', student= clas, formadd=formadd, formremove=formremove,
-#                            form_lesson=form_lesson_plan, learners=learners, lesson=lesson)
 
-
-#  formremove=formremove, formadd=formadd, form_lesson = form_lesson_plan
-# @app.route("/lessonplan", methods=["POST"])
-# def lessonplan():
-#     form_lesson_plan = lessonPlan()
-#     formremove = removeStudent()
-#     formadd = addStudent()
-#     if form_lesson_plan.validate_on_submit():
-#         lesson = Lessonplan(grade=form_lesson_plan.grade.data, teacher_id=current_user.id,
-#                             strands=form_lesson_plan.topic.data,
-#                             roll=form_lesson_plan.school.data, subStrand=form_lesson_plan.sub_strand.data,
-#                             lesson_outcome=form_lesson_plan.learning_outcome.data,
-#                             core_comp=form_lesson_plan.core_competencies.data, values=form_lesson_plan.values.data,
-#                             pci=form_lesson_plan.Pcis.data,
-#                             learning_material=form_lesson_plan.resources.data, introduction=form_lesson_plan.intro.data,
-#                             LessonDev=form_lesson_plan.lesson_dev.data,
-#                             summary=form_lesson_plan.summary.data, conclusion=form_lesson_plan.conclusion.data)
-#         db.session.add(lesson)
-#         db.session.commit()
-#         flash(
-#             f' the lesson plan created successfully ',
-#             category="success")
-#         return redirect(url_for('teachers'))
-#     else:
-#         flash(f'please enter correct details', category='warning')
-#         return redirect(url_for('teachers'))
-#     return render_template('teachers_pannel.html', formremove=formremove, formadd=formadd, form_lesson=form_lesson_plan, formsignup = formsignup)
 
 
 # signup
 @app.route("/signup", methods=["POST"])
 def signup():
     form = RegistrationForm()
+    form2 = Login()
     if form.validate_on_submit():
         schools = School.query.all()
         k = len(schools) + 1
@@ -100,8 +64,10 @@ def signup():
         print("{:04d}".format(school.id))
         flash(f'you have created account successfully', category='success')
         return redirect(url_for('land'))
+    else:
+        flash(f'please enter correct details', category='warning')
 
-    return render_template('landing.html', form=form)
+    return render_template('landing.html', form=form, form2=form2)
 
 
 @app.route("/login", methods=["POST", "GET"])
@@ -207,13 +173,12 @@ def addCourses():
             print(course, course.my_level, students)
             if students:
                 for student in students:
-                    l = student.my_course
-                    for i in l:
-                        c = Level.query.filter_by(id=i.my_level).first()
-                        if c.Name == courses.my_level.data:
-                            if course not in l:
-                                student.my_course.append(course)
-                                db.session.commit()
+                    student_level = Level.query.filter_by(id = student.my_level).first()
+                    course_level = Level.query.filter_by(id = course.my_level).first()
+                    if student_level.Name == course_level.Name:
+                        if course not in student.my_course:
+                            student.my_course.append(course)
+                            db.session.commit()
         return redirect(url_for('school'))
     return render_template('index.html', teacher_form=teacher_form, form=addForm, courses=courses, learners=learners)
 
@@ -249,7 +214,7 @@ def addLearner():
     return render_template('/home/students.html', learners=learners)
 
 
-@app.route("/teachers")
+@app.route("/school/teachers")
 @login_required
 def tables():
     teacher_form = Teachers()
@@ -296,13 +261,16 @@ def learners():
 @app.route("/teacher")
 @login_required
 def Tlearn():
-    courses = Class.query.filter_by(Teacher=current_user.id).all()
-    no = [i.learners for i in courses]
-    print(no)
+    courses = Class.query.filter_by(Teacher=current_user.id, my_school=current_user.my_school).all()
+    k = []
+    for i in courses:
+        for j in i.learners:
+            k.append(j)
+    l = list(dict.fromkeys(k))
     students = [(student.id) for student in Class.query.filter_by(Teacher=current_user.id).all()]
     learner = [(Learner.query.filter_by(id=i).first()) for i in students]
     return render_template("teachers-index.html", no_of_courses=len(courses), courses=courses, learner=learner,
-                           no_of_learners=len(no))
+                           no_of_learners=len(l))
 
 
 @app.route("/teacher/courses")
@@ -327,18 +295,18 @@ def addTassignment():
         data = file1.read()
         render_file = render_picture(data)
         course1 = Class.query.filter_by(className=assignment_form.course.data).first()
-        assignment= Assignment(my_teacher=current_user.id, course=course1.id,data = data,rendered_data = render_file,
-                                     assignment_content=assignment_form.content.data)
+        assignment= Assignment(my_teacher=current_user.id, my_course=course1.id,data = data,name = file1.filename,
+                                     assignment_content=assignment_form.content.data, title = assignment_form.title.data)
         db.session.add(assignment)
         db.session.commit()
-        courses = Class.query.filter_by(Teacher=current_user.id, id = assignment.course).all()
+        courses = Class.query.filter_by(Teacher=current_user.id, id = assignment.my_course).all()
         k = []
         for i in courses:
             for j in i.learners:
                 k.append(j)
         l = list(dict.fromkeys(k))
         for student in l:
-            student.my_assignents.append()
+            student.my_assignments.append(assignment)
             db.session.commit()
         return redirect(url_for('Tassignment'))
     return render_template("home/Tassignment.html", assignment_form = assignment_form)
@@ -352,6 +320,12 @@ def Tassignment():
     assignment = Assignment.query.filter_by(my_teacher = current_user.id)
     return render_template("home/Tassignment.html", assignments = assignment, assignment_form = assignment_form)
 
+@app.route("/teacher/assignments/<id>")
+@login_required
+def submitted(id):
+    assignment = Assignment.query.filter_by(id = id).first()
+    sub = assignment.submited
+    return render_template("home/submitted.html", submited = sub)
 
 
 
@@ -365,6 +339,7 @@ def Tstudents():
             k.append(j)
     l = list(dict.fromkeys(k))
     return render_template("home/Tstudents.html", courses=courses, learner=l)
+
 
 
 @app.route("/students/<user_id>")
@@ -383,4 +358,27 @@ def logout():
 @app.route("/student")
 @login_required
 def students():
-    return render_template('learner-index.html')
+    my_courses = current_user.my_course
+    my_assignment = current_user.my_assignments
+    print(my_assignment)
+    return render_template('learner-index.html', no_of_my_course = len(my_courses), no_of_my_assignment = len(my_assignment), assignments = my_assignment)
+
+@app.route("/download/<id>")
+@login_required
+def download(id):
+    assignment = Assignment.query.filter_by(id = id).first()
+    return send_file(BytesIO(assignment.data), attachment_filename=assignment.name,as_attachment=True)
+
+@app.route("/assignment/<id>", methods = ['POST', 'GET'])
+@login_required
+def do_assignment(id):
+    form = AssignmentSubmission()
+    assignment = Assignment.query.filter_by(id = id).first()
+    if form.validate_on_submit():
+        file1 = request.files['file']
+        data = file1.read()
+        submits = SubmittedAssignment(content = form.content.data,assignment = assignment.id, student = current_user.id, data = data, name = file1.filename)
+        db.session.add(submits)
+        db.session.commit()
+        return redirect(url_for('students'))
+    return render_template('home/assignment_profile.html', assignment = assignment, form = form)

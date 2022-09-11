@@ -1,0 +1,73 @@
+{% extends "teachers-base.html" %}
+
+{% block title %} Tables {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+  <div class="container-fluid py-4">
+    <div class="row">
+      <div class="col-12">
+        <div class="card my-4">
+          <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+            <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+              <h6 class="text-white text-capitalize ps-3">SUBMITTED ASSIGNMENT</h6>
+            </div>
+          <div class="card-body px-0 pb-2">
+            <div class="table-responsive p-0">
+              <table class="table align-items-center mb-0">
+                <thead>
+                  <tr>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"><h4>SUBMITTED BY</h4></th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"><h4>ATTACHMENT</h4></th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"><h4>GRADE</h4></th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"><h4>MORE</h4></th>
+                    <th class="text-secondary opacity-7"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                {% if submited %}
+                {% for assignment in submited %}
+                  <tr>
+                    <td>
+                      <div class="d-flex px-2 py-1">
+                        <div class="d-flex flex-column justify-content-center">
+                            {{ assignment.student }}
+                        </div>
+                      </div>
+                    </td>
+                    <td style="margin-bottom:2rem;">
+                      <h4 class="text-xs font-weight-bold mb-3">
+                          <a href="{{ url_for('download',id = assignment.id)}}"> {{ assignment.name }} </a>
+                          </h4>
+                    </td>
+                    <td class="align-middle text-center text-sm">
+                      {% if assignment.marks == 0 %}
+                      <p>not graded</p>
+                      {% else %}
+                      {{ assignment.marks }}
+                      {% endif %}
+                    </td>
+                    <td class="align-middle text-center text-sm">
+                        <a style="border-radius:50%; height: 100%;width:100%;cursor: pointer;" href="{{url_for('submitted', id =assignment.id)}}">
+                            grade
+                        </a>
+                    </td>
+                  </tr>
+                {% endfor %}
+                {% endif %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}

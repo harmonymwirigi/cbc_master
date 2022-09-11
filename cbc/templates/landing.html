@@ -20,15 +20,10 @@
             </div>
             <ul class="navbar__menu">
                 {% block nav %}
-                <li class="navbar__item">
-                    <a href="#home" class="navbar__links" id="home-page">Home</a>
-                </li>
+
                 {% block about %}
-                <li class="navbar__item">
-                    <a href="#about" class="navbar__links" id="about-page">About</a>
-                </li>
                 {% endblock %}
-                <li class="navbar__item">
+                <li class="navbar__item" style = "display:none;">
                     <a href="#Services" class="navbar__links" id="service-page">Service</a>
                 </li>
                 {% endblock %}
@@ -149,16 +144,9 @@
             <div class="check fas fa-check"></div>
         </div>
         <div class="step">
-            <p>Date</p>
-            <div class="bullet">
-                <span>3</span>
-            </div>
-            <div class="check fas fa-check"></div>
-        </div>
-        <div class="step">
             <p>Submit</p>
             <div class="bullet">
-                <span>4</span>
+                <span>3</span>
             </div>
             <div class="check fas fa-check"></div>
         </div>
@@ -219,13 +207,10 @@
                     {{ form.email(class="label")}}
                 <span></span>
                 {% endif %}
-<!--                <div class="label">Email Adress</div>-->
-<!--                <input type="text" name="email" required>-->
 
             </div>
             <div class="field">
                 {{ form.phone_number.label(class="label")}}
-<!--                {{ form.phone_number(class="label")}}-->
                 {% if form.phone_number.errors %}
                     {{ form.phone_number(class="label")}}
                         <div class="invalid_feedback">
@@ -237,8 +222,6 @@
                     {{ form.phone_number(class="label")}}
                 <span></span>
                 {% endif %}
-<!--                <div class="label">Phone Number</div>-->
-<!--                <input type="number" name="phone_number" required>-->
             </div>
             <div class="field btns">
                 <button class="prev-1 prev" type="button">Previous</button>
@@ -300,12 +283,6 @@
         <!-- videos -->
 
         <div class="body_container">
-            <section class="service">
-                <header>
-                    <h1>HEADLINES CBC MASTER</h1>
-                </header>
-                <button>Start Trial</button>
-            </section>
             <section class="start_trial">
                 <header>
                     <h1>SERVICE</h1>
@@ -342,93 +319,7 @@
                     </div>
                 </div>
             </section>
-            <section class="start_trial" id = "about">
-                <header>
-                    <h1>ABOUT US</h1>
-                </header>
-                <button>Start Trial</button>
-            </section>
         </div>
-    <!-- footer -->
-    <footer class="contact section" >
-            <div class="contain">
-                <h3 class="contact-title padd-15"> <a href="#">About Us</a></h3>
-                <h3 class="contact-sub-title padd-15"> EMAIL US?</h3>
-                <!--=== Contact Form===-->
-                <div class="row">
-                    <div class="contact-form padd-15">
-                        <div class="row">
-                            <div class="form-item col-6 padd-15">
-                                <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Name">
-                                </div>
-                            </div>
-                            <div class="form-item col-6 padd-15">
-                                <div class="form-group">
-                                    <input type="email" class="form-control" placeholder="Email">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-item col-12 padd-15">
-                                <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Subject">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-item col-12 padd-15">
-                                <div class="form-group">
-                                    <textarea name="" class="form-control" placeholder="Message"></textarea>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-item col-12 padd-15">
-                                <button type="submit" class="btn">Send Message</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <!--=== Contact Info item start ===-->
-                    <div class="contact-info-item">
-                        <div class="icon"><i class="fa fa-phone"></i></div>
-                        <h4>Call Me On</h4>
-                        <p>+254 713028200</p>
-                    </div>
-                    <!--=== Contact Info item end ===-->
-                    <!--=== Contact Info item start ===-->
-                    <div class="contact-info-item padd-15">
-                        <div class="icon"><i class="fa fa-map-marker-alt"></i></div>
-                        <h4>Office</h4>
-                        <p>Nyahururu</p>
-                    </div>
-                    <!--=== Contact Info item end ===-->
-                    <!--=== Contact Info item start ===-->
-                    <div class="contact-info-item padd-15">
-                        <div class="icon"><i class="fa fa-envelope"></i></div>
-                        <h4>Email</h4>
-                        <p>harmonymwithilii@gmail.com</p>
-                    </div>
-                    <!--=== Contact Info item end ===-->
-                    <!--=== Contact Info item start ===-->
-                    <div class="contact-info-item padd-15">
-                        <div class="icon"><i class="fab fa-facebook-f"></i></div>
-                        <h4>Call Me On</h4>
-                        <p>harmonymwirigi</p>
-                    </div>
-                    <!--=== Contact Info item end ===-->
-                    <!--=== Contact Info item start ===-->
-                    <div class="contact-info-item padd-15">
-                        <div class="icon"> <i class="fa-brands fa-twitter"></i></div>
-                        <h4>Twitter</h4>
-                        <p>harmonymwirigi</p>
-                    </div>
-                    <!--=== Contact Info item end ===-->
-                </div>
-            </div>
-        </footer>
         </div>
     <script src="{{url_for('static', filename='app.js')}}">
     </script>

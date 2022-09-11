@@ -97,8 +97,15 @@ class Student_login(FlaskForm):
 
 class Assignment_form(FlaskForm):
     course = SelectField("choose course", validators = [DataRequired()])
+    title = StringField("Course Title", validators = [DataRequired()])
     content = TextAreaField("assignment content/instructions", validators = [DataRequired()])
-    file = FileField("ATTACH FILE", validators = [FileAllowed(['docx', 'png', 'jpg', 'pdf'])])
+    file = FileField("ATTACH FILE", validators = [FileAllowed(['docx', 'png', 'jpg', 'pdf', 'mp4'])])
+    submit = SubmitField()
+
+
+class AssignmentSubmission(FlaskForm):
+    content = TextAreaField("assignment content", validators= [DataRequired()])
+    file = FileField("ATTACH FILE", validators=[FileAllowed(['docx', 'png', 'jpg', 'pdf', 'mp4'])])
     submit = SubmitField()
 
 class AddLevel(FlaskForm):

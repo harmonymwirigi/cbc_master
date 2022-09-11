@@ -73,7 +73,7 @@ const pregressText = document.querySelectorAll(".step p");
 const pregressCheck = document.querySelectorAll(".step .check");
 const bullet = document.querySelectorAll(".step .bullet");
 
-let max =4;
+let max =3;
 let current =1;
 
 firtNextBtn.addEventListener('click',function(){
